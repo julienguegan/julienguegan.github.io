@@ -15,15 +15,16 @@
 # in the templates via {{ site.myvariable }}.
 title: Blog de Julien
 email: julienguegan56520@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Mon blog où j'écris des trucs à propos de machins.
+description: Mon blog où j'écris des trucs à propos de machins.
 github_username: julienguegan
 minimal_mistakes_skin: default
 search: true
+logo: "/assets/images/brain_icon.png"
 
 # Build settings
 markdown: kramdown
 remote_theme: mmistakes/minimal-mistakes
+github: [metadata]
 # Outputting
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
@@ -53,6 +54,7 @@ plugins:
   - jekyll-feed
   - jemoji
   - jekyll-include-cache
+  - jekyll-seo-tag
 
 author:
   name   : "Julien Guégan"
@@ -63,7 +65,7 @@ author:
       icon: "fas fa-fw fa-envelope-square"
       url: "mailto:julienguegan56520@gmail.com"
     - label: "Linkedin"
-      icon: "fas fa-fw fa-linkedin"
+      icon: "fab fa-fw fa-linkedin"
       url: "https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/"
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
@@ -79,16 +81,16 @@ footer:
   links:
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
-      # url: "https://www.facebook.com/julien.guegan.754"
+      url: "https://www.facebook.com/julien.guegan.754"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/julienguegan"
+      url: "https://github.com/julienguegan"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url: "https://www.instagram.com/julien_guegan_/?hl=fr"
+      url: "https://www.instagram.com/julien_guegan_/?hl=fr"
     - label: "Linkedin"
       icon: "fab fa-fw fa-linkedin"
-      # url: "https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/"
+      url: "https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/"
 
 defaults:
   # _posts
