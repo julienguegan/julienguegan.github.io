@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Page Not Found - Blog de Julien</title>
+<!-- begin _includes/seo.html --><title>Page Not Found - Blog du Julien</title>
 <meta name="description" content="Page not found. Your pixels are in another canvas.">
 
 
@@ -19,7 +19,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="Blog de Julien">
+<meta property="og:site_name" content="Blog du Julien">
 <meta property="og:title" content="Page Not Found">
 <meta property="og:url" content="http://localhost:4000/404.html">
 
@@ -63,7 +63,7 @@
 
 
 
-  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blog de Julien Feed">
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
 
 
 <!-- https://t.co/dKP3o1e -->
@@ -81,6 +81,11 @@
 
 
 
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -109,10 +114,10 @@
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
         
-          <a class="site-logo" href="/"><img src="/assets/images/brain_icon.png" alt="Blog de Julien"></a>
+          <a class="site-logo" href="/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
         
         <a class="site-title" href="/">
-          Blog de Julien
+          Blog du Julien
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
@@ -157,7 +162,7 @@
   
     <div class="author__avatar">
       
-        <img src="/assets/images/bio-photo.jpg" alt="Julien Guégan" itemprop="image">
+        <img src="/assets/images/photo_profil.jpg" alt="Julien Guégan" itemprop="image">
       
     </div>
   
@@ -168,7 +173,7 @@
     
     
       <div class="author__bio" itemprop="description">
-        <p>Je m’appelle Julien et je suis ingénieur en trucs et machins.</p>
+        <p>Je m’appelle Julien, je suis ingénieur en trucs et machins et j’aime ceci et cela. Je parle ici de bidouille.</p>
 
       </div>
     
@@ -267,7 +272,7 @@
 
 
 
-  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Page Not Found">
     <meta itemprop="description" content="Page not found. Your pixels are in another canvas.">
     
@@ -276,15 +281,17 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Page Not Found
-</h1>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/404.html" class="u-url" itemprop="url">Page Not Found
+</a>
+          </h1>
           
 
 
         </header>
       
 
-      <section class="page__content" itemprop="text">
+      <section class="page__content e-content" itemprop="text">
         
         <p>Sorry, but the page you were trying to view does not exist.</p>
 
@@ -312,7 +319,6 @@
   
   
 </div>
-
     </div>
 
     
@@ -363,7 +369,9 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2021 Blog de Julien. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2021 Blog du Julien. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+
 
       </footer>
     </div>

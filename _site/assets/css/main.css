@@ -943,6 +943,7 @@ body { display: -webkit-box; display: -ms-flexbox; display: flex; min-height: 10
 .page .page__inner-wrap .page__content, .page .page__inner-wrap .page__meta, .page .page__inner-wrap .comment__date, .page .page__inner-wrap .page__share { position: relative; float: left; margin-left: 0; margin-right: 0; width: 100%; clear: both; }
 
 .page__title { margin-top: 0; line-height: 1; }
+.page__title a { color: #3d4144; text-decoration: none; }
 .page__title + .page__meta, .page__title + .comment__date { margin-top: -0.5em; }
 
 .page__lead { font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif; font-size: 1.25em; }

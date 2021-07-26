@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Blog de Julien
+title: Blog du Julien
 email: julienguegan56520@gmail.com
 description: Mon blog où j'écris des trucs à propos de machins.
 github_username: julienguegan
@@ -58,8 +58,8 @@ plugins:
 
 author:
   name   : "Julien Guégan"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Je m'appelle Julien et je suis ingénieur en trucs et machins."
+  avatar : "/assets/images/photo_profil.jpg"
+  bio    : "Je m'appelle Julien, je suis ingénieur en trucs et machins et j'aime ceci et cela. Je parle ici de bidouille."
   links:
     - label: "Mail"
       icon: "fas fa-fw fa-envelope-square"
@@ -102,8 +102,8 @@ defaults:
       author_profile: true
       read_time: true
       comments: true
-      share: true
-      related: true
+      share: false
+      related: false
   # _pages
   - scope:
       path: "_pages"
