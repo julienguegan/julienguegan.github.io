@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Créer un blog Jekyll : Ruby, Markdown, Github, Latex - Blog du Julien</title>
-<meta name="description" content="J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur Jekyll qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créés ne change pas en fonction de l’internaute qui la visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque Hugo est également un Framework similaire à Jekyll.  Installation  Pour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le Sous-système Windows pour Linux qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft store.    Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargé et en rentrant les commandes suivantes les unes après les autres, Ruby devrait être présent sur votre ordinateur  windows WSL. ruby. template starter pack minimal mistakes. katex  Déploiement  local - github-pages  Utilisation">
+<meta name="description" content="J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur Jekyll qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créées ne change pas en fonction de l’internaute qui les visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque Hugo est également un Framework populaire similaire à Jekyll.  Installation  Pour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le Sous-système Windows pour Linux qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft Store.    Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargée et en rentrant les commandes suivantes les unes après les autres dans la console, Ruby devrait être présent sur votre ordinateur:  sudo apt-get update -y &amp;&amp; sudo apt-get upgrade -y sudo apt-add-repository ppa:brightbox/ruby-ng sudo apt-get update sudo apt-get install ruby2.5 ruby2.5-dev build-essential dh-autoreconf   Finalement, mettez à jour la commande gem et installez Jekyll :  gem update gem install jekyll bundler   Déploiement  Vous avez désormais tous les pré-requis minimums pour créer un blog avec Jekyll. Commencez par créer un répertoire où vos fichiers de blog seront stockés, créez votre blog avec Jekyll puis construisez le site et rendez le disponible sur un serveur local :  mkdir mon_blog jekyll new mon_blog cd mon_blog bundle exec jekyll serve   Pour naviguer sur votre site en local, rendez-vous sur l’adresse http://localhost:4000.  Astuce: Utilisez l’option --livereload pour rafraîchir automatiquement la page à chaque changement que vous faites dans les fichiers sources : bundle exec jekyll serve --livereload  Vous avez maintenant générer un site statique avec Jekyll : Bravo, vous pouvez être fier de vous ! Mais je suppose que ça ne vous suffit pas, vous voulez également le rendre disponible à tous le monde. L’une des manières de faire est de l’héberger sur Github. En effet, Jekyll a été développé par le fondateur de Github et le déploiement d’un site est possible en utilisant l’outil Github-Pages. Il suffit de créer un répertoire git ayant pour nom &lt;username_github&gt;.github.io, générer votre site Jekyll dans ce répertoire et pousser ce répertoire sur Github. Votre blog &lt;username_github&gt;.github.io sera désormais visible depuis n’importe quel web explorer.  Attention: Votre répertoire git doit être de visibilité public  Utilisation  template starter pack minimal mistakes. katex _config.yml - posts - templates">
 
 
   <meta name="author" content="Julien Guégan">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="http://localhost:4000/blog/creer_un_blog/">
 
 
-  <meta property="og:description" content="J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur Jekyll qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créés ne change pas en fonction de l’internaute qui la visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque Hugo est également un Framework similaire à Jekyll.  Installation  Pour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le Sous-système Windows pour Linux qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft store.    Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargé et en rentrant les commandes suivantes les unes après les autres, Ruby devrait être présent sur votre ordinateur  windows WSL. ruby. template starter pack minimal mistakes. katex  Déploiement  local - github-pages  Utilisation">
+  <meta property="og:description" content="J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur Jekyll qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créées ne change pas en fonction de l’internaute qui les visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque Hugo est également un Framework populaire similaire à Jekyll.  Installation  Pour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le Sous-système Windows pour Linux qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft Store.    Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargée et en rentrant les commandes suivantes les unes après les autres dans la console, Ruby devrait être présent sur votre ordinateur:  sudo apt-get update -y &amp;&amp; sudo apt-get upgrade -y sudo apt-add-repository ppa:brightbox/ruby-ng sudo apt-get update sudo apt-get install ruby2.5 ruby2.5-dev build-essential dh-autoreconf   Finalement, mettez à jour la commande gem et installez Jekyll :  gem update gem install jekyll bundler   Déploiement  Vous avez désormais tous les pré-requis minimums pour créer un blog avec Jekyll. Commencez par créer un répertoire où vos fichiers de blog seront stockés, créez votre blog avec Jekyll puis construisez le site et rendez le disponible sur un serveur local :  mkdir mon_blog jekyll new mon_blog cd mon_blog bundle exec jekyll serve   Pour naviguer sur votre site en local, rendez-vous sur l’adresse http://localhost:4000.  Astuce: Utilisez l’option --livereload pour rafraîchir automatiquement la page à chaque changement que vous faites dans les fichiers sources : bundle exec jekyll serve --livereload  Vous avez maintenant générer un site statique avec Jekyll : Bravo, vous pouvez être fier de vous ! Mais je suppose que ça ne vous suffit pas, vous voulez également le rendre disponible à tous le monde. L’une des manières de faire est de l’héberger sur Github. En effet, Jekyll a été développé par le fondateur de Github et le déploiement d’un site est possible en utilisant l’outil Github-Pages. Il suffit de créer un répertoire git ayant pour nom &lt;username_github&gt;.github.io, générer votre site Jekyll dans ce répertoire et pousser ce répertoire sur Github. Votre blog &lt;username_github&gt;.github.io sera désormais visible depuis n’importe quel web explorer.  Attention: Votre répertoire git doit être de visibilité public  Utilisation  template starter pack minimal mistakes. katex _config.yml - posts - templates">
 
 
 
@@ -90,6 +90,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
+
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -278,7 +279,7 @@
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Créer un blog Jekyll : Ruby, Markdown, Github, Latex">
-    <meta itemprop="description" content="J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur Jekyll qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créés ne change pas en fonction de l’internaute qui la visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque Hugo est également un Framework similaire à Jekyll.InstallationPour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le Sous-système Windows pour Linux qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft store.Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargé et en rentrant les commandes suivantes les unes après les autres, Ruby devrait être présent sur votre ordinateurwindows WSL. ruby. template starter pack minimal mistakes. katexDéploiementlocal - github-pagesUtilisation">
+    <meta itemprop="description" content="J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur Jekyll qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créées ne change pas en fonction de l’internaute qui les visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque Hugo est également un Framework populaire similaire à Jekyll.InstallationPour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le Sous-système Windows pour Linux qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft Store.Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargée et en rentrant les commandes suivantes les unes après les autres dans la console, Ruby devrait être présent sur votre ordinateur:sudo apt-get update -y &amp;&amp; sudo apt-get upgrade -ysudo apt-add-repository ppa:brightbox/ruby-ngsudo apt-get updatesudo apt-get install ruby2.5 ruby2.5-dev build-essential dh-autoreconfFinalement, mettez à jour la commande gem et installez Jekyll :gem updategem install jekyll bundlerDéploiementVous avez désormais tous les pré-requis minimums pour créer un blog avec Jekyll. Commencez par créer un répertoire où vos fichiers de blog seront stockés, créez votre blog avec Jekyll puis construisez le site et rendez le disponible sur un serveur local :mkdir mon_blogjekyll new mon_blogcd mon_blogbundle exec jekyll servePour naviguer sur votre site en local, rendez-vous sur l’adresse http://localhost:4000.Astuce: Utilisez l’option --livereload pour rafraîchir automatiquement la page à chaque changement que vous faites dans les fichiers sources : bundle exec jekyll serve --livereloadVous avez maintenant générer un site statique avec Jekyll : Bravo, vous pouvez être fier de vous ! Mais je suppose que ça ne vous suffit pas, vous voulez également le rendre disponible à tous le monde. L’une des manières de faire est de l’héberger sur Github. En effet, Jekyll a été développé par le fondateur de Github et le déploiement d’un site est possible en utilisant l’outil Github-Pages. Il suffit de créer un répertoire git ayant pour nom &lt;username_github&gt;.github.io, générer votre site Jekyll dans ce répertoire et pousser ce répertoire sur Github. Votre blog &lt;username_github&gt;.github.io sera désormais visible depuis n’importe quel web explorer.Attention: Votre répertoire git doit être de visibilité publicUtilisationtemplate starter pack minimal mistakes. katex_config.yml - posts - templates">
     <meta itemprop="datePublished" content="2019-04-18T21:34:30+02:00">
     
 
@@ -303,7 +304,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -315,23 +316,51 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p>J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur <a href="https://jekyllrb.com/">Jekyll</a> qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créés ne change pas en fonction de l’internaute qui la visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque <a href="https://gohugo.io/">Hugo</a> est également un Framework similaire à Jekyll.</p>
+        <p>J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur <a href="https://jekyllrb.com/">Jekyll</a> qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créées ne change pas en fonction de l’internaute qui les visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque <a href="https://gohugo.io/">Hugo</a> est également un Framework populaire similaire à Jekyll.</p>
 
 <h2 id="installation">Installation</h2>
 
-<p>Pour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le <a href="https://docs.microsoft.com/fr-fr/windows/wsl/about">Sous-système Windows pour Linux</a> qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft store.</p>
+<p>Pour utiliser Jekyll sous Windows (comme moi), je vous conseille dans un 1er temps d’installer le <a href="https://docs.microsoft.com/fr-fr/windows/wsl/about">Sous-système Windows pour Linux</a> qui permet de profiter d’un environnement Linux. Pour ce faire, vous pouvez simplement télécharger l’application WSL en passant par le Microsoft Store.</p>
 
 <p><img src="/assets/images/windows_subsytem_linux.png" alt="alt text" /></p>
 
-<p>Ensuite, il faut installer Ruby qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargé et en rentrant les commandes suivantes les unes après les autres, Ruby devrait être présent sur votre ordinateur</p>
+<p>Ensuite, il faut installer <strong>Ruby</strong> qui est le langage de programmation utilisé par Jekyll pour fonctionner. En ouvrant l’application Ubuntu précédemment téléchargée et en rentrant les commandes suivantes les unes après les autres dans la console, Ruby devrait être présent sur votre ordinateur:</p>
 
-<p>windows WSL. ruby. template starter pack minimal mistakes. katex</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update <span class="nt">-y</span> <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get upgrade <span class="nt">-y</span>
+<span class="nb">sudo </span>apt-add-repository ppa:brightbox/ruby-ng
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>ruby2.5 ruby2.5-dev build-essential dh-autoreconf
+</code></pre></div></div>
+
+<p>Finalement, mettez à jour la commande <strong>gem</strong> et installez <strong>Jekyll</strong> :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem update
+gem <span class="nb">install </span>jekyll bundler
+</code></pre></div></div>
 
 <h2 id="déploiement">Déploiement</h2>
 
-<p>local - github-pages</p>
+<p>Vous avez désormais tous les pré-requis minimums pour créer un blog avec Jekyll. Commencez par créer un répertoire où vos fichiers de blog seront stockés, créez votre blog avec Jekyll puis construisez le site et rendez le disponible sur un serveur local :</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>mon_blog
+jekyll new mon_blog
+<span class="nb">cd </span>mon_blog
+bundle <span class="nb">exec </span>jekyll serve
+</code></pre></div></div>
+
+<p>Pour naviguer sur votre site en local, rendez-vous sur l’adresse <a href="http://localhost:4000">http://localhost:4000</a>.</p>
+
+<p class="notice--info"><strong>Astuce:</strong> Utilisez l’option <code class="language-plaintext highlighter-rouge">--livereload</code> pour rafraîchir automatiquement la page à chaque changement que vous faites dans les fichiers sources : <code class="language-plaintext highlighter-rouge">bundle exec jekyll serve --livereload</code></p>
+
+<p>Vous avez maintenant générer un site statique avec Jekyll : Bravo, vous pouvez être fier de vous ! Mais je suppose que ça ne vous suffit pas, vous voulez également le rendre disponible à tous le monde. L’une des manières de faire est de l’héberger sur <strong>Github</strong>. En effet, Jekyll a été développé par le fondateur de Github et le déploiement d’un site est possible en utilisant l’outil <a href="https://pages.github.com/">Github-Pages</a>. Il suffit de créer un répertoire git ayant pour nom <code class="language-plaintext highlighter-rouge">&lt;username_github&gt;.github.io</code>, générer votre site Jekyll dans ce répertoire et pousser ce répertoire sur Github. Votre blog <code class="language-plaintext highlighter-rouge">&lt;username_github&gt;.github.io</code> sera désormais visible depuis n’importe quel web explorer.</p>
+
+<p class="notice--warning"><strong>Attention:</strong> Votre répertoire git doit être de visibilité public</p>
 
 <h2 id="utilisation">Utilisation</h2>
+
+<p>template starter pack minimal mistakes. katex
+_config.yml - posts - templates</p>
+
 
         
       </section>
@@ -354,9 +383,15 @@
     
       <a href="/tags/#jekyll" class="page__taxonomy-item" rel="tag">Jekyll</a><span class="sep">, </span>
     
+      <a href="/tags/#katex" class="page__taxonomy-item" rel="tag">Katex</a><span class="sep">, </span>
+    
+      <a href="/tags/#kramdown" class="page__taxonomy-item" rel="tag">Kramdown</a><span class="sep">, </span>
+    
       <a href="/tags/#latex" class="page__taxonomy-item" rel="tag">Latex</a><span class="sep">, </span>
     
-      <a href="/tags/#markdown" class="page__taxonomy-item" rel="tag">Markdown</a>
+      <a href="/tags/#markdown" class="page__taxonomy-item" rel="tag">Markdown</a><span class="sep">, </span>
+    
+      <a href="/tags/#ruby" class="page__taxonomy-item" rel="tag">Ruby</a>
     
     </span>
   </p>
@@ -389,16 +424,6 @@
       
 
       
-  <nav class="pagination">
-    
-      <a href="/blog/welcome-to-jekyll/" class="pagination--pager" title="Welcome to Jekyll!
-">Previous</a>
-    
-    
-      <a href="#" class="pagination--pager disabled">Next</a>
-    
-  </nav>
-
     </div>
 
     
