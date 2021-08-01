@@ -123,3 +123,9 @@ comments:
     issue_term: "pathname"
 
 google_site_verification: "_Cj2FZGjDR1sECXPRL64_CMVDm6adbKqCXSLHArYdSE"
+
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "G-TY0R5MX0LD"
+    anonymize_ip: false # default

@@ -76,7 +76,7 @@ Maintenant que vous avez généré votre site, Jekyll a normalement dû créer a
 | **_includes**      | Les fichiers externes qui permettent d'ajouter des fonctionnalités et être utiliser par les fichiers de Template. |
 | **_layouts**       | Les modèles d'affichage qui enveloppent les posts du blog. On peut choisir des mises en page différentes pour chaque post. |
 | **_posts**         | Le contenu de votre blog, c'est-à-dire les posts que vous allez écrire. Leurs noms doivent suivre le format : `YEAR-MONTH-DAY-title.MARKUP`|
-| **_data**          | Les données externes (comme des images) utilisées par votre site doivent être stockées ici. |
+| **_data**          | Les données externes automatiquement chargées et qui sont utilisées par votre site doivent être stockées ici. |
 
 Par défaut, Jekyll génère le site avec le thème [minima](https://github.com/jekyll/minima) qui permet d'avoir une version simple et épuré mais il existe un grand nombre de [templates](http://jekyllthemes.org/) qui vous permet de personnaliser l'apparence de votre site. Pour ma part, j'ai choisi d'utiliser [minimal-mistakes](https://mmistakes.github.io/minimal-mistakes/) qui est assez simple tout en offrant un grand nombre de possibilité.
 
