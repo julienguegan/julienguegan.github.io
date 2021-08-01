@@ -80,7 +80,7 @@ Maintenant que vous avez généré votre site, Jekyll a normalement dû créer a
 
 Par défaut, Jekyll génère le site avec le thème [minima](https://github.com/jekyll/minima) qui permet d'avoir une version simple et épuré mais il existe un grand nombre de [templates](http://jekyllthemes.org/) qui vous permet de personnaliser l'apparence de votre site. Pour ma part, j'ai choisi d'utiliser [minimal-mistakes](https://mmistakes.github.io/minimal-mistakes/) qui est assez simple tout en offrant un grand nombre de possibilité.
 
-**Exemple:** Minimal Mistakes met à disposition un *starter* qui permet de rapidement et automatiquement mettre en place les fichiers sur votre compte Github et avoir un site hébergé par Github Pages.
+**Exemple:** Minimal Mistakes met à disposition un [starter](https://github.com/mmistakes/mm-github-pages-starter/generate) qui permet de rapidement et automatiquement mettre en place les fichiers sur votre compte Github et avoir un site hébergé par Github Pages.
 {: .notice--info}
 
 Une fonctionnalité qui m'intéressait particulièrement pour mon blog est de pouvoir facilement ajouter des équations. Le langage le plus connu pour écrire des mathématiques est **Latex** qui est généralement utiliser avec son compilateur pour générer des pdf. Pour le web, la bibliothèque populaire **MathJax** écrite en Javascript est capable d'afficher des équations Latex sur la plupart des navigateurs web courant. Cependant, j'ai préféré choisir la librairie **Katex** qui a l'avantage d'être plus rapide à charger que MathJax qunad il y a beaucoup d'équation à convertir (voir exemple ci-dessous, Katex à gauche et MathJax à droite).
