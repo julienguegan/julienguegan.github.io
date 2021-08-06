@@ -1,0 +1,533 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Objet Fractal - Blog du Julien</title>
+<meta name="description" content="Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.    – reportage ARTE - à la recherche de la dimension cachée                Introduction  Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).  [insérer image]  Le terme fractal  dimension fractal  fractale par recurrence (escape-time fractal) julia mandelbrot : représente les fractales de julia connexes ou pas  fractale par fonction itere  fractale stochastique  fractale dans la nature  generation software mettre des screenshot avec legende = link to website    kalles fraktaler   superFractalThing   mandelbulber   fragmentarium   maxima">
+
+
+  <meta name="author" content="Julien Guégan">
+  
+  <meta property="article:author" content="Julien Guégan">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Blog du Julien">
+<meta property="og:title" content="Objet Fractal">
+<meta property="og:url" content="http://localhost:4000/blog/objet_fractal/">
+
+
+  <meta property="og:description" content="Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.    – reportage ARTE - à la recherche de la dimension cachée                Introduction  Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).  [insérer image]  Le terme fractal  dimension fractal  fractale par recurrence (escape-time fractal) julia mandelbrot : représente les fractales de julia connexes ou pas  fractale par fonction itere  fractale stochastique  fractale dans la nature  generation software mettre des screenshot avec legende = link to website    kalles fraktaler   superFractalThing   mandelbulber   fragmentarium   maxima">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-02T21:34:30+02:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/objet_fractal/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="shortcut icon" type="image/png" href="/assets/images/brain_icon.png">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
+        
+        <a class="site-title" href="/">
+          Blog du Julien
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/photo_profil.jpg" alt="Julien Guégan" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Julien Guégan</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Je m’appelle Julien, je suis ingénieur en trucs et machins et j’aime ceci et cela. Je parle ici de bidouille.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:julienguegan56520@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Mail</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i><span class="label">Facebook</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Objet Fractal">
+    <meta itemprop="description" content="  Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.  – reportage ARTE - à la recherche de la dimension cachée       IntroductionComme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).[insérer image]Le terme fractaldimension fractalfractale par recurrence (escape-time fractal)juliamandelbrot : représente les fractales de julia connexes ou pasfractale par fonction iterefractale stochastiquefractale dans la naturegeneration softwaremettre des screenshot avec legende = link to website  kalles fraktaler  superFractalThing  mandelbulber  fragmentarium  maxima">
+    <meta itemprop="datePublished" content="2021-08-02T21:34:30+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/blog/objet_fractal/" class="u-url" itemprop="url">Objet Fractal
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <blockquote>
+  <p><em>Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.</em></p>
+
+  <p>–<cite> reportage ARTE - à la recherche de la dimension cachée </cite></p>
+</blockquote>
+
+<!-- Courtesy of embedresponsively.com //-->
+
+<div class="responsive-video-container">
+    <iframe src="https://www.youtube-nocookie.com/embed/Tpsu2uz9rCE" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+  </div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques <em>infiniment morcelés</em> qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).</p>
+
+<p>[insérer image]</p>
+
+<p>Le terme fractal</p>
+
+<p>dimension fractal</p>
+
+<h2 id="fractale-par-recurrence-escape-time-fractal">fractale par recurrence (escape-time fractal)</h2>
+<p>julia
+mandelbrot : représente les fractales de julia connexes ou pas</p>
+
+<h2 id="fractale-par-fonction-itere">fractale par fonction itere</h2>
+
+<h2 id="fractale-stochastique">fractale stochastique</h2>
+
+<h2 id="fractale-dans-la-nature">fractale dans la nature</h2>
+
+<h2 id="generation-software">generation software</h2>
+<p>mettre des screenshot avec legende = link to website</p>
+<ul>
+  <li>kalles fraktaler</li>
+  <li>superFractalThing</li>
+  <li>mandelbulber</li>
+  <li>fragmentarium</li>
+  <li>maxima</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#fractal" class="page__taxonomy-item" rel="tag">Fractal</a><span class="sep">, </span>
+    
+      <a href="/tags/#julia" class="page__taxonomy-item" rel="tag">Julia</a><span class="sep">, </span>
+    
+      <a href="/tags/#mandelbrot" class="page__taxonomy-item" rel="tag">Mandelbrot</a><span class="sep">, </span>
+    
+      <a href="/tags/#math%C3%A9matique" class="page__taxonomy-item" rel="tag">Mathématique</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-08-02T21:34:30+02:00">August 2, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/creer_un_blog/" class="pagination--pager" title="Créer un blog Jekyll : Ruby, Markdown, Github, Latex
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        
+      
+        
+          <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Blog du Julien. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'julienguegan/julienguegan.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

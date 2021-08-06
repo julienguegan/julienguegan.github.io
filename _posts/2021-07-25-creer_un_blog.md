@@ -1,6 +1,6 @@
 ---
 title: "Créer un blog Jekyll : Ruby, Markdown, Github, Latex"
-date: 2019-04-18T15:34:30-04:00
+date: 2021-07-25T15:34:30-04:00
 classes: wide
 layout: single
 categories:
@@ -83,7 +83,7 @@ Par défaut, Jekyll génère le site avec le thème [minima](https://github.com/
 **Exemple:** Minimal Mistakes met à disposition un [starter](https://github.com/mmistakes/mm-github-pages-starter/generate) qui permet de rapidement et automatiquement mettre en place les fichiers sur votre compte Github et avoir un site hébergé par Github Pages.
 {: .notice--info}
 
-Une fonctionnalité qui m'intéressait particulièrement pour mon blog est de pouvoir facilement ajouter des équations. Le langage le plus connu pour écrire des mathématiques est **Latex** qui est généralement utiliser avec son compilateur pour générer des pdf. Pour le web, la bibliothèque populaire **MathJax** écrite en Javascript est capable d'afficher des équations Latex sur la plupart des navigateurs web courant. Cependant, j'ai préféré choisir la librairie **Katex** qui a l'avantage d'être plus rapide à charger que MathJax qunad il y a beaucoup d'équation à convertir (voir exemple ci-dessous, Katex à gauche et MathJax à droite).
+Une fonctionnalité qui m'intéressait particulièrement pour mon blog est de pouvoir facilement ajouter des équations. Le langage le plus connu pour écrire des mathématiques est **Latex** qui est généralement utiliser avec son compilateur pour générer des pdf. Pour le web, la bibliothèque populaire **MathJax** écrite en Javascript est capable d'afficher des équations Latex sur la plupart des navigateurs web courant. Cependant, j'ai préféré choisir la librairie **Katex** qui a l'avantage d'être plus rapide à charger que MathJax quand il y a beaucoup d'équation à convertir (voir exemple ci-dessous, Katex à gauche et MathJax à droite).
 
 <p align="center">
    <img src="/assets/images/katex_vs_latex.gif" width="100%"/>
