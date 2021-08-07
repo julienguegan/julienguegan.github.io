@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Objet Fractal - Blog du Julien</title>
-<meta name="description" content="Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.    – reportage ARTE - à la recherche de la dimension cachée                Introduction  Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).  [insérer image]  Le terme fractal  dimension fractal  fractale par recurrence (escape-time fractal) julia mandelbrot : représente les fractales de julia connexes ou pas  fractale par fonction itere  fractale stochastique  fractale dans la nature  generation software mettre des screenshot avec legende = link to website    kalles fraktaler   superFractalThing   mandelbulber   fragmentarium   maxima">
+<!-- begin _includes/seo.html --><title>Objet Fractal : Dimension, Auto-similarité, Infini - Blog du Julien</title>
+<meta name="description" content="Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.    – reportage ARTE - à la recherche de la dimension cachée                Introduction  Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).         Note: Les fractales qu’on trouve dans la nature sont des approximations finies des vrais objets mathématiques.  Les fractales sont notamment caractérisées par la notion contre intuitive de dimension non entière. En effet, on peut définir une régle générale de mise à l’échelle qui relie la mesure $N$, un facteur d’échelle $\varepsilon$ et la dimension $D$ :  [N = \varepsilon^{-D}]  Par exemple, pour une figure géométrique usuelle comme le carré, sa dimension est $D=2$ et si on le subdivise en $3$ son aire est $N=9$, on a bien $9=\frac{1}{3}^{-2}$. On peut appliquer ce même raisonnement pour un cube ou même une ligne.        Maintenant, on cherche à trouver la dimension d’une figure fractale simple. La formule précédente nous donne :  [D = -\frac{\log N}{\log \varepsilon}]  Si on s’intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d’un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l’échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l’échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s’agit pas d’une simple courbe unidimensionelle, ni d’une surface mais quelque chose “entre les deux”.        Note: L’approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la dimension de Hausdorff. Elle est peu aisée à mettre en oeuvre…  julia  fractale par recurrence (escape-time fractal) julia : equations  mandelbrot  représente les fractales de julia connexes ou pas  generation software  optimisé les temps de calcul sur gpu en c++, des softwares existent  mettre des screenshot avec legende = link to website    kalles fraktaler   superFractalThing   mandelbulber   fragmentarium   maxima                                                       Mandelbul3D       Mandelbuler       Fragmentarium">
 
 
   <meta name="author" content="Julien Guégan">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Blog du Julien">
-<meta property="og:title" content="Objet Fractal">
+<meta property="og:title" content="Objet Fractal : Dimension, Auto-similarité, Infini">
 <meta property="og:url" content="http://localhost:4000/blog/objet_fractal/">
 
 
-  <meta property="og:description" content="Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.    – reportage ARTE - à la recherche de la dimension cachée                Introduction  Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).  [insérer image]  Le terme fractal  dimension fractal  fractale par recurrence (escape-time fractal) julia mandelbrot : représente les fractales de julia connexes ou pas  fractale par fonction itere  fractale stochastique  fractale dans la nature  generation software mettre des screenshot avec legende = link to website    kalles fraktaler   superFractalThing   mandelbulber   fragmentarium   maxima">
+  <meta property="og:description" content="Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.    – reportage ARTE - à la recherche de la dimension cachée                Introduction  Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).         Note: Les fractales qu’on trouve dans la nature sont des approximations finies des vrais objets mathématiques.  Les fractales sont notamment caractérisées par la notion contre intuitive de dimension non entière. En effet, on peut définir une régle générale de mise à l’échelle qui relie la mesure $N$, un facteur d’échelle $\varepsilon$ et la dimension $D$ :  [N = \varepsilon^{-D}]  Par exemple, pour une figure géométrique usuelle comme le carré, sa dimension est $D=2$ et si on le subdivise en $3$ son aire est $N=9$, on a bien $9=\frac{1}{3}^{-2}$. On peut appliquer ce même raisonnement pour un cube ou même une ligne.        Maintenant, on cherche à trouver la dimension d’une figure fractale simple. La formule précédente nous donne :  [D = -\frac{\log N}{\log \varepsilon}]  Si on s’intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d’un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l’échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l’échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s’agit pas d’une simple courbe unidimensionelle, ni d’une surface mais quelque chose “entre les deux”.        Note: L’approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la dimension de Hausdorff. Elle est peu aisée à mettre en oeuvre…  julia  fractale par recurrence (escape-time fractal) julia : equations  mandelbrot  représente les fractales de julia connexes ou pas  generation software  optimisé les temps de calcul sur gpu en c++, des softwares existent  mettre des screenshot avec legende = link to website    kalles fraktaler   superFractalThing   mandelbulber   fragmentarium   maxima                                                       Mandelbul3D       Mandelbuler       Fragmentarium">
 
 
 
@@ -88,9 +88,24 @@
 <!-- Load KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+  });
+</script>
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -126,11 +141,9 @@
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/home/">Home</a>
+            </li><li class="masthead__menu-item">
               <a href="/posts/">Posts</a>
-            </li><li class="masthead__menu-item">
-              <a href="/categories/">Categories</a>
-            </li><li class="masthead__menu-item">
-              <a href="/tags/">Tags</a>
             </li><li class="masthead__menu-item">
               <a href="/about/">About</a>
             </li></ul>
@@ -278,8 +291,8 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Objet Fractal">
-    <meta itemprop="description" content="  Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.  – reportage ARTE - à la recherche de la dimension cachée       IntroductionComme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).[insérer image]Le terme fractaldimension fractalfractale par recurrence (escape-time fractal)juliamandelbrot : représente les fractales de julia connexes ou pasfractale par fonction iterefractale stochastiquefractale dans la naturegeneration softwaremettre des screenshot avec legende = link to website  kalles fraktaler  superFractalThing  mandelbulber  fragmentarium  maxima">
+    <meta itemprop="headline" content="Objet Fractal : Dimension, Auto-similarité, Infini">
+    <meta itemprop="description" content="  Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.  – reportage ARTE - à la recherche de la dimension cachée       IntroductionComme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).   Note: Les fractales qu’on trouve dans la nature sont des approximations finies des vrais objets mathématiques.Les fractales sont notamment caractérisées par la notion contre intuitive de dimension non entière. En effet, on peut définir une régle générale de mise à l’échelle qui relie la mesure $N$, un facteur d’échelle $\varepsilon$ et la dimension $D$ :[N = \varepsilon^{-D}]Par exemple, pour une figure géométrique usuelle comme le carré, sa dimension est $D=2$ et si on le subdivise en $3$ son aire est $N=9$, on a bien $9=\frac{1}{3}^{-2}$. On peut appliquer ce même raisonnement pour un cube ou même une ligne.  Maintenant, on cherche à trouver la dimension d’une figure fractale simple. La formule précédente nous donne :[D = -\frac{\log N}{\log \varepsilon}]Si on s’intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d’un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l’échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l’échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s’agit pas d’une simple courbe unidimensionelle, ni d’une surface mais quelque chose “entre les deux”.  Note: L’approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la dimension de Hausdorff. Elle est peu aisée à mettre en oeuvre…juliafractale par recurrence (escape-time fractal)julia : equationsmandelbrotreprésente les fractales de julia connexes ou pasgeneration softwareoptimisé les temps de calcul sur gpu en c++, des softwares existentmettre des screenshot avec legende = link to website  kalles fraktaler  superFractalThing  mandelbulber  fragmentarium  maxima                                          Mandelbul3D      Mandelbuler      Fragmentarium      ">
     <meta itemprop="datePublished" content="2021-08-02T21:34:30+02:00">
     
 
@@ -287,7 +300,7 @@
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/blog/objet_fractal/" class="u-url" itemprop="url">Objet Fractal
+            <a href="http://localhost:4000/blog/objet_fractal/" class="u-url" itemprop="url">Objet Fractal : Dimension, Auto-similarité, Infini
 </a>
           </h1>
           
@@ -304,7 +317,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -332,23 +345,47 @@
 
 <p>Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques <em>infiniment morcelés</em> qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).</p>
 
-<p>[insérer image]</p>
+<p align="center">
+   <img src="/assets/images/fractals_in_nature.png" width="100%" />
+</p>
 
-<p>Le terme fractal</p>
+<p class="notice--primary"><strong>Note:</strong> Les fractales qu’on trouve dans la nature sont des approximations finies des vrais objets mathématiques.</p>
 
-<p>dimension fractal</p>
+<p>Les fractales sont notamment caractérisées par la notion contre intuitive de <strong>dimension non entière</strong>. En effet, on peut définir une régle générale de mise à l’échelle qui relie la mesure $N$, un facteur d’échelle $\varepsilon$ et la dimension $D$ :</p>
 
-<h2 id="fractale-par-recurrence-escape-time-fractal">fractale par recurrence (escape-time fractal)</h2>
-<p>julia
-mandelbrot : représente les fractales de julia connexes ou pas</p>
+\[N = \varepsilon^{-D}\]
 
-<h2 id="fractale-par-fonction-itere">fractale par fonction itere</h2>
+<p>Par exemple, pour une figure géométrique usuelle comme le carré, sa dimension est $D=2$ et si on le subdivise en $3$ son aire est $N=9$, on a bien $9=\frac{1}{3}^{-2}$. On peut appliquer ce même raisonnement pour un cube ou même une ligne.</p>
 
-<h2 id="fractale-stochastique">fractale stochastique</h2>
+<p align="center">
+  <img src="/assets/images/scaling_rule.png" width="60%" />
+</p>
 
-<h2 id="fractale-dans-la-nature">fractale dans la nature</h2>
+<p>Maintenant, on cherche à trouver la dimension d’une figure fractale simple. La formule précédente nous donne :</p>
+
+\[D = -\frac{\log N}{\log \varepsilon}\]
+
+<p>Si on s’intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d’un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l’échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l’échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s’agit pas d’une simple courbe unidimensionelle, ni d’une surface mais quelque chose “entre les deux”.</p>
+
+<p align="center">
+  <img src="/assets/images/von_koch.gif" width="60%" />
+</p>
+
+<p class="notice--primary"><strong>Note:</strong> L’approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la <a href="https://fr.wikipedia.org/wiki/Dimension_de_Hausdorff">dimension de Hausdorff</a>. Elle est peu aisée à mettre en oeuvre…</p>
+
+<h2 id="julia">julia</h2>
+
+<p>fractale par recurrence (escape-time fractal)
+julia : equations</p>
+
+<h2 id="mandelbrot">mandelbrot</h2>
+
+<p>représente les fractales de julia connexes ou pas</p>
 
 <h2 id="generation-software">generation software</h2>
+
+<p>optimisé les temps de calcul sur gpu en c++, des softwares existent</p>
+
 <p>mettre des screenshot avec legende = link to website</p>
 <ul>
   <li>kalles fraktaler</li>
@@ -357,6 +394,23 @@ mandelbrot : représente les fractales de julia connexes ou pas</p>
   <li>fragmentarium</li>
   <li>maxima</li>
 </ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="/assets/images/mandelbulb3d.png" alt="image" /></th>
+      <th style="text-align: center"><img src="/assets/images/mandelbulber.png" alt="image" /></th>
+      <th style="text-align: center"><img src="/assets/images/fragmentarium.png" alt="image" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/">Mandelbul3D</a></td>
+      <td style="text-align: center"><a href="https://mandelbulber.com/">Mandelbuler</a></td>
+      <td style="text-align: center"><a href="https://syntopia.github.io/Fragmentarium/get.html">Fragmentarium</a></td>
+    </tr>
+  </tbody>
+</table>
 
         
       </section>
@@ -375,13 +429,15 @@ mandelbrot : représente les fractales de julia connexes ou pas</p>
     
       <a href="/tags/#fractal" class="page__taxonomy-item" rel="tag">Fractal</a><span class="sep">, </span>
     
+      <a href="/tags/#infini" class="page__taxonomy-item" rel="tag">Infini</a><span class="sep">, </span>
+    
       <a href="/tags/#julia" class="page__taxonomy-item" rel="tag">Julia</a><span class="sep">, </span>
     
       <a href="/tags/#mandelbrot" class="page__taxonomy-item" rel="tag">Mandelbrot</a><span class="sep">, </span>
     
-      <a href="/tags/#math%C3%A9matique" class="page__taxonomy-item" rel="tag">Mathématique</a><span class="sep">, </span>
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">Python</a><span class="sep">, </span>
     
-      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">Python</a>
+      <a href="/tags/#r%C3%A9cursivit%C3%A9" class="page__taxonomy-item" rel="tag">Récursivité</a>
     
     </span>
   </p>
@@ -416,7 +472,7 @@ mandelbrot : représente les fractales de julia connexes ou pas</p>
       
   <nav class="pagination">
     
-      <a href="/blog/creer_un_blog/" class="pagination--pager" title="Créer un blog Jekyll : Ruby, Markdown, Github, Latex
+      <a href="/blog/creer_un_blog/" class="pagination--pager" title="Créer un blog Jekyll : Markdown, Github, Latex
 ">Previous</a>
     
     

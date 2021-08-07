@@ -20,6 +20,8 @@ logo: "/assets/images/brain_icon.png"
 
 # Build settings
 markdown: kramdown
+kramdown:
+  math_engine: nil
 remote_theme: mmistakes/minimal-mistakes
 github: [metadata]
 # Outputting
