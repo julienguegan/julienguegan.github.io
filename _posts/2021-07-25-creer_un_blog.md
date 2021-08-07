@@ -1,5 +1,5 @@
 ---
-title: "Créer un blog Jekyll : Ruby, Markdown, Github, Latex"
+title: "Créer un blog Jekyll : Markdown, Github, Latex"
 date: 2021-07-25T15:34:30-04:00
 classes: wide
 layout: single

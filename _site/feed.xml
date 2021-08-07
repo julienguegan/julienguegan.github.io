@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-06T23:35:05+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Blog du Julien</title><subtitle>Mon blog où j'écris des trucs à propos de machins.</subtitle><author><name>Julien Guégan</name></author><entry><title type="html">Objet Fractal</title><link href="http://localhost:4000/blog/objet_fractal/" rel="alternate" type="text/html" title="Objet Fractal" /><published>2021-08-02T21:34:30+02:00</published><updated>2021-08-02T21:34:30+02:00</updated><id>http://localhost:4000/blog/objet_fractal</id><content type="html" xml:base="http://localhost:4000/blog/objet_fractal/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-07T18:51:43+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Blog du Julien</title><subtitle>Mon blog où j'écris des trucs à propos de machins.</subtitle><author><name>Julien Guégan</name></author><entry><title type="html">Objet Fractal : Dimension, Auto-similarité, Infini</title><link href="http://localhost:4000/blog/objet_fractal/" rel="alternate" type="text/html" title="Objet Fractal : Dimension, Auto-similarité, Infini" /><published>2021-08-02T21:34:30+02:00</published><updated>2021-08-02T21:34:30+02:00</updated><id>http://localhost:4000/blog/objet_fractal</id><content type="html" xml:base="http://localhost:4000/blog/objet_fractal/">&lt;blockquote&gt;
   &lt;p&gt;&lt;em&gt;Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.&lt;/em&gt;&lt;/p&gt;
 
   &lt;p&gt;–&lt;cite&gt; reportage ARTE - à la recherche de la dimension cachée &lt;/cite&gt;&lt;/p&gt;
@@ -14,23 +14,47 @@
 
 &lt;p&gt;Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques &lt;em&gt;infiniment morcelés&lt;/em&gt; qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …).&lt;/p&gt;
 
-&lt;p&gt;[insérer image]&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;
+   &lt;img src=&quot;/assets/images/fractals_in_nature.png&quot; width=&quot;100%&quot; /&gt;
+&lt;/p&gt;
 
-&lt;p&gt;Le terme fractal&lt;/p&gt;
+&lt;p class=&quot;notice--primary&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; Les fractales qu’on trouve dans la nature sont des approximations finies des vrais objets mathématiques.&lt;/p&gt;
 
-&lt;p&gt;dimension fractal&lt;/p&gt;
+&lt;p&gt;Les fractales sont notamment caractérisées par la notion contre intuitive de &lt;strong&gt;dimension non entière&lt;/strong&gt;. En effet, on peut définir une régle générale de mise à l’échelle qui relie la mesure $N$, un facteur d’échelle $\varepsilon$ et la dimension $D$ :&lt;/p&gt;
 
-&lt;h2 id=&quot;fractale-par-recurrence-escape-time-fractal&quot;&gt;fractale par recurrence (escape-time fractal)&lt;/h2&gt;
-&lt;p&gt;julia
-mandelbrot : représente les fractales de julia connexes ou pas&lt;/p&gt;
+\[N = \varepsilon^{-D}\]
 
-&lt;h2 id=&quot;fractale-par-fonction-itere&quot;&gt;fractale par fonction itere&lt;/h2&gt;
+&lt;p&gt;Par exemple, pour une figure géométrique usuelle comme le carré, sa dimension est $D=2$ et si on le subdivise en $3$ son aire est $N=9$, on a bien $9=\frac{1}{3}^{-2}$. On peut appliquer ce même raisonnement pour un cube ou même une ligne.&lt;/p&gt;
 
-&lt;h2 id=&quot;fractale-stochastique&quot;&gt;fractale stochastique&lt;/h2&gt;
+&lt;p align=&quot;center&quot;&gt;
+  &lt;img src=&quot;/assets/images/scaling_rule.png&quot; width=&quot;60%&quot; /&gt;
+&lt;/p&gt;
 
-&lt;h2 id=&quot;fractale-dans-la-nature&quot;&gt;fractale dans la nature&lt;/h2&gt;
+&lt;p&gt;Maintenant, on cherche à trouver la dimension d’une figure fractale simple. La formule précédente nous donne :&lt;/p&gt;
+
+\[D = -\frac{\log N}{\log \varepsilon}\]
+
+&lt;p&gt;Si on s’intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d’un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l’échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l’échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s’agit pas d’une simple courbe unidimensionelle, ni d’une surface mais quelque chose “entre les deux”.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;img src=&quot;/assets/images/von_koch.gif&quot; width=&quot;60%&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p class=&quot;notice--primary&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; L’approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la &lt;a href=&quot;https://fr.wikipedia.org/wiki/Dimension_de_Hausdorff&quot;&gt;dimension de Hausdorff&lt;/a&gt;. Elle est peu aisée à mettre en oeuvre…&lt;/p&gt;
+
+&lt;h2 id=&quot;julia&quot;&gt;julia&lt;/h2&gt;
+
+&lt;p&gt;fractale par recurrence (escape-time fractal)
+julia : equations&lt;/p&gt;
+
+&lt;h2 id=&quot;mandelbrot&quot;&gt;mandelbrot&lt;/h2&gt;
+
+&lt;p&gt;représente les fractales de julia connexes ou pas&lt;/p&gt;
 
 &lt;h2 id=&quot;generation-software&quot;&gt;generation software&lt;/h2&gt;
+
+&lt;p&gt;optimisé les temps de calcul sur gpu en c++, des softwares existent&lt;/p&gt;
+
 &lt;p&gt;mettre des screenshot avec legende = link to website&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;kalles fraktaler&lt;/li&gt;
@@ -38,7 +62,24 @@ mandelbrot : représente les fractales de julia connexes ou pas&lt;/p&gt;
   &lt;li&gt;mandelbulber&lt;/li&gt;
   &lt;li&gt;fragmentarium&lt;/li&gt;
   &lt;li&gt;maxima&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Julien Guégan</name></author><category term="blog" /><category term="Fractal" /><category term="Python" /><category term="Mathématique" /><category term="Julia" /><category term="Mandelbrot" /><summary type="html">Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales. – reportage ARTE - à la recherche de la dimension cachée Introduction Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …). [insérer image] Le terme fractal dimension fractal fractale par recurrence (escape-time fractal) julia mandelbrot : représente les fractales de julia connexes ou pas fractale par fonction itere fractale stochastique fractale dans la nature generation software mettre des screenshot avec legende = link to website kalles fraktaler superFractalThing mandelbulber fragmentarium maxima</summary></entry><entry><title type="html">Créer un blog Jekyll : Ruby, Markdown, Github, Latex</title><link href="http://localhost:4000/blog/creer_un_blog/" rel="alternate" type="text/html" title="Créer un blog Jekyll : Ruby, Markdown, Github, Latex" /><published>2021-07-25T21:34:30+02:00</published><updated>2021-07-25T21:34:30+02:00</updated><id>http://localhost:4000/blog/creer_un_blog</id><content type="html" xml:base="http://localhost:4000/blog/creer_un_blog/">&lt;p&gt;J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créées ne change pas en fonction de l’internaute qui les visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). De plus, Jekyll permet d’éditer du texte en &lt;strong&gt;Markdown&lt;/strong&gt; en se basant sur la librairie &lt;em&gt;Kramdown&lt;/em&gt; qui convertie automatiquement du texte Markdown en HTML. Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque &lt;a href=&quot;https://gohugo.io/&quot;&gt;Hugo&lt;/a&gt; est également un Framework populaire similaire à Jekyll.&lt;/p&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;&lt;img src=&quot;/assets/images/mandelbulb3d.png&quot; alt=&quot;image&quot; /&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;&lt;img src=&quot;/assets/images/mandelbulber.png&quot; alt=&quot;image&quot; /&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;&lt;img src=&quot;/assets/images/fragmentarium.png&quot; alt=&quot;image&quot; /&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;a href=&quot;https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/&quot;&gt;Mandelbul3D&lt;/a&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;a href=&quot;https://mandelbulber.com/&quot;&gt;Mandelbuler&lt;/a&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;&lt;a href=&quot;https://syntopia.github.io/Fragmentarium/get.html&quot;&gt;Fragmentarium&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>Julien Guégan</name></author><category term="blog" /><category term="Fractal" /><category term="Python" /><category term="Julia" /><category term="Mandelbrot" /><category term="Récursivité" /><category term="Infini" /><summary type="html">Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales. – reportage ARTE - à la recherche de la dimension cachée Introduction Comme vous l’aurez compris si vous avez regardé l’excellent documentaire d’ARTE ci-dessus, les fractales sont des objets géométriques infiniment morcelés qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d’un choux de romanesco, la structure des poumons …) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages …). Note: Les fractales qu’on trouve dans la nature sont des approximations finies des vrais objets mathématiques. Les fractales sont notamment caractérisées par la notion contre intuitive de dimension non entière. En effet, on peut définir une régle générale de mise à l’échelle qui relie la mesure $N$, un facteur d’échelle $\varepsilon$ et la dimension $D$ : \[N = \varepsilon^{-D}\] Par exemple, pour une figure géométrique usuelle comme le carré, sa dimension est $D=2$ et si on le subdivise en $3$ son aire est $N=9$, on a bien $9=\frac{1}{3}^{-2}$. On peut appliquer ce même raisonnement pour un cube ou même une ligne. Maintenant, on cherche à trouver la dimension d’une figure fractale simple. La formule précédente nous donne : \[D = -\frac{\log N}{\log \varepsilon}\] Si on s’intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d’un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l’échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l’échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s’agit pas d’une simple courbe unidimensionelle, ni d’une surface mais quelque chose “entre les deux”. Note: L’approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la dimension de Hausdorff. Elle est peu aisée à mettre en oeuvre… julia fractale par recurrence (escape-time fractal) julia : equations mandelbrot représente les fractales de julia connexes ou pas generation software optimisé les temps de calcul sur gpu en c++, des softwares existent mettre des screenshot avec legende = link to website kalles fraktaler superFractalThing mandelbulber fragmentarium maxima Mandelbul3D Mandelbuler Fragmentarium</summary></entry><entry><title type="html">Créer un blog Jekyll : Markdown, Github, Latex</title><link href="http://localhost:4000/blog/creer_un_blog/" rel="alternate" type="text/html" title="Créer un blog Jekyll : Markdown, Github, Latex" /><published>2021-07-25T21:34:30+02:00</published><updated>2021-07-25T21:34:30+02:00</updated><id>http://localhost:4000/blog/creer_un_blog</id><content type="html" xml:base="http://localhost:4000/blog/creer_un_blog/">&lt;p&gt;J’écris le 1er post de ce blog pour parler tout simplement de comment créer un blog comme celui-ci. La raison principale qui m’a poussé à utiliser Jekyll pour créer un blog est la possibilité d’écrire facilement des équations \(\LaTeX\). En effet, j’avais auparavant essayé avec WordPress mais aucune des solutions que j’avais pu testé m’ont véritablement convaincu. En faisant donc quelques recherches sur le sujet, je suis tombé sur &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; qui semble être utilisé par un bon nombre de blogger scientifique et informatique. Jekyll est un générateur de site statique c’est-à-dire que les pages web créées ne change pas en fonction de l’internaute qui les visite : tous le monde voit le même contenu. A l’inverse d’un site dynamique qui génère son contenu selon des caractéristiques de la demande (heure, adresse IP, compte utilisateur, formulaire …). De plus, Jekyll permet d’éditer du texte en &lt;strong&gt;Markdown&lt;/strong&gt; en se basant sur la librairie &lt;em&gt;Kramdown&lt;/em&gt; qui convertie automatiquement du texte Markdown en HTML. Jekyll est donc une solution tout à fait adaptée pour l’écriture d’un blog web, mais sachez tout de même que ce n’est pas l’unique solution sur le sujet puisque &lt;a href=&quot;https://gohugo.io/&quot;&gt;Hugo&lt;/a&gt; est également un Framework populaire similaire à Jekyll.&lt;/p&gt;
 
 &lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
 
