@@ -56,7 +56,7 @@ Si on s'intéresse à une figure telle que la courbe de Von Koch qui consiste, �
   <img src="/assets/images/von_koch.gif" width="60%"/>
 </p>
 
-**Note:** L'approche présentée précédemment est conceptuelle et didactique. Une définition rigoureuse et définie pour tout ensemble est la [dimension de Hausdorff](https://fr.wikipedia.org/wiki/Dimension_de_Hausdorff). Elle est peu aisée à mettre en oeuvre...
+**Note:** L'approche présentée précédemment est conceptuelle. Une définition rigoureuse et définie pour tout ensemble est la [dimension de Hausdorff](https://fr.wikipedia.org/wiki/Dimension_de_Hausdorff). Elle est peu aisée à mettre en oeuvre...
 {: .notice--primary}
 
 On peut différencier 3 catégories principales de fractale :
