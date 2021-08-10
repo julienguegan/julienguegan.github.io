@@ -18,7 +18,7 @@
 <loc>http://localhost:4000/cv/</loc>
 </url>
 <url>
-<loc>http://localhost:4000/</loc>
+<loc>http://localhost:4000/home/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/</loc>
@@ -32,5 +32,9 @@
 <url>
 <loc>http://localhost:4000/assets/docs/CV.pdf</loc>
 <lastmod>2021-02-05T13:17:03+01:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/google1b14a3e628c64ff0.html</loc>
+<lastmod>2021-08-10T21:54:34+02:00</lastmod>
 </url>
 </urlset>
