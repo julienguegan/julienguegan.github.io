@@ -10,4 +10,10 @@ var store = [{
         "tags": ["Fractal","Python","Julia","Mandelbrot","Récursivité","Infini"],
         "url": "/blog/objet_fractal/",
         "teaser": null
+      },{
+        "title": "Dynamique des populations",
+        "excerpt":"Parmis les enjeux du 21ème siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses...","categories": ["blog"],
+        "tags": ["équations différentielles"],
+        "url": "/blog/dynamique_des_populations/",
+        "teaser": null
       }]
