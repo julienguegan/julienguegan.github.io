@@ -1,4 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-10T21:55:15+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Blog du Julien</title><subtitle>Mon blog où j'écris des trucs à propos de machins.</subtitle><author><name>Julien Guégan</name></author><entry><title type="html">Objet Fractal : Dimension, Auto-similarité, Infini</title><link href="http://localhost:4000/blog/objet_fractal/" rel="alternate" type="text/html" title="Objet Fractal : Dimension, Auto-similarité, Infini" /><published>2021-08-02T21:34:30+02:00</published><updated>2021-08-02T21:34:30+02:00</updated><id>http://localhost:4000/blog/objet_fractal</id><content type="html" xml:base="http://localhost:4000/blog/objet_fractal/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-08-16T11:27:52+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Blog du Julien</title><subtitle>Mon blog où j'écris des trucs à propos de machins.</subtitle><author><name>Julien Guégan</name></author><entry><title type="html">Dynamique des populations</title><link href="http://localhost:4000/blog/dynamique_des_populations/" rel="alternate" type="text/html" title="Dynamique des populations" /><published>2021-08-12T04:18:30+02:00</published><updated>2021-08-12T04:18:30+02:00</updated><id>http://localhost:4000/blog/dynamique_des_populations</id><content type="html" xml:base="http://localhost:4000/blog/dynamique_des_populations/">&lt;p&gt;Parmis les enjeux du 21&lt;sup&gt;ème&lt;/sup&gt; siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu’elle peut permettre de répondre à des problèmes variés comme la gestion d’espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.&lt;/p&gt;
+
+&lt;h2 id=&quot;modèle-de-verhulst&quot;&gt;Modèle de Verhulst&lt;/h2&gt;
+
+&lt;p&gt;A la fin du 18&lt;sup&gt;ème&lt;/sup&gt; siècle, le modèle de &lt;strong&gt;Malthus&lt;/strong&gt; décrit la variation d’une taille de population $y$ au cours du temps $t$ par l’équation différentielle :&lt;/p&gt;
+
+\[y'(t) = (n-m) y(t) = r y(t)\]
+
+&lt;p&gt;avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n’augmentera jamais à l’infini.&lt;/p&gt;
+
+&lt;p&gt;En 1840, &lt;strong&gt;Verlhust&lt;/strong&gt; propose un modèle de croissance plus adapté en partant de l’hypothèse que le taux de croissance $r$ n’est pas une constante mais est fonction affine de la taille de population $y$ :&lt;/p&gt;
+
+\[y'(t) = \big(n(y) - m(y)\big) y(t)\]
+
+&lt;p&gt;Verlhust part notamment de l’hypothèse que plus la taille d’une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l’équation précédente peut se réécrire :&lt;/p&gt;
+
+\[y'(t) = r y(t) \big(1 - \frac{y(t)}{K}\big)\]
+
+&lt;p&gt;avec $K$ une constante appelée &lt;em&gt;capacité d’accueil&lt;/em&gt;, elle correspond au nombre d’individus maximal que le milieu peut accueillir (selon l’espace, les ressources …)&lt;/p&gt;
+
+&lt;h2 id=&quot;modèle-de-lotka-volterra&quot;&gt;Modèle de Lotka-Volterra&lt;/h2&gt;
+
+&lt;p&gt;Les modèles de Lotka-Volterra sont des sytèmes d’équations simples qui sont apparus au début du 20&lt;sup&gt;ème&lt;/sup&gt; siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre &lt;em&gt;Elements of Physical Biology&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+   &lt;img src=&quot;/assets/images/lotka_volterra_photos.png&quot; width=&quot;50%&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&quot;proie-prédateur&quot;&gt;&lt;em&gt;Proie-prédateur&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;Le modèle proie-prédateur de Lotka-Volterra a permis d’expliquer des données collectées de certaines populations d’animaux comme le lynx et lièvre ainsi que le loup et l’élan aux Etats-Unis. On y représente l’évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :&lt;/p&gt;
+
+\[\left\{
+  \begin{array}{ccc}
+    x'(t) = x(t)\ \big(\alpha - \beta y(t)\big) \\
+    y'(t) = y(t) \ \big( \delta x(t) - \gamma\big)
+  \end{array}
+\right.\]
+
+&lt;p&gt;où:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs&lt;/li&gt;
+  &lt;li&gt;$\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p class=&quot;notice--primary&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; On parle de système &lt;strong&gt;autonome&lt;/strong&gt; : le temps $t$ n’apparaît pas explicitement dans les équations.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+   &lt;img src=&quot;/assets/images/lotka_volterra.png&quot; width=&quot;100%&quot; /&gt;
+&lt;/p&gt;
+
+&lt;p class=&quot;notice--danger&quot;&gt;&lt;strong&gt;Attention:&lt;/strong&gt; Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.&lt;/p&gt;
+
+&lt;h3 id=&quot;compétition&quot;&gt;&lt;em&gt;Compétition&lt;/em&gt;&lt;/h3&gt;
+
+&lt;h2 id=&quot;runge-kutta&quot;&gt;runge kutta&lt;/h2&gt;
+
+&lt;p&gt;methode numerique d’approximation de solutions d’equations différentielles, elle calcule itérativement des estimations de plus en plus précise&lt;/p&gt;
+
+&lt;p&gt;animation courbe qui approche petit à petit une solution theorique&lt;/p&gt;</content><author><name>Julien Guégan</name></author><category term="blog" /><category term="équations différentielles" /><summary type="html">Parmis les enjeux du 21ème siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu’elle peut permettre de répondre à des problèmes variés comme la gestion d’espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies. Modèle de Verhulst A la fin du 18ème siècle, le modèle de Malthus décrit la variation d’une taille de population $y$ au cours du temps $t$ par l’équation différentielle : \[y'(t) = (n-m) y(t) = r y(t)\] avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n’augmentera jamais à l’infini. En 1840, Verlhust propose un modèle de croissance plus adapté en partant de l’hypothèse que le taux de croissance $r$ n’est pas une constante mais est fonction affine de la taille de population $y$ : \[y'(t) = \big(n(y) - m(y)\big) y(t)\] Verlhust part notamment de l’hypothèse que plus la taille d’une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l’équation précédente peut se réécrire : \[y'(t) = r y(t) \big(1 - \frac{y(t)}{K}\big)\] avec $K$ une constante appelée capacité d’accueil, elle correspond au nombre d’individus maximal que le milieu peut accueillir (selon l’espace, les ressources …) Modèle de Lotka-Volterra Les modèles de Lotka-Volterra sont des sytèmes d’équations simples qui sont apparus au début du 20ème siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre Elements of Physical Biology. Proie-prédateur Le modèle proie-prédateur de Lotka-Volterra a permis d’expliquer des données collectées de certaines populations d’animaux comme le lynx et lièvre ainsi que le loup et l’élan aux Etats-Unis. On y représente l’évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant : \[\left\{ \begin{array}{ccc} x'(t) = x(t)\ \big(\alpha - \beta y(t)\big) \\ y'(t) = y(t) \ \big( \delta x(t) - \gamma\big) \end{array} \right.\] où: $\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs. Note: On parle de système autonome : le temps $t$ n’apparaît pas explicitement dans les équations. Attention: Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte. Compétition runge kutta methode numerique d’approximation de solutions d’equations différentielles, elle calcule itérativement des estimations de plus en plus précise animation courbe qui approche petit à petit une solution theorique</summary></entry><entry><title type="html">Objet Fractal : Dimension, Auto-similarité, Infini</title><link href="http://localhost:4000/blog/objet_fractal/" rel="alternate" type="text/html" title="Objet Fractal : Dimension, Auto-similarité, Infini" /><published>2021-08-02T21:34:30+02:00</published><updated>2021-08-02T21:34:30+02:00</updated><id>http://localhost:4000/blog/objet_fractal</id><content type="html" xml:base="http://localhost:4000/blog/objet_fractal/">&lt;blockquote&gt;
   &lt;p&gt;&lt;em&gt;Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -43,6 +103,7 @@
 &lt;p class=&quot;notice--primary&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; L’approche présentée précédemment est conceptuelle. Une définition rigoureuse et définie pour tout ensemble est la &lt;a href=&quot;https://fr.wikipedia.org/wiki/Dimension_de_Hausdorff&quot;&gt;dimension de Hausdorff&lt;/a&gt;. Elle est peu aisée à mettre en oeuvre…&lt;/p&gt;
 
 &lt;p&gt;On peut différencier 3 catégories principales de fractale :&lt;/p&gt;
+
 &lt;ul&gt;
   &lt;li&gt;les systèmes de &lt;strong&gt;fonctions itérées&lt;/strong&gt;. Ils ont une règle géométrique fixe comme le flocon de Von Koch, le tapis de Sierpinski, la courbe de Peano.&lt;/li&gt;
   &lt;li&gt;les fractales &lt;strong&gt;aléatoires&lt;/strong&gt;. Elles sont générées par un processus stochastiques comme dans la nature ou les paysages fractales.&lt;/li&gt;
@@ -53,7 +114,7 @@
 
 &lt;p&gt;L’ensemble de Julia associé à un nombre complexe $c$ fixé est l’ensemble des valeurs initiales $z_0$ pour lesquelles la suite suivante est bornée :&lt;/p&gt;
 
-\[\left\{ 
+\[\left\{
   \begin{array}{ll}
     z_0 \in \mathbb{C} \\
     z_{n+1} = z_n^2 + c
@@ -123,7 +184,7 @@
 
 &lt;p&gt;L’ensemble de Mandelbrot est fortement lié aux ensembles de Julia, en effet on peut définir l’ensemble de Mandelbrot $M$ comme l’ensemble des complexes $c$ pour lesquels l’ensemble de Julia $J_c$ correspondant est &lt;strong&gt;connexe&lt;/strong&gt;, c’est-à-dire qu’il est fait d’un seul morceau. On peut dire que l’ensemble de Mandelbrot représente une carte des ensembles de Julia. Et, contrairement au nom qu’il porte, c’est les mathématiciens Julia et Fatou qui l’ont découvert et qui ont montré que la définition précédente est équivalente à l’ensemble des points $c$ du plan complexe $\mathbb{C}$ pour lesquels la suite suivante est bornée :&lt;/p&gt;
 
-\[\left\{ 
+\[\left\{
   \begin{array}{ll}
     z_0 = 0 \\
     z_{n+1} = z_n^2 + c

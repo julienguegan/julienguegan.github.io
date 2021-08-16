@@ -20,7 +20,7 @@ gallery:
 
 > *Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. "Bon sang ! Mais c'est bien sûr !". Peut-être n'avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.*
 
-<cite> reportage ARTE </cite> -- à la recherche de la dimension cachée 
+<cite> reportage ARTE </cite> -- à la recherche de la dimension cachée
 {: .small}
 
 {% include video id="Tpsu2uz9rCE" provider="youtube" %}
@@ -60,6 +60,7 @@ Si on s'intéresse à une figure telle que la courbe de Von Koch qui consiste, �
 {: .notice--primary}
 
 On peut différencier 3 catégories principales de fractale :
+
 - les systèmes de **fonctions itérées**. Ils ont une règle géométrique fixe comme le flocon de Von Koch, le tapis de Sierpinski, la courbe de Peano.
 - les fractales **aléatoires**. Elles sont générées par un processus stochastiques comme dans la nature ou les paysages fractales.
 - les ensembles définies par une **relation de récurrence** en chaque point d'un espace. On peut citer l'ensemble de Julia, de mandelbrot, de lyapunov. On les appelle parfois en anglais des *Escape-time fractals*.
@@ -68,8 +69,8 @@ On peut différencier 3 catégories principales de fractale :
 
 L'ensemble de Julia associé à un nombre complexe $c$ fixé est l'ensemble des valeurs initiales $z_0$ pour lesquelles la suite suivante est bornée :
 
-$$ 
-\left\{ 
+$$
+\left\{
   \begin{array}{ll}
     z_0 \in \mathbb{C} \\
     z_{n+1} = z_n^2 + c
@@ -111,7 +112,7 @@ for i in (range(size)):
         M[j,i] = 255*n_iter/itermax
 ```
 
-**Astuce:** En python, on aurait pu directement utiliser la fonction `complex()` pour avoir un objet complexe. Dans ce cas, les variables `z_reel` et `z_imag` seraient inutiles et on pourrait directement récupérer la valeur absolue et mettre au carré une unique variable complexe `z`.   
+**Astuce:** En python, on aurait pu directement utiliser la fonction `complex()` pour avoir un objet complexe. Dans ce cas, les variables `z_reel` et `z_imag` seraient inutiles et on pourrait directement récupérer la valeur absolue et mettre au carré une unique variable complexe `z`.
 {: .notice--info}
 
 Finalement, on peut générer des ensembles de Julia pour différentes valeurs de $c$ fixées et pour changer le visuel on peut s'amuser à tester différentes *colormap*. Ci-dessous quelques résultats que j'ai généré.
@@ -126,10 +127,10 @@ On remarque que les figures obtenues varient grandement en fonction de la valeur
 
 ## Ensemble de Mandelbrot
 
-L'ensemble de Mandelbrot est fortement lié aux ensembles de Julia, en effet on peut définir l'ensemble de Mandelbrot $M$ comme l'ensemble des complexes $c$ pour lesquels l'ensemble de Julia $J_c$ correspondant est **connexe**, c'est-à-dire qu'il est fait d'un seul morceau. On peut dire que l'ensemble de Mandelbrot représente une carte des ensembles de Julia. Et, contrairement au nom qu'il porte, c'est les mathématiciens Julia et Fatou qui l'ont découvert et qui ont montré que la définition précédente est équivalente à l'ensemble des points $c$ du plan complexe $\mathbb{C}$ pour lesquels la suite suivante est bornée : 
+L'ensemble de Mandelbrot est fortement lié aux ensembles de Julia, en effet on peut définir l'ensemble de Mandelbrot $M$ comme l'ensemble des complexes $c$ pour lesquels l'ensemble de Julia $J_c$ correspondant est **connexe**, c'est-à-dire qu'il est fait d'un seul morceau. On peut dire que l'ensemble de Mandelbrot représente une carte des ensembles de Julia. Et, contrairement au nom qu'il porte, c'est les mathématiciens Julia et Fatou qui l'ont découvert et qui ont montré que la définition précédente est équivalente à l'ensemble des points $c$ du plan complexe $\mathbb{C}$ pour lesquels la suite suivante est bornée :
 
-$$ 
-\left\{ 
+$$
+\left\{
   \begin{array}{ll}
     z_0 = 0 \\
     z_{n+1} = z_n^2 + c
@@ -137,7 +138,7 @@ $$
 \right.
 $$
 
-Cette définition est très similaire à celle de l'ensemble de Julia à la différence qu'on s'intéresse à la variable $c$. Dans le code précédent, il faudrait modifier la ligne `z_reel = i * x_step + x_min` par `c_reel = i * x_step + x_min` et fixé `z_reel = 0` (idem pour la partie imaginaire). On obtient la figure suivante : 
+Cette définition est très similaire à celle de l'ensemble de Julia à la différence qu'on s'intéresse à la variable $c$. Dans le code précédent, il faudrait modifier la ligne `z_reel = i * x_step + x_min` par `c_reel = i * x_step + x_min` et fixé `z_reel = 0` (idem pour la partie imaginaire). On obtient la figure suivante :
 
 <p align="center">
   <img src="/assets/images/mandelbrot.png" width="40%"/>
@@ -145,7 +146,6 @@ Cette définition est très similaire à celle de l'ensemble de Julia à la diff
 
 **Note:** Benoît Mandelbrot est le fondateur de la théorie fractale avec notamment son article _"How Long Is the Coast of Britain ? Statistical Self-Similarity and Fractional Dimension"_ en 1967. C'est également lui qui obtient pour la première fois, une visualisation par ordinateur de cet ensemble.
 {: .notice--primary}
-
 
 ## Logiciels
 
