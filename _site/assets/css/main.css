@@ -1114,7 +1114,7 @@ body { display: -webkit-box; display: -ms-flexbox; display: flex; min-height: 10
 .grid__item .archive__item-excerpt { display: none; }
 @media (min-width: 48em) { .grid__item .archive__item-excerpt { display: block; font-size: 0.75em; } }
 @media (min-width: 37.5em) { .grid__item .archive__item-teaser { max-height: 200px; } }
-@media (min-width: 48em) { .grid__item .archive__item-teaser { max-height: 120px; } }
+@media (min-width: 48em) { .grid__item .archive__item-teaser { max-height: 320px; } }
 
 /* Features ========================================================================== */
 .feature__wrapper { clear: both; margin-bottom: 2em; border-bottom: 1px solid #f2f3f3; }

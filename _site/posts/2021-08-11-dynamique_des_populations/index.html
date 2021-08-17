@@ -1,0 +1,617 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Dynamique des populations - Blog du Julien</title>
+<meta name="description" content="Parmis les enjeux du 21ème siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu’elle peut permettre de répondre à des problèmes variés comme la gestion d’espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.  Modèle de Verhulst  A la fin du 18ème siècle, le modèle de Malthus décrit la variation d’une taille de population $y$ au cours du temps $t$ par l’équation différentielle :  [y’(t) = (n-m) y(t) = r y(t)]  avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n’augmentera jamais à l’infini.         En 1840, Verlhust propose un modèle de croissance plus adapté en partant de l’hypothèse que le taux de croissance $r$ n’est pas une constante mais est fonction affine de la taille de population $y$ :  [y’(t) = \big(n(y) - m(y)\big) y(t)]  Verlhust part notamment de l’hypothèse que plus la taille d’une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l’équation différentielle précédente peut se réécrire sous la forme :  [y’(t) = r y(t) \left(1 - \frac{y(t)}{K}\right)]  avec $K$ une constante appelée capacité d’accueil. On peut résoudre analytiquement cette équation avec la condition initiale $y(t=0)=y_0$, on obtient la solution logistique :  [y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}}]            Résolution détaillée de l&#39;équation différentielle logistique par séparation de variable    $$   \begin{align*}     \int_{y_0}^{y(t)} \frac{1}{y(1-y/K)}dy &amp;= \int_0^t r \ d\tau \\     \int_{y_0}^{y(t)} \frac{K}{y(K-y)}dy &amp;= \int_0^t r \ d\tau \\     \int_{y_0}^{y(t)} \frac{1}{y}dy +  \int_{y_0}^{y(t)} \frac{1}{K-1}dy &amp;= \int_0^t r \ d\tau \\     \ln \left| \frac{y(t)}{y_0} \right| - \ln \left| \frac{K-y(t)}{K-y_0} \right| &amp;= r \ t \\     \ln \left( \frac{y(t)\big(K-y_0\big)}{y_0\big(K-y(t)\big)} \right) &amp;= r \ t \\     \frac{y(t)}{K-y(t)} &amp;= \frac{y_0}{K-y_0}e^{rt} \\     y(t)\left(1+\frac{y_0}{K-y_0}e^{rt} \right) &amp;= \frac{K y_0 e^{rt}}{K-y_0} \\     y(t) &amp;= \frac{Ky_0e^{rt}}{K-y_0+y_0e^{rt}} \\     y(t) &amp;= \frac{K y_0}{(K-y_0)e^{-rt}+y_0} \\   \end{align*} \\   \square   $$   On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut importe la taille de la population initiale $y_0$, la population finira toujours par tendre vers $K$ la capacité d’accueil qu’on qualifie souvent comme le nombre d’individus maximal que le milieu peut accueillir (selon l’espace, les ressources …). Cette fonction dite logistique introduite pour la première fois par Verlhust pour modéliser la croissance des populations trouvera par la suite plein d’application dans des domaines variés comme l’économie, la chimie, les statistiques et plus récemment les réseaux de neurones artificielles.  Modèle de Lotka-Volterra  Les modèles de Lotka-Volterra sont des sytèmes d’équations simples qui sont apparus au début du 20ème siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre Elements of Physical Biology. Contrairement au modèle de Verlhust qui s’intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l’autres.         Proie-prédateur  Le modèle proie-prédateur de Lotka-Volterra a permis d’expliquer des données collectées de certaines populations d’animaux comme le lynx et lièvre ainsi que le loup et l’élan aux Etats-Unis. On y représente l’évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :  [\left{   \begin{array}{ccc}     x’(t) = x(t)\ \big(\alpha - \beta y(t)\big)      y’(t) = y(t)\ \big( \delta x(t) - \gamma\big)   \end{array} \right.]  où:     $\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs   $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs.   pas de solution analytique  Note: On parle de système autonome : le temps $t$ n’apparaît pas explicitement dans les équations.         Attention: Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.  animation pixellique de lapin et renard  Compétition  [\left{   \begin{array}{ccc}     x_1’(t) = r_1x_1(t)\left(1- \frac{x_1(t)+\alpha_{12}x_2(t)}{K_1}\right)      x_2’(t) = r_2x_2(t)\left(1- \frac{x_2(t)+\alpha_{21}x_1(t)}{K_2}\right)   \end{array} \right.]  Runge Kutta  methode numerique d’approximation de solutions d’equations différentielles, elle calcule itérativement des estimations de plus en plus précise  animation courbe qui approche petit à petit une solution theorique">
+
+
+  <meta name="author" content="Julien Guégan">
+  
+  <meta property="article:author" content="Julien Guégan">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Blog du Julien">
+<meta property="og:title" content="Dynamique des populations">
+<meta property="og:url" content="http://localhost:4000/posts/2021-08-11-dynamique_des_populations/">
+
+
+  <meta property="og:description" content="Parmis les enjeux du 21ème siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu’elle peut permettre de répondre à des problèmes variés comme la gestion d’espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.  Modèle de Verhulst  A la fin du 18ème siècle, le modèle de Malthus décrit la variation d’une taille de population $y$ au cours du temps $t$ par l’équation différentielle :  [y’(t) = (n-m) y(t) = r y(t)]  avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n’augmentera jamais à l’infini.         En 1840, Verlhust propose un modèle de croissance plus adapté en partant de l’hypothèse que le taux de croissance $r$ n’est pas une constante mais est fonction affine de la taille de population $y$ :  [y’(t) = \big(n(y) - m(y)\big) y(t)]  Verlhust part notamment de l’hypothèse que plus la taille d’une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l’équation différentielle précédente peut se réécrire sous la forme :  [y’(t) = r y(t) \left(1 - \frac{y(t)}{K}\right)]  avec $K$ une constante appelée capacité d’accueil. On peut résoudre analytiquement cette équation avec la condition initiale $y(t=0)=y_0$, on obtient la solution logistique :  [y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}}]            Résolution détaillée de l&#39;équation différentielle logistique par séparation de variable    $$   \begin{align*}     \int_{y_0}^{y(t)} \frac{1}{y(1-y/K)}dy &amp;= \int_0^t r \ d\tau \\     \int_{y_0}^{y(t)} \frac{K}{y(K-y)}dy &amp;= \int_0^t r \ d\tau \\     \int_{y_0}^{y(t)} \frac{1}{y}dy +  \int_{y_0}^{y(t)} \frac{1}{K-1}dy &amp;= \int_0^t r \ d\tau \\     \ln \left| \frac{y(t)}{y_0} \right| - \ln \left| \frac{K-y(t)}{K-y_0} \right| &amp;= r \ t \\     \ln \left( \frac{y(t)\big(K-y_0\big)}{y_0\big(K-y(t)\big)} \right) &amp;= r \ t \\     \frac{y(t)}{K-y(t)} &amp;= \frac{y_0}{K-y_0}e^{rt} \\     y(t)\left(1+\frac{y_0}{K-y_0}e^{rt} \right) &amp;= \frac{K y_0 e^{rt}}{K-y_0} \\     y(t) &amp;= \frac{Ky_0e^{rt}}{K-y_0+y_0e^{rt}} \\     y(t) &amp;= \frac{K y_0}{(K-y_0)e^{-rt}+y_0} \\   \end{align*} \\   \square   $$   On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut importe la taille de la population initiale $y_0$, la population finira toujours par tendre vers $K$ la capacité d’accueil qu’on qualifie souvent comme le nombre d’individus maximal que le milieu peut accueillir (selon l’espace, les ressources …). Cette fonction dite logistique introduite pour la première fois par Verlhust pour modéliser la croissance des populations trouvera par la suite plein d’application dans des domaines variés comme l’économie, la chimie, les statistiques et plus récemment les réseaux de neurones artificielles.  Modèle de Lotka-Volterra  Les modèles de Lotka-Volterra sont des sytèmes d’équations simples qui sont apparus au début du 20ème siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre Elements of Physical Biology. Contrairement au modèle de Verlhust qui s’intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l’autres.         Proie-prédateur  Le modèle proie-prédateur de Lotka-Volterra a permis d’expliquer des données collectées de certaines populations d’animaux comme le lynx et lièvre ainsi que le loup et l’élan aux Etats-Unis. On y représente l’évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :  [\left{   \begin{array}{ccc}     x’(t) = x(t)\ \big(\alpha - \beta y(t)\big)      y’(t) = y(t)\ \big( \delta x(t) - \gamma\big)   \end{array} \right.]  où:     $\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs   $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs.   pas de solution analytique  Note: On parle de système autonome : le temps $t$ n’apparaît pas explicitement dans les équations.         Attention: Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.  animation pixellique de lapin et renard  Compétition  [\left{   \begin{array}{ccc}     x_1’(t) = r_1x_1(t)\left(1- \frac{x_1(t)+\alpha_{12}x_2(t)}{K_1}\right)      x_2’(t) = r_2x_2(t)\left(1- \frac{x_2(t)+\alpha_{21}x_1(t)}{K_2}\right)   \end{array} \right.]  Runge Kutta  methode numerique d’approximation de solutions d’equations différentielles, elle calcule itérativement des estimations de plus en plus précise  animation courbe qui approche petit à petit une solution theorique">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/assets/images/teaser_dynamique_population.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-12T04:18:30+02:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/posts/2021-08-11-dynamique_des_populations/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Julien Guégan",
+      "url": "http://localhost:4000/",
+      "sameAs": ["https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/","https://www.facebook.com/julien.guegan.754","https://github.com/julienguegan","https://www.instagram.com/julien_guegan_/?hl=fr"]
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="_Cj2FZGjDR1sECXPRL64_CMVDm6adbKqCXSLHArYdSE" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="shortcut icon" type="image/png" href="/assets/images/brain_icon.png">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+  });
+</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
+        
+        <a class="site-title" href="/">
+          Blog du Julien
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/home/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/photo_profil.jpg" alt="Julien Guégan" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Julien Guégan</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Je m’appelle Julien, je suis ingénieur en trucs et machins et j’aime ceci et cela. Je parle ici de bidouille.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Contact</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:julienguegan56520@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Mail</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i><span class="label">Facebook</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Dynamique des populations">
+    <meta itemprop="description" content="Parmis les enjeux du 21ème siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu’elle peut permettre de répondre à des problèmes variés comme la gestion d’espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.Modèle de VerhulstA la fin du 18ème siècle, le modèle de Malthus décrit la variation d’une taille de population $y$ au cours du temps $t$ par l’équation différentielle :[y’(t) = (n-m) y(t) = r y(t)]avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n’augmentera jamais à l’infini.   En 1840, Verlhust propose un modèle de croissance plus adapté en partant de l’hypothèse que le taux de croissance $r$ n’est pas une constante mais est fonction affine de la taille de population $y$ :[y’(t) = \big(n(y) - m(y)\big) y(t)]Verlhust part notamment de l’hypothèse que plus la taille d’une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l’équation différentielle précédente peut se réécrire sous la forme :[y’(t) = r y(t) \left(1 - \frac{y(t)}{K}\right)]avec $K$ une constante appelée capacité d’accueil. On peut résoudre analytiquement cette équation avec la condition initiale $y(t=0)=y_0$, on obtient la solution logistique :[y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}}]     Résolution détaillée de l&#39;équation différentielle logistique par séparation de variable  $$  \begin{align*}    \int_{y_0}^{y(t)} \frac{1}{y(1-y/K)}dy &amp;= \int_0^t r \ d\tau \\    \int_{y_0}^{y(t)} \frac{K}{y(K-y)}dy &amp;= \int_0^t r \ d\tau \\    \int_{y_0}^{y(t)} \frac{1}{y}dy +  \int_{y_0}^{y(t)} \frac{1}{K-1}dy &amp;= \int_0^t r \ d\tau \\    \ln \left| \frac{y(t)}{y_0} \right| - \ln \left| \frac{K-y(t)}{K-y_0} \right| &amp;= r \ t \\    \ln \left( \frac{y(t)\big(K-y_0\big)}{y_0\big(K-y(t)\big)} \right) &amp;= r \ t \\    \frac{y(t)}{K-y(t)} &amp;= \frac{y_0}{K-y_0}e^{rt} \\    y(t)\left(1+\frac{y_0}{K-y_0}e^{rt} \right) &amp;= \frac{K y_0 e^{rt}}{K-y_0} \\    y(t) &amp;= \frac{Ky_0e^{rt}}{K-y_0+y_0e^{rt}} \\    y(t) &amp;= \frac{K y_0}{(K-y_0)e^{-rt}+y_0} \\  \end{align*} \\  \square  $$On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut importe la taille de la population initiale $y_0$, la population finira toujours par tendre vers $K$ la capacité d’accueil qu’on qualifie souvent comme le nombre d’individus maximal que le milieu peut accueillir (selon l’espace, les ressources …). Cette fonction dite logistique introduite pour la première fois par Verlhust pour modéliser la croissance des populations trouvera par la suite plein d’application dans des domaines variés comme l’économie, la chimie, les statistiques et plus récemment les réseaux de neurones artificielles.Modèle de Lotka-VolterraLes modèles de Lotka-Volterra sont des sytèmes d’équations simples qui sont apparus au début du 20ème siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre Elements of Physical Biology. Contrairement au modèle de Verlhust qui s’intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l’autres.   Proie-prédateurLe modèle proie-prédateur de Lotka-Volterra a permis d’expliquer des données collectées de certaines populations d’animaux comme le lynx et lièvre ainsi que le loup et l’élan aux Etats-Unis. On y représente l’évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :[\left{  \begin{array}{ccc}    x’(t) = x(t)\ \big(\alpha - \beta y(t)\big)     y’(t) = y(t)\ \big( \delta x(t) - \gamma\big)  \end{array}\right.]où:  $\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs  $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs.pas de solution analytiqueNote: On parle de système autonome : le temps $t$ n’apparaît pas explicitement dans les équations.   Attention: Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.animation pixellique de lapin et renardCompétition[\left{  \begin{array}{ccc}    x_1’(t) = r_1x_1(t)\left(1- \frac{x_1(t)+\alpha_{12}x_2(t)}{K_1}\right)     x_2’(t) = r_2x_2(t)\left(1- \frac{x_2(t)+\alpha_{21}x_1(t)}{K_2}\right)  \end{array}\right.]Runge Kuttamethode numerique d’approximation de solutions d’equations différentielles, elle calcule itérativement des estimations de plus en plus préciseanimation courbe qui approche petit à petit une solution theorique">
+    <meta itemprop="datePublished" content="2021-08-12T04:18:30+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/posts/2021-08-11-dynamique_des_populations/" class="u-url" itemprop="url">Dynamique des populations
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute(s) de lecture
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p class="text-justify">Parmis les enjeux du 21<sup>ème</sup> siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu’elle peut permettre de répondre à des problèmes variés comme la gestion d’espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.</p>
+
+<h2 id="modèle-de-verhulst">Modèle de Verhulst</h2>
+
+<p>A la fin du 18<sup>ème</sup> siècle, le modèle de <strong>Malthus</strong> décrit la variation d’une taille de population $y$ au cours du temps $t$ par l’équation différentielle :</p>
+
+\[y'(t) = (n-m) y(t) = r y(t)\]
+
+<p>avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n’augmentera jamais à l’infini.</p>
+
+<p align="center">
+   <img src="/assets/images/malthus_verlhust_photos.png" width="50%" />
+</p>
+
+<p>En 1840, <strong>Verlhust</strong> propose un modèle de croissance plus adapté en partant de l’hypothèse que le taux de croissance $r$ n’est pas une constante mais est fonction affine de la taille de population $y$ :</p>
+
+\[y'(t) = \big(n(y) - m(y)\big) y(t)\]
+
+<p>Verlhust part notamment de l’hypothèse que plus la taille d’une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l’équation différentielle précédente peut se réécrire sous la forme :</p>
+
+\[y'(t) = r y(t) \left(1 - \frac{y(t)}{K}\right)\]
+
+<p>avec $K$ une constante appelée <em>capacité d’accueil</em>. On peut résoudre analytiquement cette équation avec la condition initiale $y(t=0)=y_0$, on obtient la <strong>solution logistique</strong> :</p>
+
+\[y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}}\]
+
+<p align="center">
+   <img src="/assets/images/verlhust_graph.png" width="70%" />
+</p>
+
+<details class="notice--primary">
+  <summary>Résolution détaillée de l'équation différentielle logistique par séparation de variable</summary>
+
+  $$
+  \begin{align*}
+    \int_{y_0}^{y(t)} \frac{1}{y(1-y/K)}dy &amp;= \int_0^t r \ d\tau \\
+    \int_{y_0}^{y(t)} \frac{K}{y(K-y)}dy &amp;= \int_0^t r \ d\tau \\
+    \int_{y_0}^{y(t)} \frac{1}{y}dy +  \int_{y_0}^{y(t)} \frac{1}{K-1}dy &amp;= \int_0^t r \ d\tau \\
+    \ln \left| \frac{y(t)}{y_0} \right| - \ln \left| \frac{K-y(t)}{K-y_0} \right| &amp;= r \ t \\
+    \ln \left( \frac{y(t)\big(K-y_0\big)}{y_0\big(K-y(t)\big)} \right) &amp;= r \ t \\
+    \frac{y(t)}{K-y(t)} &amp;= \frac{y_0}{K-y_0}e^{rt} \\
+    y(t)\left(1+\frac{y_0}{K-y_0}e^{rt} \right) &amp;= \frac{K y_0 e^{rt}}{K-y_0} \\
+    y(t) &amp;= \frac{Ky_0e^{rt}}{K-y_0+y_0e^{rt}} \\
+    y(t) &amp;= \frac{K y_0}{(K-y_0)e^{-rt}+y_0} \\
+  \end{align*} \\
+  \square
+  $$
+</details>
+
+<p class="text-justify">On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut importe la taille de la population initiale $y_0$, la population finira toujours par tendre vers $K$ la capacité d’accueil qu’on qualifie souvent comme le nombre d’individus maximal que le milieu peut accueillir (selon l’espace, les ressources …). Cette <a href="https://fr.wikipedia.org/wiki/Fonction_logistique_(Verhulst)">fonction dite logistique</a> introduite pour la première fois par Verlhust pour modéliser la croissance des populations trouvera par la suite plein d’application dans des domaines variés comme l’économie, la chimie, les statistiques et plus récemment les réseaux de neurones artificielles.</p>
+
+<h2 id="modèle-de-lotka-volterra">Modèle de Lotka-Volterra</h2>
+
+<p>Les modèles de Lotka-Volterra sont des sytèmes d’équations simples qui sont apparus au début du 20<sup>ème</sup> siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre <em>Elements of Physical Biology</em>. Contrairement au modèle de Verlhust qui s’intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l’autres.</p>
+
+<p align="center">
+   <img src="/assets/images/lotka_volterra_photos.png" width="50%" />
+</p>
+
+<h3 id="proie-prédateur"><em>Proie-prédateur</em></h3>
+
+<p>Le modèle proie-prédateur de Lotka-Volterra a permis d’expliquer des données collectées de certaines populations d’animaux comme le lynx et lièvre ainsi que le loup et l’élan aux Etats-Unis. On y représente l’évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :</p>
+
+\[\left\{
+  \begin{array}{ccc}
+    x'(t) = x(t)\ \big(\alpha - \beta y(t)\big) \\
+    y'(t) = y(t)\ \big( \delta x(t) - \gamma\big)
+  \end{array}
+\right.\]
+
+<p>où:</p>
+
+<ul>
+  <li>$\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs</li>
+  <li>$\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs.</li>
+</ul>
+
+<p>pas de solution analytique</p>
+
+<p class="notice--primary"><strong>Note:</strong> On parle de système <strong>autonome</strong> : le temps $t$ n’apparaît pas explicitement dans les équations.</p>
+
+<p align="center">
+   <img src="/assets/images/lotka_volterra_graph.png" width="100%" />
+</p>
+
+<p class="notice--danger"><strong>Attention:</strong> Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.</p>
+
+<p>animation pixellique de lapin et renard</p>
+
+<h3 id="compétition"><em>Compétition</em></h3>
+
+\[\left\{
+  \begin{array}{ccc}
+    x_1'(t) = r_1x_1(t)\left(1- \frac{x_1(t)+\alpha_{12}x_2(t)}{K_1}\right) \\
+    x_2'(t) = r_2x_2(t)\left(1- \frac{x_2(t)+\alpha_{21}x_1(t)}{K_2}\right)
+  \end{array}
+\right.\]
+
+<h2 id="runge-kutta">Runge Kutta</h2>
+
+<p>methode numerique d’approximation de solutions d’equations différentielles, elle calcule itérativement des estimations de plus en plus précise</p>
+
+<p>animation courbe qui approche petit à petit une solution theorique</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#math%C3%A9matiques-appliqu%C3%A9es" class="page__taxonomy-item" rel="tag">mathématiques appliquées</a><span class="sep">, </span>
+    
+      <a href="/tags/#mod%C3%A9lisation" class="page__taxonomy-item" rel="tag">modélisation</a><span class="sep">, </span>
+    
+      <a href="/tags/#%C3%A9cologie" class="page__taxonomy-item" rel="tag">écologie</a><span class="sep">, </span>
+    
+      <a href="/tags/#%C3%A9quation-logistique" class="page__taxonomy-item" rel="tag">équation logistique</a><span class="sep">, </span>
+    
+      <a href="/tags/#%C3%A9quations-diff%C3%A9rentielles-ordinaires" class="page__taxonomy-item" rel="tag">équations différentielles ordinaires</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Catégories : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Mis à jour :</strong> <time datetime="2021-08-12T04:18:30+02:00">August 12, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/posts/2021-08-02-objet_fractal/" class="pagination--pager" title="Objet Fractal : Dimension, Auto-similarité, Infini
+">Précédent</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Suivant</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Entrez votre recherche..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Contact</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        
+      
+        
+          <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Flux</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 Blog du Julien. Propulsé par <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'julienguegan/julienguegan.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
