@@ -16,6 +16,8 @@ gallery:
   - image_path: /assets/images/fractal_1.png
   - image_path: /assets/images/fractal_2.png
   - image_path: /assets/images/fractal_3.png
+header:
+  teaser: /assets/images/teaser_fractal.jfif
 ---
 
 > *Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. "Bon sang ! Mais c'est bien sûr !". Peut-être n'avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.*
@@ -28,6 +30,7 @@ gallery:
 ## Introduction
 
 Comme vous l'aurez compris si vous avez regardé l'excellent documentaire d'ARTE ci-dessus, les fractales sont des objets géométriques *infiniment morcelés* qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d'un choux de romanesco, la structure des poumons ...) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages ...).
+{: .text-justify}
 
 <p align="center">
    <img src="/assets/images/fractals_in_nature.png" width="100%"/>
@@ -51,6 +54,7 @@ Maintenant, on cherche à trouver la dimension d'une figure fractale simple. La 
 $$ D = -\frac{\log N}{\log \varepsilon} $$
 
 Si on s'intéresse à une figure telle que la courbe de Von Koch qui consiste, à partir d'un segment, construire récursivement des triangles équilatéraux sur chaque sous-segment (cf animation ci-dessous). En comptant les segments à chaque nouvelle mise à l'échelle, on comprends que la longueur de la courbe de Koch est multipliée par $4$ pour chaque mise à l'échelle $\varepsilon=\frac{1}{3}$ (on divise les segments par 3). On trouve donc que sa dimension est $D = \frac{\log 4}{\log 3} \approx 1.26$. Il ne s'agit pas d'une simple courbe unidimensionelle, ni d'une surface mais quelque chose "entre les deux".
+{: .text-justify}
 
 <p align="center">
   <img src="/assets/images/von_koch.gif" width="60%"/>
@@ -95,6 +99,7 @@ M = np.zeros((size,size))
 ```
 
 Pour pouvoir travailler avec des nombres complexes, j'ai choisi de décomposer la partie réelle `z_reel` et la partie imaginaire `z_image`. Ensuite, on teste la convergence pour un point donné en regardant si on a pas dépassé un nombre fini d'itération `n_iter < itermax`. On peut également, en plus, vérifier que la suite $(z_n)$ est divergente si son module est strictement supérieur à $2$, `z_reel**2 + z_imag**2 < 4` (cf [demonstration](https://fr.wikipedia.org/wiki/Ensemble_de_Mandelbrot#Barri%C3%A8re_du_module_%C3%A9gal_%C3%A0_2)). Finalement, on peut remplir une matrice `M` de $0$ ou de $1$ selon le test de convergence. Mais, pour un rendu visuelle final plus estéthique on peut également remplir la matrice `M` selon le taux de convergence estimé avec `n_iter/itermax`.
+{: .text-justify}
 
 ```python
 # LOOP ON ALL PIXEL = COMPLEX PLANE
@@ -128,6 +133,7 @@ On remarque que les figures obtenues varient grandement en fonction de la valeur
 ## Ensemble de Mandelbrot
 
 L'ensemble de Mandelbrot est fortement lié aux ensembles de Julia, en effet on peut définir l'ensemble de Mandelbrot $M$ comme l'ensemble des complexes $c$ pour lesquels l'ensemble de Julia $J_c$ correspondant est **connexe**, c'est-à-dire qu'il est fait d'un seul morceau. On peut dire que l'ensemble de Mandelbrot représente une carte des ensembles de Julia. Et, contrairement au nom qu'il porte, c'est les mathématiciens Julia et Fatou qui l'ont découvert et qui ont montré que la définition précédente est équivalente à l'ensemble des points $c$ du plan complexe $\mathbb{C}$ pour lesquels la suite suivante est bornée :
+{: .text-justify}
 
 $$
 \left\{
@@ -150,8 +156,10 @@ Cette définition est très similaire à celle de l'ensemble de Julia à la diff
 ## Logiciels
 
 La génération de fractale n'est pas une tâche facile : beaucoup de paramètres peuvent être à prendre en compte et les temps de calcul sont souvent long. Dans les figures que j'ai généré, on ne voit pas au premiers abords le caractère auto-similaire des fractales, il faudrait changer d'échelle en zoomant de plus en plus profond sur un point du plan.
+{: .text-justify}
 
 Il existe de nombreux logiciels générateur de fractal gratuits disponibles. Ils sont souvent optimisés pour faire du multi-processing ou du calcul sur GPU, possèdent une interface graphique pour gérer les nombreux paramètres et sont parfois capables de créer des objets 3D (comme les 3 affichés ci-dessous). Une liste assez complète est disponible [ici](https://en.wikipedia.org/wiki/Fractal-generating_software#Programs).
+{: .text-justify}
 
 | ![image](/assets/images/mandelbulb3d.png)     | ![image](/assets/images/mandelbulber.png) | ![image](/assets/images/fragmentarium.png) |
 |:---------------------------------------------:| :----------------------------------------:| :-----------------------------------------: |

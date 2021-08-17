@@ -131,3 +131,53 @@ analytics:
   google:
     tracking_id: "G-TY0R5MX0LD"
     anonymize_ip: false # default
+
+locale: "fr-FR"
+
+social:
+  type: Person
+  name: Julien Guégan
+  links:
+    - "https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/"
+    - "https://www.facebook.com/julien.guegan.754"
+    - "https://github.com/julienguegan"
+    - "https://www.instagram.com/julien_guegan_/?hl=fr"
+
+collections:
+  posts:
+    output: true
+    permalink: /:collection/:path/
+
+# Reading Files
+include:
+  - .htaccess
+  - _pages
+exclude:
+  - "*.sublime-project"
+  - "*.sublime-workspace"
+  - vendor
+  - .asset-cache
+  - .bundle
+  - .jekyll-assets-cache
+  - .sass-cache
+  - assets/js/plugins
+  - assets/js/_main.js
+  - assets/js/vendor
+  - Capfile
+  - CHANGELOG
+  - config
+  - Gemfile
+  - Gruntfile.js
+  - gulpfile.js
+  - LICENSE
+  - log
+  - node_modules
+  - package.json
+  - Rakefile
+  - README
+  - tmp
+keep_files:
+  - .git
+  - .svn
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
