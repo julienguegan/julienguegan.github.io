@@ -71,6 +71,7 @@ On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut 
 ## Modèle de Lotka-Volterra
 
 Les modèles de Lotka-Volterra sont des sytèmes d'équations simples qui sont apparus au début du 20<sup>ème</sup> siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre _Elements of Physical Biology_. Contrairement au modèle de Verlhust qui s'intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l'autres.
+{: .text-justify}
 
 <p align="center">
    <img src="/assets/images/lotka_volterra_photos.png" width="50%"/>
@@ -79,6 +80,7 @@ Les modèles de Lotka-Volterra sont des sytèmes d'équations simples qui sont a
 ### *Proie-prédateur*
 
 Le modèle proie-prédateur de Lotka-Volterra a permis d'expliquer des données collectées de certaines populations d'animaux comme le lynx et lièvre ainsi que le loup et l'élan aux Etats-Unis. On y représente l'évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :
+{: .text-justify}
 
 $$
 \left\{
@@ -89,24 +91,70 @@ $$
 \right.
 $$
 
-où:
+avec les paramètres $\alpha$ et $\delta$ sont les taux de reproduction respectivement des proies et des prédateurs et $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs. 
+{: .text-justify}
 
-- $\alpha$ et $\delta$ sont les taux de reproduction, respectivement, des proies et des prédateurs
-- $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs.
-
-pas de solution analytique
-
-**Note:** On parle de système **autonome** : le temps $t$ n'apparaît pas explicitement dans les équations.
+**Note:** On parle de système autonome : le temps $t$ n'apparaît pas explicitement dans les équations.
 {: .notice--primary}
 
-<p align="center">
-   <img src="/assets/images/lotka_volterra_graph.png" width="100%"/>
-</p>
-
-**Attention:** Les unités de la simulation ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.
-{: .notice--danger}
+Si on développe chacune des équations, on peut plus facilement donner une interprétation. Pour les proies, on a d'une part le terme $\alpha x(t)$ qui modélise la croissance exponentielle avec une source illimitée de nourriture et d'autre part $- \beta x(t) y(t)$ qui représente la prédation proportionnelle à la fréquence de rencontre entre prédateurs et proies. L'équation des prédateurs est très semblable à celle des proies, $\delta x(t)y(t)$ est la croissance des prédateurs proportionnelle à la quantité de nourriture disponible (les proies) et $- \gamma y(t)$ représente la mort naturelle des prédateurs.
+{: .text-justify}
 
 animation pixellique de lapin et renard
+
+On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#méthode-numérique-pour-les-EDO)).
+{: .text-justify}
+
+```python
+# define ODE to resolve
+r, c, m, b = 3, 4, 1, 2
+def lotka_volterra(XY, t=0):
+    dX = r*XY[0] - c*XY[0]*XY[1]
+    dY = b*XY[0]*XY[1] - m*XY[1]
+    return [dX, dY]
+```
+```python
+# discretization
+T0   = 0
+Tmax = 12
+n    = 200
+T    = np.linspace(T0, Tmax, n) 
+```
+```python
+# TEMPORAL DYNAMIC
+solution = integrate.odeint(lotka_volterra, X0, T) # use scipy solver
+```
+<p align="center">
+   <img src="/assets/images/lotka_volterra_graph2.png" width="70%"/>
+</p>
+```python
+# PHASES SPACE
+# some trajectories
+orbits = []
+for i in range(5):
+    X0    = [0.2+i*0.1, 0.2+i*0.1]
+    orbit = integrate.odeint(lotka_volterra, X0, T)
+    orbits.append(orbit) 
+# vector field
+x, y             = np.linspace(0, 2.5, 20), np.linspace(0, 2, 20)
+X_grid, Y_grid   = np.meshgrid(x, y)                      
+DX_grid, DY_grid = lotka_volterra([X_grid, Y_grid])
+N                = np.sqrt(DX_grid ** 2 + DY_grid ** 2) 
+N[N==0]          = 1
+DX_grid, DY_grid = DX_grid/N, DY_grid/N
+```
+
+<p align="center">
+   <img src="/assets/images/lotka_volterra_graph1.png" width="70%"/>
+</p>
+
+**Attention:** Les unités des simulations ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.
+{: .notice--danger}
+
+Dans le modèle utilisé, les prédateurs prospèrent lorsque les proies sont nombreuses, mais finissent par épuiser leurs ressources et déclinent. Lorsque la population de prédateurs a suffisamment diminué, les proies profitant du répit se reproduisent et leur population augmente de nouveau. Cette dynamique se poursuit en un cycle de croissance et déclin. Il existe 2 équilibres : le point $(0,0)$ est un point de selle instable qui montre que l'extinction des 2 espèce est difficile à obtenir et le point $(\frac{\gamma}{\delta}, \frac{\alpha}{\beta})$ est un centre stable, les populations oscillent autour cet état.
+
+**Note:** Cette modélisation reste assez simple, un grande nombre de variante existe. On peut rajouter des termes de disparition des 2 espèces (dus à la pêche, chasse ...), tenir compte de la capacité d'accueil du milieu en ajoutant un terme logistique.
+{: .notice--info}
 
 ### *Compétition*
 
@@ -119,7 +167,7 @@ $$
 \right.
 $$
 
-## Runge Kutta
+## Méthode numérique pour les EDO
 
 methode numerique d'approximation de solutions d'equations différentielles, elle calcule itérativement des estimations de plus en plus précise
 
