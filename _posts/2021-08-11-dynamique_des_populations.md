@@ -102,13 +102,13 @@ Si on développe chacune des équations, on peut plus facilement donner une inte
 
 animation pixellique de lapin et renard
 
-On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#méthode-numérique-pour-les-EDO)).
+On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#Méthode-numérique-pour-les-EDO)).
 {: .text-justify}
 
 ```python
-# define ODE to resolve
+# define ODE function to resolve
 r, c, m, b = 3, 4, 1, 2
-def lotka_volterra(XY, t=0):
+def prey_predator(XY, t=0):
     dX = r*XY[0] - c*XY[0]*XY[1]
     dY = b*XY[0]*XY[1] - m*XY[1]
     return [dX, dY]
@@ -122,7 +122,7 @@ T    = np.linspace(T0, Tmax, n)
 ```
 ```python
 # TEMPORAL DYNAMIC
-solution = integrate.odeint(lotka_volterra, X0, T) # use scipy solver
+solution = integrate.odeint(prey_predator, X0, T) # use scipy solver
 ```
 <p align="center">
    <img src="/assets/images/lotka_volterra_graph2.png" width="70%"/>
@@ -133,12 +133,12 @@ solution = integrate.odeint(lotka_volterra, X0, T) # use scipy solver
 orbits = []
 for i in range(5):
     X0    = [0.2+i*0.1, 0.2+i*0.1]
-    orbit = integrate.odeint(lotka_volterra, X0, T)
+    orbit = integrate.odeint(prey_predator, X0, T)
     orbits.append(orbit) 
 # vector field
 x, y             = np.linspace(0, 2.5, 20), np.linspace(0, 2, 20)
 X_grid, Y_grid   = np.meshgrid(x, y)                      
-DX_grid, DY_grid = lotka_volterra([X_grid, Y_grid])
+DX_grid, DY_grid = prey_predator([X_grid, Y_grid])
 N                = np.sqrt(DX_grid ** 2 + DY_grid ** 2) 
 N[N==0]          = 1
 DX_grid, DY_grid = DX_grid/N, DY_grid/N
@@ -152,11 +152,14 @@ DX_grid, DY_grid = DX_grid/N, DY_grid/N
 {: .notice--danger}
 
 Dans le modèle utilisé, les prédateurs prospèrent lorsque les proies sont nombreuses, mais finissent par épuiser leurs ressources et déclinent. Lorsque la population de prédateurs a suffisamment diminué, les proies profitant du répit se reproduisent et leur population augmente de nouveau. Cette dynamique se poursuit en un cycle de croissance et déclin. Il existe 2 équilibres : le point $(0,0)$ est un point de selle instable qui montre que l'extinction des 2 espèce est difficile à obtenir et le point $(\frac{\gamma}{\delta}, \frac{\alpha}{\beta})$ est un centre stable, les populations oscillent autour cet état.
+{: .text-justify}
 
-**Note:** Cette modélisation reste assez simple, un grande nombre de variante existe. On peut rajouter des termes de disparition des 2 espèces (dus à la pêche, chasse ...), tenir compte de la capacité d'accueil du milieu en ajoutant un terme logistique.
+**Note:** Cette modélisation reste assez simple, un grande nombre de variante existe. On peut rajouter des termes de disparition des 2 espèces (dus à la pêche, chasse, pesticide ...), tenir compte de la capacité d'accueil du milieu en utilisant un terme logistique.
 {: .notice--info}
 
 ### *Compétition*
+
+Le modèle de compétition de Lotka-Volterra est une variante du modèle de prédation où les 2 espèces n'ont pas une hierarchie de proies et prédateurs mais sont en compétition l'une et l'autre. De plus, la dynamique de base n'est plus une simple croissance exponentielle mais logistique (avec les paramètres $r_i$ et $K_i$) : 
 
 $$
 \left\{
@@ -167,8 +170,44 @@ $$
 \right.
 $$
 
+avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
+{: .text-justify}
+
+Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer, comme précédemment, les diagrammes d'espace de phase. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition :
+
+<p align="center">
+   <img src="/assets/images/lotka_volterra_graph3.png" width="70%"/>
+</p>
+
+```python
+# define ODE to resolve
+r1, K1 = 3, 1
+r2, K2 = 3, 1
+def competition(X1X2, a1, a2):
+    dX1 = r1*X1X2[0] * (1-(X1X2[0]+a1*X1X2[1])/K1)
+    dX2 = r2*X1X2[1] * (1-(X1X2[1]+a2*X1X2[0])/K2)
+    return [dX1, dX2]
+```
+```python
+# compute derivatives for each scenario
+N = 20
+x, y = np.linspace(0, 2.5, N), np.linspace(0, 2, N)
+X_grid, Y_grid = np.meshgrid(x, y)
+DX_grid, DY_grid = np.zeros((4,N,N)), np.zeros((4,N,N))
+coeffs = np.array([[1.5,1.5],[0.5,0.5],[1.5,0.5],[0.5,1.5]])
+for k,(a1,a2) in enumerate(coeffs):
+    DX_grid[k,:], DY_grid[k,:] = competition([X_grid, Y_grid], a1, a2)
+```
+
+
 ## Méthode numérique pour les EDO
 
 methode numerique d'approximation de solutions d'equations différentielles, elle calcule itérativement des estimations de plus en plus précise
 
 animation courbe qui approche petit à petit une solution theorique
+
+<p align="center">
+   <img src="/assets/images/numerical_ODE.gif" width="70%"/>
+</p>
+
+[![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://shields.io/) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/)
