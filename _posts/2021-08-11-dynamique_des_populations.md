@@ -120,13 +120,17 @@ Tmax = 12
 n    = 200
 T    = np.linspace(T0, Tmax, n) 
 ```
+Je calcule ici l'évolution des 2 populations en fonction du temps pour une condition initiale fixée, on voit qu'elles ont un comportement périodique et en décalage de phase.
 ```python
 # TEMPORAL DYNAMIC
+X0 = [1,1]
 solution = integrate.odeint(prey_predator, X0, T) # use scipy solver
 ```
 <p align="center">
    <img src="/assets/images/lotka_volterra_graph2.png" width="70%"/>
 </p>
+
+Ici, je calcule plusieurs solutions pour différentes conditions initiales que j'affiche dans l'espace de phase (le temps n'appararaît pas). J'affiche également le champ de vecteur généré par le système d'équation avec `plt.quiver()` pour une grille de valeur.
 ```python
 # PHASES SPACE
 # some trajectories
@@ -173,7 +177,7 @@ $$
 avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
 {: .text-justify}
 
-Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer, comme précédemment, les diagrammes d'espace de phase. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition :
+Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer, comme précédemment, les diagrammes d'espace de phase $(x_1,x_2)$. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition, j'affiche ci-dessous les espaces de phases de ces 4 scénarios avec `plt.streamplot` :
 
 <p align="center">
    <img src="/assets/images/lotka_volterra_graph3.png" width="70%"/>
@@ -198,6 +202,11 @@ coeffs = np.array([[1.5,1.5],[0.5,0.5],[1.5,0.5],[0.5,1.5]])
 for k,(a1,a2) in enumerate(coeffs):
     DX_grid[k,:], DY_grid[k,:] = competition([X_grid, Y_grid], a1, a2)
 ```
+
+- scenario 1
+- scenario 2
+- scenario 3
+- scenario 4
 
 
 ## Méthode numérique pour les EDO
