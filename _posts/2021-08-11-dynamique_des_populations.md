@@ -177,7 +177,7 @@ $$
 avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
 {: .text-justify}
 
-Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer, comme précédemment, les diagrammes d'espace de phase $(x_1,x_2)$. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition, j'affiche ci-dessous les espaces de phases de ces 4 scénarios avec `plt.streamplot` :
+Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer, comme précédemment, les diagrammes d'espace de phase $(x_1,x_2)$. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition, j'affiche ci-dessous les champs de vecteurs de ces scénarios avec `plt.streamplot()` ainsi que les isoclines, les courbes pour lesquelles $x_1'(t)=0$ ou $x_2'(t)=0$:
 
 <p align="center">
    <img src="/assets/images/lotka_volterra_graph3.png" width="70%"/>
@@ -203,10 +203,10 @@ for k,(a1,a2) in enumerate(coeffs):
     DX_grid[k,:], DY_grid[k,:] = competition([X_grid, Y_grid], a1, a2)
 ```
 
-- scenario 1
-- scenario 2
-- scenario 3
-- scenario 4
+1. scenario 1
+2. scenario 2
+3. scenario 3
+4. scenario 4
 
 
 ## Méthode numérique pour les EDO
@@ -219,4 +219,6 @@ animation courbe qui approche petit à petit une solution theorique
    <img src="/assets/images/numerical_ODE.gif" width="70%"/>
 </p>
 
-[![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://shields.io/) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/)
+---
+
+[![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/dynamique_population.ipynb) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/)
