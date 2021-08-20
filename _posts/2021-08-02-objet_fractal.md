@@ -164,3 +164,7 @@ Il existe de nombreux logiciels générateur de fractal gratuits disponibles. Il
 | ![image](/assets/images/mandelbulb3d.png)     | ![image](/assets/images/mandelbulber.png) | ![image](/assets/images/fragmentarium.png) |
 |:---------------------------------------------:| :----------------------------------------:| :-----------------------------------------: |
 | [Mandelbul3D](https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/)| [Mandelbuler](https://mandelbulber.com/) |  [Fragmentarium](https://syntopia.github.io/Fragmentarium/get.html) |
+
+---
+
+[![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/fractale.ipynb) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/)
