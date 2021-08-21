@@ -100,7 +100,9 @@ avec les paramètres $\alpha$ et $\delta$ sont les taux de reproduction respecti
 Si on développe chacune des équations, on peut plus facilement donner une interprétation. Pour les proies, on a d'une part le terme $\alpha x(t)$ qui modélise la croissance exponentielle avec une source illimitée de nourriture et d'autre part $- \beta x(t) y(t)$ qui représente la prédation proportionnelle à la fréquence de rencontre entre prédateurs et proies. L'équation des prédateurs est très semblable à celle des proies, $\delta x(t)y(t)$ est la croissance des prédateurs proportionnelle à la quantité de nourriture disponible (les proies) et $- \gamma y(t)$ représente la mort naturelle des prédateurs.
 {: .text-justify}
 
-animation pixellique de lapin et renard
+<p align="center">
+   <img src="/assets/images/fox_rabbit.gif" width="70%"/>
+</p>
 
 On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#Méthode-numérique-pour-les-EDO)).
 {: .text-justify}
@@ -131,6 +133,7 @@ solution = integrate.odeint(prey_predator, X0, T) # use scipy solver
 </p>
 
 Ici, je calcule plusieurs solutions pour différentes conditions initiales que j'affiche dans l'espace de phase (le temps n'appararaît pas). J'affiche également le champ de vecteur généré par le système d'équation avec `plt.quiver()` pour une grille de valeur.
+
 ```python
 # PHASES SPACE
 # some trajectories
@@ -203,17 +206,69 @@ for k,(a1,a2) in enumerate(coeffs):
     DX_grid[k,:], DY_grid[k,:] = competition([X_grid, Y_grid], a1, a2)
 ```
 
-1. scenario 1
-2. scenario 2
-3. scenario 3
-4. scenario 4
+Au final, les 4 comportements possibles en fonction de $\alpha_{12}$ et $\alpha_{21}$ sont les suivants :
 
+1. Exclusion compétitive d'une des deux espèces en fonction des conditions initiales.
+2. Coexistence stable des deux espèces.
+3. Exclusion compétitive de l'espèce 1 par l'espèce 2.
+4. Exclusion compétitive de l'espèce 2 par l'espèce 1.
+
+La coexistence stable des 2 espèces n'est possible que si $\alpha_{12} < 1$ et $\alpha_{21} < 1$, c'est-à-dire qu'il faut que la *compétition interspécifique* soit plus faible que la *compétition intraspécifique*.
 
 ## Méthode numérique pour les EDO
 
-methode numerique d'approximation de solutions d'equations différentielles, elle calcule itérativement des estimations de plus en plus précise
+Cette section est un petit peu hors-sujet du post puisque j'y introduis les méthodes numériques pour résoudre les équations différentielles. Il est possible de déduire de nombreuses propriétés d'un système d'EDO en se basant sur les théorèmes mathématiques pour la théorie des systèmes dynamiques (comme [méthode de Lyapunov](https://fr.wikipedia.org/wiki/Stabilit%C3%A9_de_Liapounov), [invariance de LaSalle](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [théorème de Poincaré-Bendixon](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) mais seules un nombre restreint d'équations différentielles admettent une solution analytique. En pratique, on préfère souvent avoir une méthode qui calcule une solution approximative du problème. On considère le problème $y'(t) = f\big(t,y(t)\big)$ avec $y(t_0)=y_0$. L'idée des méthodes numériques est de résoudre le problème sur un ensemble discret de points $(t_n,y_n)$ avec $h_n=t_{n+1}-t_n$, le pas de temps discrétisé.
+{: .text-justify}
 
-animation courbe qui approche petit à petit une solution theorique
+**Euler**
+
+```python
+def Euler_method(f, y0, t):
+    y = np.zeros((len(t), len(y0)))
+    y[0,:] = y0
+    for i in range(len(t)-1):
+        y[i+1] = y[i] + h*f(y[i], t[i])
+    return y
+```
+<p align="center">
+   <img src="/assets/images/euler_method.png" width="50%"/>
+</p>
+
+**Runge-Kutta**
+
+```python
+def RungeKutta4_method(f, y0, t):
+    y = np.zeros((len(t), len(y0)))
+    y[0] = y0
+    for i in range(len(t)-1):
+        k1 = f(y[i], t[i])
+        k2 = f(y[i]+k1*h/2, t[i]+h/2)
+        k3 = f(y[i]+k2*h/2, t[i]+h/2)
+        k4 = f(y[i]+k3*h, t[i]+h)
+        y[i+1] = y[i] + (h/6) * (k1 + 2*k2 + 2*k3 + k4)
+    return y
+```
+<p align="center">
+   <img src="/assets/images/rungekutta_method.png" width="70%"/>
+</p>
+
+
+```python
+# initial condition
+y0 = [2, 0]
+# discretization
+t = np.linspace(0, 5*pi, 100)
+h = t[1] - t[0]
+# ODE formulation
+def problem(y, t):
+    return np.array([y[1], -y[0]])
+# analytic solution
+def exact_solution(t):
+    return y0[0]*np.cos(t)
+y_exact = exact_solution(t)
+y_euler = Euler_method(problem, y0, t)[:, 0]
+y_rk4   = RungeKutta4_method(problem, y0, t)[:, 0]    
+```
 
 <p align="center">
    <img src="/assets/images/numerical_ODE.gif" width="70%"/>
