@@ -12,7 +12,7 @@ repository: "julienguegan/julienguegan.github.io"
 # Site settings
 title: Blog du Julien
 email: julienguegan56520@gmail.com
-description: Mon blog où j'écris des trucs à propos de machins.
+description: Blog personnel de Julien GUEGAN, ingénieur calcul et IA. Vous y trouverez divers articles sur des sujets qui l'intéressent, la plupart du temps scientifiques et techniques.
 github_username: julienguegan
 minimal_mistakes_skin: default
 search: true
