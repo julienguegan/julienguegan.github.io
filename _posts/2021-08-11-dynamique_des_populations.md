@@ -15,7 +15,10 @@ header:
 ---
 
 Parmis les enjeux du 21<sup>ème</sup> siècle, l'écologie a un rôle majeure puisqu'elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s'intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu'elle peut permettre de répondre à des problèmes variés comme la gestion d'espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.
-{: .text-justify}
+
+<p align="center">
+   <img src="/assets/images/ecologie.png"/>
+</p>
 
 ## Modèle de Verhulst
 
@@ -67,12 +70,10 @@ $$ y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}} $$
 </details> {: .notice--primary}
 
 On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut importe la taille de la population initiale $y_0$, la population finira toujours par tendre vers $K$ la capacité d'accueil qu'on qualifie souvent comme le nombre d’individus maximal que le milieu peut accueillir (selon l'espace, les ressources ...). Cette [fonction dite logistique](https://fr.wikipedia.org/wiki/Fonction_logistique_(Verhulst)) introduite pour la première fois par Verlhust pour modéliser la croissance des populations trouvera par la suite plein d'application dans des domaines variés comme l'économie, la chimie, les statistiques et plus récemment les réseaux de neurones artificielles.
-{: .text-justify}
 
 ## Modèle de Lotka-Volterra
 
 Les modèles de Lotka-Volterra sont des sytèmes d'équations simples qui sont apparus au début du 20<sup>ème</sup> siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre _Elements of Physical Biology_. Contrairement au modèle de Verlhust qui s'intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l'autres.
-{: .text-justify}
 
 <p align="center">
    <img src="/assets/images/lotka_volterra_photos.png" width="50%"/>
@@ -81,7 +82,6 @@ Les modèles de Lotka-Volterra sont des sytèmes d'équations simples qui sont a
 ### *Proie-prédateur*
 
 Le modèle proie-prédateur de Lotka-Volterra a permis d'expliquer des données collectées de certaines populations d'animaux comme le lynx et lièvre ainsi que le loup et l'élan aux Etats-Unis. On y représente l'évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :
-{: .text-justify}
 
 $$
 \left\{
@@ -93,20 +93,17 @@ $$
 $$
 
 avec les paramètres $\alpha$ et $\delta$ sont les taux de reproduction respectivement des proies et des prédateurs et $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs. 
-{: .text-justify}
 
 **Note:** On parle de système autonome : le temps $t$ n'apparaît pas explicitement dans les équations.
 {: .notice--primary}
 
 Si on développe chacune des équations, on peut plus facilement donner une interprétation. Pour les proies, on a d'une part le terme $\alpha x(t)$ qui modélise la croissance exponentielle avec une source illimitée de nourriture et d'autre part $- \beta x(t) y(t)$ qui représente la prédation proportionnelle à la fréquence de rencontre entre prédateurs et proies. L'équation des prédateurs est très semblable à celle des proies, $\delta x(t)y(t)$ est la croissance des prédateurs proportionnelle à la quantité de nourriture disponible (les proies) et $- \gamma y(t)$ représente la mort naturelle des prédateurs.
-{: .text-justify}
 
 <p align="center">
    <img src="/assets/images/fox_rabbit.gif" width="70%"/>
 </p>
 
 On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#méthode-numérique-pour-les-edo)).
-{: .text-justify}
 
 ```python
 # define ODE function to resolve
@@ -160,7 +157,6 @@ DX_grid, DY_grid = DX_grid/N, DY_grid/N
 {: .notice--danger}
 
 Dans le modèle utilisé, les prédateurs prospèrent lorsque les proies sont nombreuses, mais finissent par épuiser leurs ressources et déclinent. Lorsque la population de prédateurs a suffisamment diminué, les proies profitant du répit se reproduisent et leur population augmente de nouveau. Cette dynamique se poursuit en un cycle de croissance et déclin. Il existe 2 équilibres : le point $(0,0)$ est un point de selle instable qui montre que l'extinction des 2 espèce est difficile à obtenir et le point $(\frac{\gamma}{\delta}, \frac{\alpha}{\beta})$ est un centre stable, les populations oscillent autour cet état.
-{: .text-justify}
 
 **Note:** Cette modélisation reste assez simple, un grande nombre de variante existe. On peut rajouter des termes de disparition des 2 espèces (dus à la pêche, chasse, pesticide ...), tenir compte de la capacité d'accueil du milieu en utilisant un terme logistique.
 {: .notice--info}
@@ -179,7 +175,6 @@ $$
 $$
 
 avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
-{: .text-justify}
 
 <p align="center">
    <img src="/assets/images/competition_interspecific.jfif" width="60%"/>
@@ -222,13 +217,11 @@ La coexistence stable des 2 espèces n'est possible que si $\alpha_{12} < 1$ et 
 
 ## Méthode numérique pour les EDO
 
-Cette section est un petit peu à part du réel sujet de ce post puisque j'y introduis les méthodes numériques pour résoudre les équations différentielles. En effet, il est possible de déduire de nombreuses propriétés d'un système d'EDO en se basant sur les théorèmes mathématiques pour la théorie des systèmes dynamiques (comme [méthode de Lyapunov](https://fr.wikipedia.org/wiki/Stabilit%C3%A9_de_Liapounov), [invariance de LaSalle](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [théorème de Poincaré-Bendixon](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) mais seul un nombre restreint d'équations différentielles admettent une solution analytique. En pratique, on préfère souvent avoir une méthode qui calcule une solution approximative du problème. On considère le problème $$y'(t) = f\big(t,y(t)\big)$$ avec $y(t_0)=y_0$. L'idée des méthodes numériques est de résoudre le problème sur un ensemble discret de points $(t_n,y_n)$ avec $h_n=t_{n+1}-t_n$, un pas de temps fixé.
-{: .text-justify}
+Cette section est un petit peu à part du réel sujet de ce post puisque j'y introduis les méthodes numériques pour résoudre les équations différentielles. En effet, il est possible de déduire de nombreuses propriétés d'un système d'EDO en se basant sur les théorèmes mathématiques pour la théorie des systèmes dynamiques ([méthode de Lyapunov](https://fr.wikipedia.org/wiki/Stabilit%C3%A9_de_Liapounov), [invariance de LaSalle](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [théorème de Poincaré-Bendixon](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) mais seul un nombre restreint d'équations différentielles admettent une solution analytique. En pratique, on préfère souvent avoir une méthode qui calcule une solution approximative du problème à tout temps $t$. On considère le problème $$y'(t) = f\big(t,y(t)\big)$$ avec $y(t_0)=y_0$. L'idée des méthodes numériques est de résoudre le problème sur un ensemble discret de points $(t_n,y_n)$ avec $h_n=t_{n+1}-t_n$, un pas de temps fixé.
 
 **Euler**
 
 ![image-right](/assets/images/euler_method.png){: .align-right width="30%"} La méthode d'Euler est la plus basique des méthodes numériques pour EDO, elle utilise l'équation différentielle pour calculer la pente de la tangente à n'importe quel point de la courbe solution. La solution est approchée en partant du point initial $y_0$ connu pour lequel on calcule la tangente, on fait ensuite un pas de temps le long de cette tangente on obtient alors un nouveau point $y_1$. L'idée est de répéter ce processus, pour un pas de temps de $t_n$ à $t_{n+1}$ on peut l'écrire comme $y_{n+1} = y_n + h f(t_n,y_n)$.
-{: .text-justify}
 
 Cette méthode est très simple à mettre en place, par exemple en python :
 ```python
@@ -242,10 +235,15 @@ def Euler_method(f, y0, t):
 
 **Runge-Kutta**
 
-![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} And now we're going to shift things to the **right align**. Again, there should be plenty of room above, below, and to the left of the image. Just look at him there --- Hey guy! Way to rock that right side. I don't care what the left aligned image says, you look great. Don't let anyone else tell you differently. $ y_{n+1} = y_n + \frac{h}{6} (k_1+2k_2+2k_3+k_4) $
-{: .text-justify}
+![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} Les méthodes de Runge-Kutta sont unue famille de méthodes, la plus connue est celle d'ordre 4. Elle est plus précise que la méthode d'Euler en faisant une moyenne pondérée de 4 termes correspondant à différentes pentes de la courbe dans l'intervalle de temps fixé. On la définit par :
 
-test
+$$ y_{n+1} = y_n + \frac{h}{6} (k_1+2k_2+2k_3+k_4) $$
+
+avec :
+ - $k_1=f(t_n,y_n)$
+ - $k_2=f(t_n+h/2,y_n+hk_1/2)$
+ - $k_3=f(t_n+h/2,y_n+hk_2/2)$
+ - $k_4=f(t_n,y_n+hk_3)$
 
 ```python
 def RungeKutta4_method(f, y0, t):
@@ -261,6 +259,19 @@ def RungeKutta4_method(f, y0, t):
 ```
 
 **Exemple**
+
+Pour vérifier le comportement de ces méthodes, j'ai choisi de les testées sur un modèle bien connu de la physique : l'oscillateur harmonique. Dans forme la plus simple, on peut calculer exactement la solution du problème et donc comparer nos méthodes de résolution approchées. Le problème peut s'écrire :
+
+$$ 
+\left\{
+  \begin{array}{ccc}
+    y''(t) + y(t) = 0 \\
+    y(0) = y_0
+  \end{array}
+\right.
+$$
+
+et admet pour solution $ y(t) = y_0 \cos(t) $.
 
 ```python
 # initial condition
@@ -278,9 +289,11 @@ y_exact = exact_solution(t)
 y_euler = Euler_method(problem, y0, t)[:, 0]
 y_rk4   = RungeKutta4_method(problem, y0, t)[:, 0]    
 ```
-La méthode RK4 est une méthode d'ordre 4, ce qui signifie que l'erreur commise à chaque étape est de l'ordre de h5, alors que l'erreur totale accumulée est de l'ordre de h4.
 
-The Euler method is a first-order method, which means that the local error (error per step) is proportional to the square of the step size, and the global error (error at a given time) is proportional to the step size
+Comme attendu la méthode de Runge-Kutta est bien plus précise que la méthode d'Euler (mais plus lente). L'erreur des méthodes numériques diminue en fonction de la taille du pas de temps $h$ mais $h$ est petit et plus le temps de calcul est long. En pratique, pour analyser les méthodes numériques on se base sur 3 critères : 
+- la convergence qui garantit que la solution approchée est proche de la solution réelle.
+- l'ordre qui quantifie la qualité de l'approximation pour une itération. 
+- la stabilité qui juge du comportement de l'erreur.
 
 <p align="center">
    <img src="/assets/images/numerical_ODE.gif" width="70%"/>
