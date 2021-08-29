@@ -1,5 +1,5 @@
 ---
-title: "Dynamique des populations"
+title: "Dynamique des populations : écologie, EDO, logistique"
 date: 2021-08-11T22:18:30-04:00
 classes: wide
 layout: single
@@ -9,7 +9,6 @@ tags:
   - équations différentielles ordinaires
   - écologie
   - modélisation
-  - mathématiques appliquées
   - équation logistique
 header:
   teaser: /assets/images/teaser_dynamique_population.jpg
@@ -20,7 +19,9 @@ Parmis les enjeux du 21<sup>ème</sup> siècle, l'écologie a un rôle majeure p
 
 ## Modèle de Verhulst
 
-A la fin du 18<sup>ème</sup> siècle, le modèle de **Malthus** décrit la variation d'une taille de population $y$ au cours du temps $t$ par l'équation différentielle :
+A la fin du 18<sup>ème</sup> siècle, le modèle de **Malthus** décrit la variation d'une taille de population $y$ au cours du temps $t$ par l'équation différentielle ordinaire[^1] (EDO) :
+
+[^1]: Le terme ordinaire est utilisé par opposition au terme équation différentielle partielle (ou équation aux dérivées partielles) où la ou les fonctions inconnues peuvent dépendre de plusieurs variables.
 
 $$ y'(t) = (n-m) y(t) = r y(t) $$
 
@@ -104,7 +105,7 @@ Si on développe chacune des équations, on peut plus facilement donner une inte
    <img src="/assets/images/fox_rabbit.gif" width="70%"/>
 </p>
 
-On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#Méthode-numérique-pour-les-EDO)).
+On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#méthode-numérique-pour-les-edo)).
 {: .text-justify}
 
 ```python
@@ -180,10 +181,14 @@ $$
 avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
 {: .text-justify}
 
-Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer, comme précédemment, les diagrammes d'espace de phase $(x_1,x_2)$. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition, j'affiche ci-dessous les champs de vecteurs de ces scénarios avec `plt.streamplot()` ainsi que les isoclines, les courbes pour lesquelles $x_1'(t)=0$ ou $x_2'(t)=0$:
+<p align="center">
+   <img src="/assets/images/competition_interspecific.jfif" width="60%"/>
+</p>
+
+Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer comme précédemment les diagrammes d'espace de phase $(x_1,x_2)$. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition, j'affiche ci-dessous les champs de vecteurs de ces scénarios avec `plt.streamplot()` ainsi que les isoclines, les courbes pour lesquelles $$x_1'(t)=0$$ ou $$x_2'(t)=0$$:
 
 <p align="center">
-   <img src="/assets/images/lotka_volterra_graph3.png" width="70%"/>
+  <img src="/assets/images/lotka_volterra_graph3.png" width="70%"/>
 </p>
 
 ```python
@@ -217,11 +222,15 @@ La coexistence stable des 2 espèces n'est possible que si $\alpha_{12} < 1$ et 
 
 ## Méthode numérique pour les EDO
 
-Cette section est un petit peu hors-sujet du post puisque j'y introduis les méthodes numériques pour résoudre les équations différentielles. Il est possible de déduire de nombreuses propriétés d'un système d'EDO en se basant sur les théorèmes mathématiques pour la théorie des systèmes dynamiques (comme [méthode de Lyapunov](https://fr.wikipedia.org/wiki/Stabilit%C3%A9_de_Liapounov), [invariance de LaSalle](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [théorème de Poincaré-Bendixon](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) mais seules un nombre restreint d'équations différentielles admettent une solution analytique. En pratique, on préfère souvent avoir une méthode qui calcule une solution approximative du problème. On considère le problème $y'(t) = f\big(t,y(t)\big)$ avec $y(t_0)=y_0$. L'idée des méthodes numériques est de résoudre le problème sur un ensemble discret de points $(t_n,y_n)$ avec $h_n=t_{n+1}-t_n$, le pas de temps discrétisé.
+Cette section est un petit peu à part du réel sujet de ce post puisque j'y introduis les méthodes numériques pour résoudre les équations différentielles. En effet, il est possible de déduire de nombreuses propriétés d'un système d'EDO en se basant sur les théorèmes mathématiques pour la théorie des systèmes dynamiques (comme [méthode de Lyapunov](https://fr.wikipedia.org/wiki/Stabilit%C3%A9_de_Liapounov), [invariance de LaSalle](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [théorème de Poincaré-Bendixon](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) mais seul un nombre restreint d'équations différentielles admettent une solution analytique. En pratique, on préfère souvent avoir une méthode qui calcule une solution approximative du problème. On considère le problème $$y'(t) = f\big(t,y(t)\big)$$ avec $y(t_0)=y_0$. L'idée des méthodes numériques est de résoudre le problème sur un ensemble discret de points $(t_n,y_n)$ avec $h_n=t_{n+1}-t_n$, un pas de temps fixé.
 {: .text-justify}
 
 **Euler**
 
+![image-right](/assets/images/euler_method.png){: .align-right width="30%"} La méthode d'Euler est la plus basique des méthodes numériques pour EDO, elle utilise l'équation différentielle pour calculer la pente de la tangente à n'importe quel point de la courbe solution. La solution est approchée en partant du point initial $y_0$ connu pour lequel on calcule la tangente, on fait ensuite un pas de temps le long de cette tangente on obtient alors un nouveau point $y_1$. L'idée est de répéter ce processus, pour un pas de temps de $t_n$ à $t_{n+1}$ on peut l'écrire comme $y_{n+1} = y_n + h f(t_n,y_n)$.
+{: .text-justify}
+
+Cette méthode est très simple à mettre en place, par exemple en python :
 ```python
 def Euler_method(f, y0, t):
     y = np.zeros((len(t), len(y0)))
@@ -230,11 +239,13 @@ def Euler_method(f, y0, t):
         y[i+1] = y[i] + h*f(y[i], t[i])
     return y
 ```
-<p align="center">
-   <img src="/assets/images/euler_method.png" width="50%"/>
-</p>
 
 **Runge-Kutta**
+
+![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} And now we're going to shift things to the **right align**. Again, there should be plenty of room above, below, and to the left of the image. Just look at him there --- Hey guy! Way to rock that right side. I don't care what the left aligned image says, you look great. Don't let anyone else tell you differently. $ y_{n+1} = y_n + \frac{h}{6} (k_1+2k_2+2k_3+k_4) $
+{: .text-justify}
+
+test
 
 ```python
 def RungeKutta4_method(f, y0, t):
@@ -248,10 +259,8 @@ def RungeKutta4_method(f, y0, t):
         y[i+1] = y[i] + (h/6) * (k1 + 2*k2 + 2*k3 + k4)
     return y
 ```
-<p align="center">
-   <img src="/assets/images/rungekutta_method.png" width="70%"/>
-</p>
 
+**Exemple**
 
 ```python
 # initial condition
@@ -269,6 +278,9 @@ y_exact = exact_solution(t)
 y_euler = Euler_method(problem, y0, t)[:, 0]
 y_rk4   = RungeKutta4_method(problem, y0, t)[:, 0]    
 ```
+La méthode RK4 est une méthode d'ordre 4, ce qui signifie que l'erreur commise à chaque étape est de l'ordre de h5, alors que l'erreur totale accumulée est de l'ordre de h4.
+
+The Euler method is a first-order method, which means that the local error (error per step) is proportional to the square of the step size, and the global error (error at a given time) is proportional to the step size
 
 <p align="center">
    <img src="/assets/images/numerical_ODE.gif" width="70%"/>
@@ -276,4 +288,4 @@ y_rk4   = RungeKutta4_method(problem, y0, t)[:, 0]
 
 ---
 
-[![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/dynamique_population.ipynb) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/)
+[![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/dynamique_population.ipynb) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/) 

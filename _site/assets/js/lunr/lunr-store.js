@@ -11,9 +11,15 @@ var store = [{
         "url": "/posts/2021-08-02-objet_fractal/",
         "teaser": "/assets/images/teaser_fractal.jfif"
       },{
-        "title": "Dynamique des populations",
+        "title": "Dynamique des populations : écologie, EDO, logistique",
         "excerpt":"Parmis les enjeux du 21ème siècle, l’écologie a un rôle majeure puisqu’elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s’intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses...","categories": ["blog"],
-        "tags": ["équations différentielles ordinaires","écologie","modélisation","mathématiques appliquées","équation logistique"],
+        "tags": ["équations différentielles ordinaires","écologie","modélisation","équation logistique"],
         "url": "/posts/2021-08-11-dynamique_des_populations/",
         "teaser": "/assets/images/teaser_dynamique_population.jpg"
+      },{
+        "title": "Optimisation de profil d'aile",
+        "excerpt":"contenu en construction …  ","categories": ["blog"],
+        "tags": [],
+        "url": "/posts/2021-08-21-optimisation_profil_aile/",
+        "teaser": "/assets/images/teaser_airflow.jpg"
       }]
