@@ -22,7 +22,7 @@ Parmis les enjeux du 21<sup>ème</sup> siècle, l'écologie a un rôle majeure p
 
 ## Modèle de Verhulst
 
-A la fin du 18<sup>ème</sup> siècle, le modèle de **Malthus** décrit la variation d'une taille de population $y$ au cours du temps $t$ par l'équation différentielle ordinaire[^1] (EDO) :
+À la fin du 18<sup>ème</sup> siècle, le modèle de **Malthus** décrit la variation d'une taille de population $y$ au cours du temps $t$ par l'équation différentielle ordinaire[^1] (EDO) :
 
 [^1]: Le terme ordinaire est utilisé par opposition au terme équation différentielle partielle (ou équation aux dérivées partielles) où la ou les fonctions inconnues peuvent dépendre de plusieurs variables.
 
@@ -120,7 +120,7 @@ Tmax = 12
 n    = 200
 T    = np.linspace(T0, Tmax, n) 
 ```
-Je calcule ici l'évolution des 2 populations en fonction du temps pour une condition initiale fixée, on voit qu'elles ont un comportement périodique et en décalage de phase.
+On calcule ici l'évolution des 2 populations en fonction du temps pour une condition initiale fixée, on voit qu'elles ont un comportement périodique et en décalage de phase.
 ```python
 # TEMPORAL DYNAMIC
 X0 = [1,1]
@@ -130,7 +130,7 @@ solution = integrate.odeint(prey_predator, X0, T) # use scipy solver
    <img src="/assets/images/lotka_volterra_graph2.png" width="70%"/>
 </p>
 
-Ici, je calcule plusieurs solutions pour différentes conditions initiales que j'affiche dans l'espace de phase (le temps n'appararaît pas). J'affiche également le champ de vecteur généré par le système d'équation avec `plt.quiver()` pour une grille de valeur.
+Ici, on calcule plusieurs solutions pour différentes conditions initiales qu'on affiche dans l'espace de phase (le temps n'appararaît pas). On peut également afficher le champ de vecteur généré par le système d'équation avec `plt.quiver()` pour une grille de valeur.
 
 ```python
 # PHASES SPACE
@@ -174,7 +174,7 @@ $$
 \right.
 $$
 
-avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
+avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha_{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
 
 <p align="center">
    <img src="/assets/images/competition_interspecific.jfif" width="60%"/>
@@ -235,7 +235,7 @@ def Euler_method(f, y0, t):
 
 **Runge-Kutta**
 
-![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} Les méthodes de Runge-Kutta sont unue famille de méthodes, la plus connue est celle d'ordre 4. Elle est plus précise que la méthode d'Euler en faisant une moyenne pondérée de 4 termes correspondant à différentes pentes de la courbe dans l'intervalle de temps fixé. On la définit par :
+![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} Les méthodes de Runge-Kutta sont une famille de méthodes, la plus connue est celle d'ordre 4. Elle est plus précise que la méthode d'Euler en faisant une moyenne pondérée de 4 termes correspondant à différentes pentes de la courbe dans l'intervalle de temps fixé. On la définit par :
 
 $$ y_{n+1} = y_n + \frac{h}{6} (k_1+2k_2+2k_3+k_4) $$
 
@@ -260,7 +260,7 @@ def RungeKutta4_method(f, y0, t):
 
 **Exemple**
 
-Pour vérifier le comportement de ces méthodes, j'ai choisi de les testées sur un modèle bien connu de la physique : l'oscillateur harmonique. Dans forme la plus simple, on peut calculer exactement la solution du problème et donc comparer nos méthodes de résolution approchées. Le problème peut s'écrire :
+Pour vérifier le comportement de ces méthodes, j'ai choisi de les testées sur un modèle bien connu de la physique : l'oscillateur harmonique. Dans sa forme la plus simple, on peut calculer exactement la solution du problème et donc comparer nos méthodes de résolution approchées. Le problème peut s'écrire :
 
 $$ 
 \left\{
@@ -290,7 +290,7 @@ y_euler = Euler_method(problem, y0, t)[:, 0]
 y_rk4   = RungeKutta4_method(problem, y0, t)[:, 0]    
 ```
 
-Comme attendu la méthode de Runge-Kutta est bien plus précise que la méthode d'Euler (mais plus lente). L'erreur des méthodes numériques diminue en fonction de la taille du pas de temps $h$ mais $h$ est petit et plus le temps de calcul est long. En pratique, pour analyser les méthodes numériques on se base sur 3 critères : 
+Comme attendu la méthode de Runge-Kutta est bien plus précise que la méthode d'Euler (mais plus lente). L'erreur des méthodes numériques diminue en fonction de la taille du pas de temps $h$ mais plus $h$ est petit et plus le temps de calcul est long. En théorie, pour analyser les méthodes numériques on se base sur 3 critères : 
 - la convergence qui garantit que la solution approchée est proche de la solution réelle.
 - l'ordre qui quantifie la qualité de l'approximation pour une itération. 
 - la stabilité qui juge du comportement de l'erreur.
@@ -298,6 +298,9 @@ Comme attendu la méthode de Runge-Kutta est bien plus précise que la méthode 
 <p align="center">
    <img src="/assets/images/numerical_ODE.gif" width="70%"/>
 </p>
+
+**En pratique** : Dans les [`problèmes précédents`](#proie-prédateur) , j'utilise la fonction `integrate.odeint(f, y0, t)` de [scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html) qui est un solveur d'EDO plus avancé qui utilise la méthode d'[Adams–Bashforth](https://en.wikipedia.org/wiki/Linear_multistep_method#Adams–Bashforth_methods)
+{: .notice--info}
 
 ---
 
