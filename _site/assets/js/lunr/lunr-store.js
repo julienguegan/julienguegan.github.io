@@ -17,9 +17,15 @@ var store = [{
         "url": "/posts/2021-08-11-dynamique_des_populations/",
         "teaser": "/assets/images/teaser_dynamique_population.jpg"
       },{
-        "title": "Optimisation de profil d'aile",
-        "excerpt":"contenu en construction …  ","categories": ["blog"],
+        "title": "Optimisation : algorithme, XFOIL, profil d'aile",
+        "excerpt":"Dans la vie de tous les jours, on cherche souvent à optimiser nos actions pour faire le moins d’effort et bien, dans le monde de l’ingénierie, c’est la même chose. Les problèmes de minimisation sont omniprésents dans de nombreux systèmes que ce soit pour obtenir un gain de temps, d’argent,...","categories": ["blog"],
         "tags": [],
         "url": "/posts/2021-08-21-optimisation_profil_aile/",
         "teaser": "/assets/images/teaser_airflow.jpg"
+      },{
+        "title": "Réseau de Neurone : statistique, gradient, perceptron",
+        "excerpt":"contenu en construction …   ","categories": ["blog"],
+        "tags": [],
+        "url": "/posts/2021-09-10-reseau_de_neurone/",
+        "teaser": "/assets/images/teaser_neural_network.jpg"
       }]

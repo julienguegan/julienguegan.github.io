@@ -29,7 +29,7 @@ header:
 
 ## Introduction
 
-Comme vous l'aurez compris si vous avez regardé l'excellent documentaire d'ARTE ci-dessus, les fractales sont des objets géométriques *infiniment morcelés* qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels comme (les motifs des flocons, le chemin pris par la foudre, la forme d'un choux de romanesco, la structure des poumons ...) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages ...).
+Comme vous l'aurez compris si vous avez regardé l'excellent documentaire d'ARTE présenté ci-dessus, les fractales sont des objets géométriques *infiniment morcelés* qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels (motifs des flocons,  chemin pris par la foudre, forme d'un choux de romanesco, structure des poumons ...) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages ...).
 {: .text-justify}
 
 <p align="center">
@@ -164,6 +164,10 @@ Il existe de nombreux logiciels générateur de fractal gratuits disponibles. Il
 | ![image](/assets/images/mandelbulb3d.png)     | ![image](/assets/images/mandelbulber.png) | ![image](/assets/images/fragmentarium.png) |
 |:---------------------------------------------:| :----------------------------------------:| :-----------------------------------------: |
 | [Mandelbul3D](https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/)| [Mandelbuler](https://mandelbulber.com/) |  [Fragmentarium](https://syntopia.github.io/Fragmentarium/get.html) |
+
+Et pour ceux qui ne veulent pas se compliquer et juste se laisser porter par la géométrie psychadélique des fractales sans effort, vous pourrez trouver sur internet des gens qui ont déjà fait le travail à votre place. On trouve sur youtube une floppée de vidéos comme par exemple *The Hardest Trip - Mandelbrot Fractal Zoom* qui zoome pendant 2h30 sur un point précis du plan complexe.
+
+{% include video id="LhOSM6uCWxk" provider="youtube" %}
 
 ---
 
