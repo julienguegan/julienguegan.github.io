@@ -215,8 +215,4 @@ optimize.dual_annealing(cost_function, bounds, x0=x0, maxiter=10)
 
 *todo : aerosandbox*
 
-<p align="center">
-   <img src="/assets/images/aerodynamism_publicite.jpg" width="100%"/>
-</p>
-
 [![Generic badge](https://img.shields.io/badge/voir_le_code_complet-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/optimisation.ipynb) [![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/) 
