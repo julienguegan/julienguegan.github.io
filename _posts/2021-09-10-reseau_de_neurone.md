@@ -9,6 +9,5 @@ header:
   teaser: /assets/images/teaser_neural_network.jpg
 ---
 
-{% include himmelblau.html %}
 
 
