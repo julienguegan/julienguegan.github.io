@@ -24,7 +24,7 @@ var store = [{
         "teaser": "/assets/images/teaser_airflow.jpg"
       },{
         "title": "Réseau de Neurone : statistique, gradient, perceptron",
-        "excerpt":" ","categories": ["blog"],
+        "excerpt":"                                                                                ","categories": ["blog"],
         "tags": [],
         "url": "/posts/2021-09-10-reseau_de_neurone/",
         "teaser": "/assets/images/teaser_neural_network.jpg"

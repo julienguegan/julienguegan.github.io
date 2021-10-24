@@ -9,5 +9,5 @@ header:
   teaser: /assets/images/teaser_neural_network.jpg
 ---
 
-
+{% include mlp_training.html %}
 

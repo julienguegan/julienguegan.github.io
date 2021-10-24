@@ -31,7 +31,7 @@ Pour des cas simples, on peut donc résoudre analytiquement le problème. Par ex
 
 Par soucis de simplicité, les 3 approches ci-dessous sont des approches simples qui permettent d'introduisent les notions basiques des algorithmes d'optimisation, elles seront testées sur la fonction test de Himmelblau. Dans la réalité, on fait le plus souvent appelle a des librairies ou logiciels spécialisés qui implémentent des approches bien plus sophistiquées.
 
-*todo : afficher fonction himmelblau - interactive 3D plotly*
+{% include himmelblau.html %}
 
 ### Descente de gradient
 
