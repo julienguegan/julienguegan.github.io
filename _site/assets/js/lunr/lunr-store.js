@@ -24,7 +24,7 @@ var store = [{
         "teaser": "/assets/images/teaser_airflow.jpg"
       },{
         "title": "Réseau de Neurone : statistique, gradient, perceptron",
-        "excerpt":"                                                                                ","categories": ["blog"],
+        "excerpt":"écriture en cours … Ces dernières années, on entend de plus en plus dans les médias les mots : intelligence artificielle, réseau de neurone, Deep Learning … En effet, de nombreuses innovations ont emmergées grâce à ces technologies mais que ce cache-t-il vraiment derrière cette terminologie ? Depuis que les...","categories": ["blog"],
         "tags": [],
         "url": "/posts/2021-09-10-reseau_de_neurone/",
         "teaser": "/assets/images/teaser_neural_network.jpg"
