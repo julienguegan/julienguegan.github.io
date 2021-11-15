@@ -5,6 +5,9 @@ classes: wide
 layout: single
 categories:
   - blog
+tags :
+  - machine learning
+  - deep learning
 header:
   teaser: /assets/images/teaser_neural_network.jpg
 ---
@@ -129,28 +132,107 @@ Comme décrit ci-dessus, un neurone unique peut résoudre un problème linéaire
    <img src="/assets/images/activation_function.png" width="100%"/>
 </p>
 
-Le modèle du réseau de neurones ou Perceptron Multi-Couches consiste à enchaîner successivement plusieurs transformations linéaires effectuées par des neurones simples et des transformations non linéaires réalisées par ces fonctions d'activations jusqu'à la dernière opération qui retournera la classe prédite par le modèle. Une couche $L$ du réseau de neurone est alors composée de $m$ neurones modélisés par une matrice de poids $W^L \in \mathbb{R}^{(d+1)\times m}$ (par simplicité on intègre le biais $b$ dans $W$) ainsi que d'une fonction d'activation $A^L$. Au final, le réseau de neurone complet peut être décrit par une combinaison de **composition de fonctions et multiplications matricielles** : 
+```python
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
 
-$$ h(X) = \hat{Y} = A^L(W^L A^{L-1}(W^{L-1} \cdots A^1(W^1 x)\cdots)) $$
+def relu(x):
+    return x * (x > 0)
+
+def tanh(x):
+    return np.tanh(x)
+```
+
+Le modèle du réseau de neurones ou Perceptron Multi-Couches consiste à enchaîner successivement plusieurs transformations linéaires effectuées par des neurones simples et des transformations non linéaires réalisées par ces fonctions d'activations jusqu'à la dernière opération qui retournera la classe prédite par le modèle. Une couche $l$ du réseau de neurone est alors composée de $m$ neurones modélisés par une matrice de poids $W^l \in \mathbb{R}^{(d+1)\times m}$ (par simplicité on intègre le biais $b$ dans $W$) ainsi que d'une fonction d'activation $A^l$. Au final, le réseau de neurone complet peut être décrit par une combinaison de **composition de fonctions et multiplications matricielles** en allant de la 1ère couche à la dernière : 
+
+$$ h(X) = \hat{Y} = A^l(W^l A^{l-1}(W^{l-1} \cdots A^0(W^0 X)\cdots)) $$
+
+```python
+class MultiLayerPerceptron:
+    ''' MLP model with 2 layers '''
+
+    def __init__(self, n_0, n_1, n_2):
+        # initialize weights of 1st layer and 2nd layer
+        self.W1 = np.random.randn(n_0, n_1)
+        self.b1 = np.zeros(shape=(1, n_1))
+        self.W2 = np.random.randn(n_1, n_2)
+        self.b2 = np.zeros(shape=(1, n_2))        
+
+    def forward(self, X):
+        # input
+        self.A0 = X
+        # first layer
+        self.Z1 = np.dot(self.A0, self.W1) + self.b1
+        self.A1 = relu(self.Z1)
+        # second layer
+        self.Z2 = np.dot(self.A1, self.W2) + self.b2
+        self.A2 = sigmoid(self.Z2)
+        # output
+        y_pred = self.A2
+        return y_pred
+```
 
 <p align="center">
    <img src="/assets/images/multi_layer_perceptron.png" width="70%"/>
 </p>
 
-Cet enchaînement de couche de neurones pose un problème pour la phase d'entraînement puisque le calcul de $\frac{\partial\mathcal{L}}{\partial W}$ est moins trivial que pour le modèle du neurone formel puisqu'il faut prendre en compte les poids $W^L$ de chaque couche. La technique de la **rétro-propagation du gradient** qui permet d'entraîner des réseaux de neurones multi-couches en se basant sur la règle de dérivation en chaîne. Le gradient de la loss est calculé en utilisant les dérivées des poids des neurones et leur fonction d'activation en partant de la dernière couche jusqu'à la première couche. Il faut donc parcourir le réseau vers l'avant (*forward pass*) pour obtenir la valeur de la loss puis vers l'arrière (*backward pass*) pour obtenir la valeur de la dérivée de la loss nécessaire à l'algorithme d'optimisation.
+Cet enchaînement de couches de neurones pose problème pour la phase d'entraînement : le calcul de $\frac{\partial\mathcal{L}}{\partial W}$ est moins trivial que pour le modèle du neurone formel puisqu'il faut prendre en compte les poids $W^l$ de chaque couche $l$. La technique de la **rétropropagation du gradient** permet d'entraîner des réseaux de neurones multi-couches en se basant sur la règle de dérivation en chaîne. Le gradient de la loss est calculé en utilisant les dérivées des poids des neurones et leur fonction d'activation en partant de la dernière couche jusqu'à la première couche. Il faut donc parcourir le réseau vers l'avant (*<span style="color:green">forward pass</span>*) pour obtenir la valeur de la loss puis vers l'arrière (*<span style="color:red">backward pass</span>*) pour obtenir la valeur de la dérivée de la loss nécessaire à l'algorithme d'optimisation. Si on s'intéresse au neurone $j$ de la couche $l$ vers le neurone $i$ de la couche $l+1$, on note $a$ la valeur du produit vectoriel, $o$ la sortie du neurone (après activation) et qu'on garde le reste des notations précédentes, le calcul du gradient de $L$ en fonction de $W$ est :
 
 $$ 
-\begin{align*} 
- \dfrac{\partial L}{\partial w_{ij}} &= \dfrac{\partial L}{\partial a_{ij}} \dfrac{\partial a_j}{\partial w_{ij}} \\
-    &= \dfrac{\partial}{\partial w_{ij}} \sum w_l^k o_l^{k-1} \\ 
-    &= o_i^{k-1} 
-\end{align*}  
+\begin{align*}
+    \dfrac{\partial L}{\partial w_{ij}^l} &= \underbrace{\quad \dfrac{\partial L}{\partial a_{j}^l} \ \ } \ \ \underbrace{\quad \dfrac{\partial a_j^l}{\partial w_{ij}^l} \quad} \\ 
+                                      & \qquad \ \ \ \delta_j^l \quad \ \ \ \dfrac{\partial}{\partial w_{ij}^l} \sum_{n=0}^{N_{l-1}} w_{nj}^l o_n^{l-1} = o_i^{l-1}
+\end{align*} 
 $$
+
+On a donc que la dérivée $\dfrac{\partial L}{\partial w_{ij}^l}$ dépend du terme $\delta_j^l$ de la couche $l$ et de la sortie $o_i^{l-1}$ de la couche $l-1$. Ça fait sens puisque le poids $w_{ij}^l$ connecte la sortie du neurone $i$ dans la couche $l-1$ à l'entrée du neurone $j$ dans la couche $l$. On développe maintenant le terme $\delta_j^l$ : 
+
+$$ \delta_j^l = \dfrac{\partial L}{\partial a_{j}^l} =  \sum_{n=1}^{N_{l+1}} \dfrac{\partial L}{\partial a_n^{l+1}}\dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} = \sum_{n=1}^{N_{l+1}} \delta_n^{l+1} \dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} $$
+
+or, on a : 
+$$ 
+\begin{align*}
+& a_n^{l+1} &=& \sum_{n=1}^{N_{l}} w_{jn}^{l+1}A(a_j^l) \\
+\Rightarrow & \dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} &=& \ w_{jn}^{l+1}A'(a_j^l)
+\end{align*}
+$$
+
+et donc :
+
+$$ \dfrac{\partial L}{\partial w_{ij}^l} = \delta_j^l o_i^{l-1} = A'(a_j^l) o_i^{l-1} \sum_{n=1}^{N_{l+1}} w_{jn}^{l+1} \delta_n^{l+1} $$ 
+
+On obtient donc que la dérivée partielle de $L$ par rapport à $w_{ij}$ à la couche $l$ dépend également de la dérivée à la couche $l+1$. Pour calculer la dérivée de tout le réseau en utilisant la règle de la dérivation en chaîne, il est donc nécessaire de commencer par la dernière couche pour finir par la première d'où le terme de *backpropagation de l'erreur*.
+
+**Attention:** Comme les calculs de la phase de backpropagation dépendent également de $a_j^l$ et $o_i^{l-1}$, il faut faire une passe *forward* avant la passe *backward* pour stocker ces valeurs en mémoires.
+{: .notice--warning}
+
+```python
+''' training methods for 2 layer MLP and cross-entropy loss '''
+    def backward(self, X, y):
+        m = y.shape[0]
+        self.dZ2 = self.A2 - y
+        self.dW2 = 1/m * np.dot(self.A1.T, self.dZ2)
+        self.db2 = 1/m * np.sum(self.dZ2, axis=0, keepdims=True)
+        self.dA1 = np.dot(self.dZ2, self.W2.T)
+        self.dZ1 = np.multiply(self.dA1, d_relu(self.Z1))
+        self.dW1 = 1/m * np.dot(X.T, self.dZ1)
+        self.db1 = 1/m * np.sum(self.dZ1, axis=0, keepdims=True)
+
+    def gradient_descent(self, alpha):
+        self.W1 = self.W1 - alpha * self.dW1
+        self.b1 = self.b1 - alpha * self.db1
+        self.W2 = self.W2 - alpha * self.dW2
+        self.b2 = self.b2 - alpha * self.db2
+```
 
 {% include mlp_training.html %}
 
 ### Aller plus loin
 
-des architectures multiples
-des modeles de representation avec des convolutions, 
-des skip connections et diverses astuces
+La popularité des réseaux de neurones ces dernières années n'est en réalité pas due au modèle du MLP  présenté jusqu'à présent. En effet, l'inconvénient principal du MLP est le grand nombre de connexion existant entre chaque neurone qui entraîne une forte redondance et une difficulté à l'entrainement lorsque le nombre de neurone et de dimension d'entrée sont élevés. 
+
+<p align="center">
+   <img src="/assets/images/advanced_neural_network.png" width="100%"/>
+</p>
+
+Sur des problèmes complexes comme l'analyse d'image, le traitement de texte ou le traitement de la parole, l'efficacité des réseaux de neurones actuels est, en majorité, due à des opérations et des connexions plus avancées qui permettent de modéliser et représenter efficacement ces problèmes. Par exemple, pour les images, des opérateurs de convolution sont exploités, ils tirent parti de  la structure locale des pixels pour comprendre les informations présentes, allant de formes simples (lignes, cercles, couleur ...) à plus complexes (animaux, bâtiment, paysages ...). Pour des données séquentielles, les connexions LSTM (*long short-term memory*) sont capables de mémoriser des données importantes passées en évitant les problèmes de disparition de gradient. D'autres parts, de nombreuses techniques existent pour améliorer la phase d'apprentissage et avoir des performances qui généralise le modèle à des données test jamais vues par le modèle (augmentation de données, dropout, early stopping ...).

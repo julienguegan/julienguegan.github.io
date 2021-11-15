@@ -5,6 +5,12 @@ classes: wide
 layout: single
 categories:
   - blog
+tags :
+  - optimisation
+  - gradient
+  - heuristique
+  - aérodynamisme
+  - modélisation
 header:
   teaser: /assets/images/teaser_airflow.jpg
 ---

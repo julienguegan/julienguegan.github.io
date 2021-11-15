@@ -275,6 +275,8 @@ figure > a { display: block; }
 figure.half figcaption { width: 100%; }
 @media (min-width: 37.5em) { figure.third > a, figure.third > img { width: calc(33.3333% - 0.5em); } }
 figure.third figcaption { width: 100%; }
+@media (min-width: 37.5em) { figure.fourth > a, figure.fourth > img { width: calc(25% - 0.5em); } }
+@media (min-width: 37.5em) { figure.fifth > a, figure.fifth > img { width: calc(20% - 0.5em); } }
 
 /* Figure captions */
 figcaption { margin-bottom: 0.5em; color: #646769; font-family: Georgia, Times, serif; font-size: 0.75em; }
