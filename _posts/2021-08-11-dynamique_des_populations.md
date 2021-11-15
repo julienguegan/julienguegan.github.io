@@ -1,5 +1,5 @@
 ---
-title: "Dynamique des populations : écologie, EDO, logistique"
+title: "Dynamique des populations : EDO, écologie, logistique"
 date: 2021-08-11T22:18:30-04:00
 classes: wide
 layout: single

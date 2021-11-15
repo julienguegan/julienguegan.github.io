@@ -257,6 +257,24 @@ figure {
       width: 100%;
     }
   }
+
+  &.fourth {
+    > a,
+    > img {
+      @include breakpoint($small) {
+        width: calc(25% - 0.5em);
+      }
+    }
+  }
+
+  &.fifth {
+    > a,
+    > img {
+      @include breakpoint($small) {
+        width: calc(20% - 0.5em);
+      }
+    }
+  }
 }
 
 /* Figure captions */
