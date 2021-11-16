@@ -192,8 +192,8 @@ $$ \delta_j^l = \dfrac{\partial L}{\partial a_{j}^l} =  \sum_{n=1}^{N_{l+1}} \df
 or, on a : 
 $$ 
 \begin{align*}
-& a_n^{l+1} &=& \sum_{n=1}^{N_{l}} w_{jn}^{l+1}A(a_j^l) \\
-\Rightarrow & \dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} &=& \ w_{jn}^{l+1}A'(a_j^l)
+    & a_n^{l+1} &=& \sum_{n=1}^{N_{l}} w_{jn}^{l+1}A(a_j^l) \\
+    \Rightarrow & \dfrac{\partial a_n^{l+1}}{\partial  a_j^l} &=& \ w_{jn}^{l+1}A'(a_j^l)
 \end{align*}
 $$
 
