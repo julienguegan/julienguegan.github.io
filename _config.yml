@@ -57,7 +57,7 @@ plugins:
 author:
   name   : "Julien Guégan"
   avatar : "/assets/images/photo_profil.jpg"
-  bio    : "Hello, je suis ingénieur en bidouille et j'aime les machins et les trucmuches. Ici, je parle bidule et parfois de chose."
+  bio    : "Ingénieur en IA et mathématiques appliqués en R&D chez ESSILOR. Ici, je parle bidule et parfois de chose."
   links:
     - label: "Mail"
       icon: "fas fa-fw fa-envelope-square"

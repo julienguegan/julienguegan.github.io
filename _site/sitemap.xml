@@ -21,6 +21,10 @@
 <lastmod>2021-09-11T01:25:30+02:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/posts/2022-01-01-convolution_deepdream/</loc>
+<lastmod>2022-01-01T20:10:10+01:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -36,11 +40,14 @@
 <loc>http://localhost:4000/posts/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/page2/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/assets/docs/CV.pdf</loc>
-<lastmod>2021-08-17T00:28:47+02:00</lastmod>
+<lastmod>2021-12-11T21:58:47+01:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/google1b14a3e628c64ff0.html</loc>
-<lastmod>2021-08-10T21:54:34+02:00</lastmod>
+<lastmod>2021-12-11T21:58:49+01:00</lastmod>
 </url>
 </urlset>
