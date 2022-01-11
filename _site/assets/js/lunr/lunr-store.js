@@ -24,8 +24,14 @@ var store = [{
         "teaser": "/assets/images/teaser_airflow.jpg"
       },{
         "title": "Réseau de Neurone : statistique, gradient, perceptron",
-        "excerpt":"écriture en cours … Ces dernières années, on entend de plus en plus dans les médias les mots : intelligence artificielle, réseau de neurone, Deep Learning … En effet, de nombreuses innovations ont emmergées grâce à ces technologies mais que ce cache-t-il vraiment derrière cette terminologie ? Depuis que les...","categories": ["blog"],
+        "excerpt":"Ces dernières années, on entend de plus en plus dans les médias les mots : intelligence artificielle, réseau de neurone, Deep Learning … En effet, de nombreuses innovations ont emmergées grâce à ces technologies mais que ce cache-t-il vraiment derrière cette terminologie ? Depuis que les premiers ordinateurs programmables ont...","categories": ["blog"],
         "tags": ["machine learning","deep learning"],
         "url": "/posts/2021-09-10-reseau_de_neurone/",
         "teaser": "/assets/images/teaser_neural_network.jpg"
+      },{
+        "title": "CNN : convolution, Deep Dream, Grad Cam",
+        "excerpt":"écriture en cours … intro CNN backpropagation pour CNN Deep Dream calculating the gradient of the image with respect to the activations of a particular layer. The image is then modified to increase these activations, enhancing the patterns seen by the network, and resulting in a dream-like image. calcule le...","categories": ["blog"],
+        "tags": ["machine learning","deep learning","convolution","deep dream"],
+        "url": "/posts/2022-01-01-convolution_deepdream/",
+        "teaser": "/assets/images/teaser_deepdream.jpg"
       }]

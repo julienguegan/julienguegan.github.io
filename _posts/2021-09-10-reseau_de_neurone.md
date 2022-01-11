@@ -12,8 +12,6 @@ header:
   teaser: /assets/images/teaser_neural_network.jpg
 ---
 
-**écriture en cours ...**
-
 Ces dernières années, on entend de plus en plus dans les médias les mots : *intelligence artificielle*, *réseau de neurone*, *Deep Learning* ... En effet, de nombreuses innovations ont emmergées grâce à ces technologies mais que ce cache-t-il vraiment derrière cette terminologie ? Depuis que les premiers ordinateurs programmables ont été conçus, les gens ont été étonnés de voir ces ordinateurs résoudre des tâches impossibles pour tout être humain. Cependant, ces problèmes étaient en fait faciles à décrire par une liste formelle de règles mathématiques. Le vrai challenge pour les ordinateurs est d'effectuer des tâches que les humains réalisent facilement et intuitivement mais qu'ils ont beaucoup plus de mal à décrire formellement comme, par exemple, reconnaître un langage ou des visages. De nos jours, on appelle intelligence artificielle (IA) toute technique permettant de résoudre un problème plus ou moins complexe par le biais d’une machine. Le Machine Learning et le Deep Learning sont des champs d'étude de l'IA fondés sur des théories statistiques.
 
 <p align="center">
@@ -26,7 +24,7 @@ L'apprentissage statistique (ou *Machine Learning* en anglais) se concentre sur 
 
 $$ R_{emp}(h) = \frac{1}{n} \sum_{i=1}^n L\left(h(x_i),y_i\right) $$
 
-Le principe de minimisation du risque empirique dit que l'algorithme d'apprentissage doit choisir un modèle $\hat{h}$ qui minimise ce risque empirique : $ \hat{h} = \arg \min_{h \in \mathcal{H}} R_{emp}(h) $. L'algorithme d'apprentissage consiste donc à résoudre un problème d'optimisation. A propos de la fonction loss, on peut en théorie utiliser la fonction *0-1 loss* : 
+Le principe de minimisation du risque empirique dit que l'algorithme d'apprentissage doit choisir un modèle $\hat{h}$ qui minimise ce risque empirique : $ \hat{h} = \arg \min_{h \in \mathcal{H}} R_{emp}(h) $. L'algorithme d'apprentissage consiste donc à résoudre un problème d'optimisation. La fonction à minimiser est une approximation d'une probabilité inconnue, elle est faite en moyennant les données à disposition et plus ces données seront nombreuses plus elle l'approximation sera juste. À propos de la fonction *loss* $L(\hat{y},y)$, on peut en théorie utiliser la fonction *0-1 loss* pour pénaliser les erreurs et ne rien faire sinon : 
 
 $$ L(\hat{y},y) = \left\{
     \begin{array}{ll}
@@ -152,7 +150,7 @@ class MultiLayerPerceptron:
     ''' MLP model with 2 layers '''
 
     def __init__(self, n_0, n_1, n_2):
-        # initialize weights of 1st layer and 2nd layer
+        # initialize weights of 1st layer (hidden) and 2nd layer (output)
         self.W1 = np.random.randn(n_0, n_1)
         self.b1 = np.zeros(shape=(1, n_1))
         self.W2 = np.random.randn(n_1, n_2)
@@ -172,6 +170,9 @@ class MultiLayerPerceptron:
         return y_pred
 ```
 
+**Note:** Notez qu'on peut construire un réseau avec autant de couches cachées que l'on veut et que chacunes de ces couches peuvent être constituées également d'un nombre arbitraire de neurones et ce peu importe la dimension d'entrée et de sortie du problème.
+{: .notice--danger}
+
 <p align="center">
    <img src="/assets/images/multi_layer_perceptron.png" width="70%"/>
 </p>
@@ -190,6 +191,7 @@ On a donc que la dérivée $\dfrac{\partial L}{\partial w_{ij}^l}$ dépend du te
 $$ \delta_j^l = \dfrac{\partial L}{\partial a_{j}^l} =  \sum_{n=1}^{N_{l+1}} \dfrac{\partial L}{\partial a_n^{l+1}}\dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} = \sum_{n=1}^{N_{l+1}} \delta_n^{l+1} \dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} $$
 
 or, on a : 
+
 $$ 
 \begin{align*}
     & a_n^{l+1} &=& \sum_{n=1}^{N_{l}} w_{jn}^{l+1}A(a_j^l) \\
@@ -203,7 +205,7 @@ $$ \dfrac{\partial L}{\partial w_{ij}^l} = \delta_j^l o_i^{l-1} = A'(a_j^l) o_i^
 
 On obtient donc que la dérivée partielle de $L$ par rapport à $w_{ij}$ à la couche $l$ dépend également de la dérivée à la couche $l+1$. Pour calculer la dérivée de tout le réseau en utilisant la règle de la dérivation en chaîne, il est donc nécessaire de commencer par la dernière couche pour finir par la première d'où le terme de *backpropagation de l'erreur*.
 
-**Attention:** Comme les calculs de la phase de backpropagation dépendent également de $a_j^l$ et $o_i^{l-1}$, il faut faire une passe *forward* avant la passe *backward* pour stocker ces valeurs en mémoires.
+**Attention:** Comme les calculs de la phase de backpropagation dépendent également de $a_j^l$ et $o_i^{l-1}$, il faut faire d'abord une *pass forward* avant la *pass backward* pour stocker ces valeurs en mémoires.
 {: .notice--warning}
 
 ```python
@@ -227,6 +229,9 @@ On obtient donc que la dérivée partielle de $L$ par rapport à $w_{ij}$ à la 
 
 {% include mlp_training.html %}
 
+**Note:** Lors de l'apprentissage, on optimise seulement les poids $W$ du modèle. Le nombre de couches cachées ainsi que le nombre de neurones par couche sont fixes et ne changent pas. On parle d'*hyperparamètres*, ils faut les choisir lors de la conception du modèle. Des techniques de recherches d'hyperparamètres optimaux existent mais sont complexes et gourmandes en temps de calcul.
+{: .notice--danger}
+
 ### Aller plus loin
 
 La popularité des réseaux de neurones ces dernières années n'est en réalité pas due au modèle du MLP  présenté jusqu'à présent. En effet, l'inconvénient principal du MLP est le grand nombre de connexion existant entre chaque neurone qui entraîne une forte redondance et une difficulté à l'entrainement lorsque le nombre de neurone et de dimension d'entrée sont élevés. 
@@ -235,4 +240,8 @@ La popularité des réseaux de neurones ces dernières années n'est en réalit�
    <img src="/assets/images/advanced_neural_network.png" width="100%"/>
 </p>
 
-Sur des problèmes complexes comme l'analyse d'image, le traitement de texte ou le traitement de la parole, l'efficacité des réseaux de neurones actuels est, en majorité, due à des opérations et des connexions plus avancées qui permettent de modéliser et représenter efficacement ces problèmes. Par exemple, pour les images, des opérateurs de convolution sont exploités, ils tirent parti de  la structure locale des pixels pour comprendre les informations présentes, allant de formes simples (lignes, cercles, couleur ...) à plus complexes (animaux, bâtiment, paysages ...). Pour des données séquentielles, les connexions LSTM (*long short-term memory*) sont capables de mémoriser des données importantes passées en évitant les problèmes de disparition de gradient. D'autres parts, de nombreuses techniques existent pour améliorer la phase d'apprentissage et avoir des performances qui généralise le modèle à des données test jamais vues par le modèle (augmentation de données, dropout, early stopping ...).
+Sur des problèmes complexes comme l'analyse d'image, le traitement de texte ou le traitement de la parole, l'efficacité des réseaux de neurones actuels est, en majorité, due à des opérations et des connexions plus avancées qui permettent de modéliser et représenter efficacement ces problèmes. Par exemple, pour les images, des opérateurs de convolution sont exploités, ils tirent parti de la structure locale des pixels pour comprendre les informations présentes, allant de formes simples (lignes, cercles, couleur ...) à plus complexes (animaux, bâtiment, paysages ...). Pour des données séquentielles, les connexions LSTM (*long short-term memory*) sont capables de mémoriser des données importantes passées en évitant les problèmes de disparition de gradient. D'autres parts, de nombreuses techniques existent pour améliorer la phase d'apprentissage et avoir des performances qui généralisent le modèle à des données dites de test jamais vues par le modèle lors de l'entraînement (augmentation de données, dropout, early stopping ...).
+
+---
+
+[![Generic badge](https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&logo=Jupyter)](https://jupyter.org/try) [![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/) [![Generic badge](https://img.shields.io/badge/acces_au_code-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/reseau_de_neurone.ipynb) [![Generic badge](https://img.shields.io/badge/execute_le_code-binder-ff69b4.svg?style=plastic&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAMAAAC%2BRQ9vAAACOlBMVEX%2F%2F%2F9XmsrmZYH1olJXmsr1olJXmsrmZYH1olJXmsr1olJXmsrmZYH1olL1olJXmsr1olJXmsrmZYH1olL1olJXmsrmZYH1olJXmsr1olJXmsq%2FdJX1olLVa4pXmsrmZYH1olL1olJXmspXmsrmZYH1olJXmsr1olJXmspXmsr1olJXmsr1olJXmsrmZYH1olL1olL1olJXmspXmsrmZYH1olL1olL1olJXmsrmZYH1olL1olL1olJXmsrmZYHqdnT1olJXmsq6dZf1olJXmsrKk3rmZYH1olJXmsrCc5RXmsr0n1TtgWz1olJXmspXmsrmZYH1olJXmsqNhq%2Fzmlj1olJXmspZmshXmsr1olL1olJXmsrmZYH1olJXmsr1olL1olL1olJXmsr1olJXmsrtgGz1olL1olJXmsr1olJXmsrmZYH1olJXmsrbaYf1olJXmsr1olJXmsr1olLIcJFXmsr1olJXmsr1olJXmsr1olJXmsr1olL1olJXmspZmshZmsldmsZemsVfl8Zgl8Zom71pk8Frm7tvm7dxkL1ykLx0m7R4m7F6jbh7jbh8nK6CnKmDirOEibOGnKaInKWNhq%2BNnKGSnZ2Vg6qegKaff6WfnZSnfKGnno6ofKGvnoeweZyxeZy3noG5dpjCcpPDcpPGn3bLb4%2FPoG%2FVa4rXoGnYoGjdaIbeaIXhoWHmZYHnaX7obXvpcHjqdHXreHLroVrtgGzuhGnuh2bxk17yl1vzm1j0nlX1olIgJPdZAAAAfnRSTlMAEBAQHx8gICAuLjAwMDw9PUBAQEpQUFBXV1hYWFtgYGBkZnBwcHFxdHx8fn6AgICHiIuQkJCSnKCgoKavsLCwsLO4uMDAwMDBwcTFxsjO0NDQ09TW1tjY3Nzd4ODg4uLl5%2Bjo6uvr7O3v8PDw8%2FPz9vb39%2Fj5%2Bfv7%2FPz9%2Ff5K%2BfZ5AAAI4ElEQVR42uzWAWfDQBjG8Yc4qoihEApBIIoOOpaiFAUBBB3EjFDKRImZy0d7vtuYYWN36Zq4u5v7fYO%2FB%2B%2BLwENBEARBEAR32Zc0gpcWRXmS%2FO7SHPI5PDIvaip01TrypKGlXr2B6%2FKaV%2BirGA67v%2FBa9dKrCLWXGA5anvhXlYBjopI36DdwStrxNo2AO%2Fa8WZ%2FBEaLhGHs4YdFxnGME%2B5KeY7UCtq160v%2BOFUn%2FOxLyH3QkPafSwhrxzukcYcsrp7SFHSWnlcGGnEOaQ57i0ywrqo4DpIB5QlLruI7w07w4U%2BsZ5j1R420n8Ju46qmxhmkZ1WQBJVHq6gUM66hUCujEJ3e%2B3YIqMsWQLZVmMCmSVDgLDEskFR5h0m7kLRatC3NEckSFosPCHA%2FqitEdMxjzwbxZN7eRNGG8tcpr%2BS2vA3KFmZODoFLlDaOS4%2FXxleVj9OqYacLMzMzYR%2BHsZwtz5hnvSNOSf%2F97Vc%2F0NI%2B%2FBwM0q%2FQJMsjoynXfYFr%2BPxe9SgtVijdiLT3Jjrmxlu5UIf5wlLq%2BraqTD9dfqbSjFrhY1T5jLNkzMdbRUMVy6nsqgdpYx4TKbMViHXA2bm%2BOJqoEY7QlNpVEfayDKoD3eqzhBSqNpqo4R7dcyJdjDX%2BHuW7Ouq%2BhshqCiG9yTfPDV%2FgmUWCvpLbCmSMzqsC3%2BSvWcInvEOUyZEeL5mtzxUQEfI9%2FYw3%2F8X2mZsuOVUVxEUDGP%2FwQeZ%2BSM7pSocrL8cNciDXwowQeJaWhQjK6RfwIFzU%2Fe5UfIxpiI0M%2B4npTmduWcZmfIJ%2FU1yshIxtxiTI46tZuZAxhTipDQ659yPACLksG5712IMMLuUwZHHriMuxVYBlXGBD50pHKXgWWEbNJh72MtKgKnMX%2Fxjq8KmZxrALXVNb%2BIV9TBQyAFS4mrFqFO4oNxMDHIUGV%2Bo0sGwDdHxvoT5ChcmNcL2ITl2INF9hAlKlGLz6VjXwSgxoXE%2BI7JRZvu7GJwO8Y63jRaMJRpGcCnlNJXqkgg6aGX3ij7K9Vuig2NQwYkvcNe4GhlMkzZCrOfSKbgQxDhpjGhvH7RNQfWzKLPUMi%2BeUTVEd%2Fwgc4fggtifc0Alkjm6SmeEd%2FivWgikHmGCC3bQoSqKCBsZamtKbXwuaoL4rdqQxUATYcmusQJjNHuikW227kWEvBS7YXH22qjgOQvwX24iDS%2BI%2FHe%2FQqasBtk4KveNoCXcDB%2B6NIC2IMsEc3%2FBl4o%2B7RIFZN5eETAw0T0%2FA74YOEAVW4aDU81pKx%2Bo%2BNpvp7BQ38UPdijKgXKQpxWfdZjCiOJhpluFXp6TFkolg5FXlgooFpafAiWFiNLsaQopMSvWAzwpweG5g7je9y5sgtztw5EUoPbRF%2FUOyhCw2LbMw1PrJnx9qV6gEr1%2B48MAf%2FDfZvJ66RJ0T3GHJi21KlZ%2Fn2U%2FhK1crNQ%2FoTZEKs5dia%2BcrEos2n5GpCFO0zdrv589sWqrZZtPu83FOREKaspO5xeo1KyPz156S2yDZxSldrn16tbHhUSFNaQAZ0Dezm5zcoS%2BZvPw8zRulkEzQJuIPbP1%2FZs%2BjYg85RVIZHiXScX6FKY%2FN5tyqADDJyr847tECVysITcdxUS5WTgf18iyqHvRbeLSgj9ZYqj%2BepHcjo8Lkql5dTVZfR4RtVPp%2Bn5GXIq8A6xPMGUFF9HR5r6Gb27i%2BVK94mV6BGHPOuskY%2BXhVA1wSZp1wyjtyQt%2FTxkcotncgJOTvnSP2o2mDxxp2Hjxxn5uNHDu%2FcuFi1wXdu3Ly%2F3W5%2BijKycs9xfpTjO5YoI6%2BSC3y2qXH7mQPoD6yhd6M5tA0iF0Ro1Kch1aowH%2Fbqz8DRRpiE%2FJwSmykUSEuj4Y4PIwrxsKjxVwWZIeUcwBx1CjIv1cY0uKZZIT4mB2SSP%2ByarQC%2FD4NjVPbbNuWzAiMePB3pogA%2FdnpkcIeu59MK0JoSeXcL6kNkjG866EKe5jg6%2FSpoDi%2Fhe8E6qMK0w8xQAh3Ngg9G8snC1O%2F%2Ft%2FjICKWnn0DPoc%2FlKaWnh0kF9092FrMln4wECRL4OBC1Uf55U2mpEUgdWh2vGI4xSP7gMKV3j%2FESTYfm3XwNPkUv4MTGQGG3WfbVZ%2BFe9hoMI6UfWr3%2BBHG7RsA7NMXEFJS3Rtk8msRZdLCbigRTuH2mrXpjZMF9BBkUm2OKuxUgFgKOsG%2BeDQQ2TUurw%2BUZFvLcKvU4y3Z9xRj4RABZtk6gC9Rw8uDWdeoeq7buO8lmDA39eIFEDipEwNFbnOUE5AjSBQU9qTawdEIy0CpVj%2BAa1R6zY6BY9Qo5IhO5U%2BGTiWeVBnKF70yHT0a6CsgQ0NGfMNDH6yR1CKgAvUsXalc6oiy1ibQM8kMx7xaQgfHyXA6hRy5lCJSJVrm7%2BjJw9Y2x%2B6%2F3morIIC%2FHpTDVo2R0Een%2FNGTtPb2gi1AWHQeJ0N%2FuZkVDKDnjgYxqC4lGeWTBbJEKFwvJcxLC%2FmRFCjTjcmRyBTYT5XyypCtom0TxR4XYDrksWYEHuV1JHC878%2BjJx3vzo7te86gUUq2Vibdg7bdq3aZdd9i0blUZP90PTj%2Fl0Z5gI5VCM%2FyUPI3OJq%2F9xBY1Jf94oytjCLkGiPUO6rlnlY5XSBjzo5fmlH2ssB%2Boi98q22uVekVpSVGlaLVfouJIIV%2BJWJWlloOZwcrCxWSoUXputGuHuLKEQBSGDwaDQmAxrVFtyuDaswB2UIs4a395ueKKCcyd7g4wSX%2B%2BxJ8cWequDpMVA8nVjsiGiIEsGzReWiUrhrr0SmQOtkQMZZUtxaIvdG4xWGJbMmizmW0eo1W2aTPECjsEw3n2qDi8Cpk9ajDezr66B4NfNoqyL2CGwrf0kPRfPpRv7ZjCKe9UMEngjdRilo23UYd5hHeJmEkGVIwgwyrW74iYL%2FEi9VhBVF5RHdbgKs%2FLBqswmWdtWElQnlEc1mKEH9MN63EHPyMGS%2FKfhIjFsnzmn6hYLM2myndKNFif2yvbymbxLWyUwlfHHgy%2BjfMp5eOHpOQtHo%2FH4%2FEY7x8MZ7AAyatDDgAAAABJRU5ErkJggg%3D%3D)](https://hub.gke2.mybinder.org/user/julienguegan-notebooks_blog-z8qd9bd5/notebooks/reseau_de_neurone.ipynb)

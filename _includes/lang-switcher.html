@@ -1,0 +1,12 @@
+{% for lang in site.languages %}
+    {% if lang == site.active_lang %}
+        {{ lang_name }}
+    {% else %}
+        {% if lang == site.default_lang %}
+            <a href=" {{ page.url }}"></a>
+        {% else %}
+            <a href="/{{ lang }}{{ page.url }}"></a>
+        {% endif %}
+        {{ lang_name }}
+    {% endif %}
+{% endfor %}

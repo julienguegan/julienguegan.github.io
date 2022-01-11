@@ -35,9 +35,11 @@ $$\max_{x \in X} f(x) \Leftrightarrow \min_{x \in X} - f(x)$$
 
 Pour des cas simples, on peut donc résoudre analytiquement le problème. Par exemple, lorsque $f$ a une forme quadratique, linéaire et sans contrainte, annuler le gradient revient à résoudre un système linéaire. Mais, en pratique, le gradient peut avoir une forme trop compliqué ou même la fonction $f$ peut ne pas avoir de forme analytique connue (elle peut être le résultat d'une d'EDP résolu numériquement par exemple). Il existe donc une grande variété d'[algorithmes d'optimisation](https://fr.wikipedia.org/wiki/Cat%C3%A9gorie:Algorithme_d%27optimisation) itératifs pour essayer de trouver le minimum, certains étant plus ou moins adaptés à certains type de problème. D'autre part, il est courant de valider ces algorithmes en les testant sur des fonctions connues pour lesquelles on connaît analytiquement la valeur du vraie mimimum, elles permettent d'évaluer les caractéristiques des approches comme la vitesse de convergence, la robustesses, la précision ou le comportement général. Une liste assez complète de ces fonctions test est disponible sur [wikipedia](https://en.wikipedia.org/wiki/Test_functions_for_optimization).
 
-Par soucis de simplicité, les 3 approches ci-dessous sont des approches simples qui permettent d'introduisent les notions basiques des algorithmes d'optimisation, elles seront testées sur la fonction test de Himmelblau. Dans la réalité, on fait le plus souvent appelle a des librairies ou logiciels spécialisés qui implémentent des approches bien plus sophistiquées.
+Par soucis de simplicité, les 3 approches ci-dessous sont des approches simples qui permettent d'introduire les notions basiques des algorithmes d'optimisation, elles seront testées sur la fonction test de Himmelblau. Dans la réalité, on fait le plus souvent appelle a des librairies ou logiciels spécialisés qui implémentent des approches bien plus sophistiquées.
 
+<center>
 {% include himmelblau.html %}
+</center>
 
 ### Descente de gradient
 
