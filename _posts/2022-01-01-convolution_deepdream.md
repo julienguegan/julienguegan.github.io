@@ -19,7 +19,7 @@ header:
 Les réseaux de neurones convolutionnels (CNN) sont les modèles qui ont permis de faire un bon en avant dans les problèmes de reconnaissance d'image. Ils sont au coeur de nombreuses applications allant des systèmes de sécurité par identification faciale à la classification de vos photos de vacances en passant par la génération synthétique de visage et les filtres snapchat. L'un des fondateurs de ce modèle est Yann Le Cun (un français !) qui, en 1989, applique la backpropagation du gradient pour apprendre des filtres de convolution et permet à un réseau de neurone à reconnaître des chiffres manuscrits. Cependant, c'est seulement en 2012 que les CNN se répandent largement dans la communauté scientifique de la vision par ordinateur avec Alex Krizhevsky qui conçoit l'architecture *AlexNet* et remporte la compétition *ImageNet Large Scale Visual Recognition Challenge* (1 million d'images de 1000 classes différentes) en implémentant son algorithme sur des GPUs ce qui permet au modèle d'apprendre rapidement d'une grande quantité d'image. Ce modèle atteint des performances 10% plus élevées que tous les autres à cette époque et il est désormais l'un des papiers publiés les plus influents en Computer Vision (en 2021, plus de 80 000 citations selon Google Scholar).
 
 <p align="center">
-   <img src="/assets/images/cnn_header.png" width="100%"/>
+   <img src="/assets/images/cnn_header.png" width="80%"/>
 </p>
 
 ## Convolutions et Réseaux de neurones
@@ -33,7 +33,7 @@ $$I(i,j) * \omega =\sum_{x=-a}^a{\sum_{y=-b}^b{ I(i+x,j+y)} \ \omega(x,y)}$$
 Selon la valeur des éléments du noyau de convolution $w$, l'opération peut détecter des caractéristiques particulières se trouvant dans l'image comme des contours, des textures, des formes.
 
 <p align="center">
-   <img src="/assets/images/image_convolution.gif" width="80%"/>
+   <img src="/assets/images/image_convolution.gif" width="40%"/>
 </p>
 
 On peut par exemple mettre en avant les pixels d'une image correspondants aux contours horizontaux en appliquant une convolution avec un noyau de taille $3 \times 3$ avec des $-1$ dans la 1ère ligne, des $0$ dans la 2ème ligne et des $+1$ dans la 3ème ligne de la matrice.
@@ -67,7 +67,7 @@ L'idée de l'architecture des modèles CNN est de garder des couches complèteme
    <img src="/assets/images/multichannel_convolution.png" width="100%"/>
 </p>
 
-**Note:** En 2D (images en noir et blancs), on utilise le terme *kernel* pour parler du noyau. En 3D (images en couleur ou plus), on utilise le terme *filtre* qui a alors le même nombre de canaux que le volume d'entrée. 
+**Note:** En 2D (1 seul canal), on utilise le terme *kernel* pour parler du noyau. En 3D (plus d'un canal), on utilise le terme *filtre* qui a alors le même nombre de canaux que le volume d'entrée. 
 {: .notice--info}
 
 
