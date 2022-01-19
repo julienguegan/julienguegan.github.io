@@ -61,7 +61,7 @@ plt.show()
    <img src="/assets/images/convolution_exemple.png" width="80%"/>
 </p>
 
-L'idée de l'architecture des modèles CNN est de garder des couches complètement connectées pour la classification. Cependant, en entrées de ces couches l'image n'est pas directement utilisée, mais la sortie de plusieurs opérations de convolution qui ont pour but de mettre en avant les différentes caractéristiques d'une image en encodant d'une certaine façon les objets qui sont présents ou non. Plus précisément, une couche convolutionnelle est composée un ensemble de $N_f$ filtres de taille $N_W$ x $N_H$ x $N_C$ plus un biais par filtre suivi d'une fonction d'activation non linéaire. Ici, $N_W$ et $N_H$ désigne la taille spatiale du filtre alors que $N_C$ est le nombre de canaux (parfois appelé *feature map*). En effet, une image couleur est composée de $3$ canaux : rouge, vert et bleu. Une convolution multi-canaux consiste à avoir $3$ kernels pour chaque canaux, appliquer la convolution standard à chaque canaux puis sommer chaque résultats obtenus pour obtenir une matrice 2D.
+L'idée de l'architecture des modèles CNN est de garder des couches complètement connectées pour la classification. Cependant, en entrées de ces couches, l'image n'est pas directement utilisée, mais la sortie de plusieurs opérations de convolution qui ont pour but de mettre en avant les différentes caractéristiques d'une image en encodant d'une certaine façon les objets qui sont présents ou non. On utilise notamment des convolutions multi-canaux qui consistent à appliquer une convolution standard à chaque canaux de l'entrée puis sommer chaque produits de convolution obtenus pour obtenir une unique matrice 2D. Par exemple pour une image couleur les canaux sont le rouge, vert et bleu, on a alors $3$ kernels pour chaque canaux à appliquer et ensuite sommer.
 
 <p align="center">
    <img src="/assets/images/multichannel_convolution.png" width="100%"/>
@@ -70,18 +70,21 @@ L'idée de l'architecture des modèles CNN est de garder des couches complèteme
 **Note:** En 2D (1 seul canal), on utilise le terme *kernel* pour parler du noyau. En 3D (plus d'un canal), on utilise le terme *filtre* qui a alors le même nombre de canaux que le volume d'entrée. 
 {: .notice--info}
 
+Plus précisément dans les CNN, une couche convolutionnelle est composée un ensemble de $N_f$ filtres de taille $N_W$ x $N_H$ x $N_C$ plus un biais par filtre suivi d'une fonction d'activation non linéaire. Ici, $N_W$ et $N_H$ désigne les tailles spatiales du filtre alors que $N_C$ est le nombre de canaux (parfois appelé *feature map*). Chaque filtres réalisent une convolution multi-canaux, on obtient alors $N_f$ produits de convolution qui sont concaténés dans un volume de sortie. Ces $N_f$ produits deviennent alors les canaux du prochain volume qui passera dans la prochaine couche convolutionnelle. Notez que la profondeur des filtres doit nécessairement correspondre au nombre de canaux du volume d'entrée de chaque couche mais le nombre de filtres est un hyperparamètre d'architecture du modèle. Au final, l'enchaînement de ces convolutions multicanaux crée en sortie un volume de caractéristiques (*features*) de l'image d'entrée, ces features sont alors passées au réseau complètement connecté pour la classification.
 
+<p align="center">
+   <img src="/assets/images/architecture_cnn.png" width="100%"/>
+</p>
 
+**Important:** Une couche convolutionnelle est généralement composée suivi d'une fonction d'activation non linéaire et parfois d'autres types d'opérations comme le pooling, la batch-normalization, le dropout ... 
+{: .notice--success}
 
+*todo : insert code pytorch of model*
 
-Chacun de ces filtres devient un paramètre du modèle pouvant être appris lors de l'étape de backpropagation [8].
+Le plus intéressant avec ces opérations de convolutions est qu'elles peuvent écrites comme un produit matricielle et donc les poids des filtres peuvent appris lors de l'optimisation par rétropropogation du gradient
 
-La concaténation des convolutions crée en sortie un volume de caractéristiques (features) de l'image d'entrée, ces features sont alors passées au réseau fully connected pour la classification.
+*todo : insert code pytorch of training loop*
 
-
-
-intro convolution
-architecture
 backpropagation pour CNN
 
 ## Deep Dream
