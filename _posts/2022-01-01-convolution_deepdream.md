@@ -24,17 +24,20 @@ Les réseaux de neurones convolutionnels (CNN) sont les modèles qui ont permis 
 
 ## Convolutions et Réseaux de neurones
 
-Les modèles de réseaux de neurones complètements connectés (cf [post précédent](https://julienguegan.github.io/posts/2021-09-10-reseau_de_neurone/)) ne sont pas adaptés pour résoudre des problèmes de traitement d'image. En effet, les MLP ont pour une couche chaque neurone connecté à chaque unité d'entrée : le nombre de paramètre à apprendre devient vite élevé et une forte redondance dans les poids du réseau peut exister. De plus, pour utiliser une image dans un tel réseau, tous les pixels devrait être transformée en vecteur et aucune information sur la structure locale des pixels serait alors prise en compte. 
+Les modèles de réseaux de neurones complètements connectés (cf [post précédent](https://julienguegan.github.io/posts/2021-09-10-reseau_de_neurone/)) ne sont pas adaptés pour résoudre des problèmes de traitement d'image. En effet, les MLP ont chaque neurone d'une couche connecté à chaque unité d'entrée : le nombre de paramètre à apprendre devient vite élevé et une forte redondance dans les poids du réseau peut exister. De plus, pour utiliser une image dans un tel réseau, tous les pixels devrait être transformée en vecteur et aucune information sur la structure locale des pixels serait alors prise en compte. 
 
-Le produit de convolution, noté **\***, est un opérateur qui généralise l'idée de moyenne glissante. Il s'applique aussi bien à des données temporelles (en traitement du signal par exemple) qu'à des données spatiales (en traitement d'image). Pour le cas des images, c'est-à-dire discret et en 2 dimensions, la convolution entre une image $I$ et un noyau  $w$ (ou kernel) peut se calculer comme suit :
+Le produit de convolution, noté $\ast$, est un opérateur qui généralise l'idée de moyenne glissante. Il s'applique aussi bien à des données temporelles (en traitement du signal par exemple) qu'à des données spatiales (en traitement d'image). Pour le cas des images, c'est-à-dire discret et en 2 dimensions, la convolution entre une image $I$ et un noyau  $w$ (ou kernel) peut se calculer comme suit :
 
 $$I(i,j) * \omega =\sum_{x=-a}^a{\sum_{y=-b}^b{ I(i+x,j+y)} \ \omega(x,y)}$$
 
-Selon la valeur des éléments du noyau de convolution $w$, l'opération peut détecter des caractéristiques particulières se trouvant dans l'image comme des contours, des textures, des formes.
+L'idée est de faire glisser le noyau spatialement sur toute l'image et à chaque fois de faire une moyenne pondérée des pixels de l'image se retrouvant dans la fenêtre concernée par les éléments du noyau. Selon la valeur des éléments du noyau de convolution $w$, l'opération peut mettre en avant des caractéristiques particulières se trouvant dans l'image comme des contours, des textures, des formes.
 
 <p align="center">
    <img src="/assets/images/image_convolution.gif" width="40%"/>
 </p>
+
+**Remarque:** Il existe plusieurs paramètres associés à l'opération de convolution comme la taille du noyau utilisé, la taille du pas lorsqu'on fait glissé la fenêtre sur l'image, la façon dont on gère les bords de l'image, le taux de dilatation du noyau ([plus d'infos ici](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215))
+{: .notice--warning}
 
 On peut par exemple mettre en avant les pixels d'une image correspondants aux contours horizontaux en appliquant une convolution avec un noyau de taille $3 \times 3$ avec des $-1$ dans la 1ère ligne, des $0$ dans la 2ème ligne et des $+1$ dans la 3ème ligne de la matrice.
 
@@ -61,7 +64,7 @@ plt.show()
    <img src="/assets/images/convolution_exemple.png" width="80%"/>
 </p>
 
-L'idée de l'architecture des modèles CNN est de garder des couches complètement connectées pour la classification. Cependant, en entrées de ces couches, l'image n'est pas directement utilisée, mais la sortie de plusieurs opérations de convolution qui ont pour but de mettre en avant les différentes caractéristiques d'une image en encodant d'une certaine façon les objets qui sont présents ou non. On utilise notamment des convolutions multi-canaux qui consistent à appliquer une convolution standard à chaque canaux de l'entrée puis sommer chaque produits de convolution obtenus pour obtenir une unique matrice 2D. Par exemple pour une image couleur les canaux sont le rouge, vert et bleu, on a alors $3$ kernels pour chaque canaux à appliquer et ensuite sommer.
+L'idée de l'architecture des modèles CNN est de garder des couches complètement connectées pour la classification. Cependant, en entrées de ces couches, l'image n'est pas directement utilisée, mais la sortie de plusieurs opérations de convolution qui ont pour but de mettre en avant les différentes caractéristiques d'une image en encodant d'une certaine façon les objets qui sont présents ou non. On utilise notamment des convolutions multi-canaux qui consistent à appliquer une convolution standard à chaque canaux de l'entrée puis sommer chaque produits de convolution obtenus pour obtenir une unique matrice 2D. Par exemple pour une image couleur les canaux sont le rouge, vert et bleu, on a alors 3 kernels à convoluer avec les canaux associés puis les 3 produits obtenus sont sommés.
 
 <p align="center">
    <img src="/assets/images/multichannel_convolution.png" width="100%"/>
@@ -76,22 +79,28 @@ Plus précisément dans les CNN, une couche convolutionnelle est composée un en
    <img src="/assets/images/architecture_cnn.png" width="100%"/>
 </p>
 
-**Important:** Une couche convolutionnelle est généralement composée suivi d'une fonction d'activation non linéaire et parfois d'autres types d'opérations comme le pooling, la batch-normalization, le dropout ... 
+**Important:** Une couche convolutionnelle est généralement composée (en plus de la convolution) d'une fonction d'activation non linéaire et parfois d'autres types d'opérations comme le pooling, la batch-normalization, le dropout ... 
 {: .notice--success}
 
-*todo : insert code pytorch of model*
+```python
+# todo : insert code pytorch of model
 
-Le plus intéressant avec ces opérations de convolutions est qu'elles peuvent écrites comme un produit matricielle et donc les poids des filtres peuvent appris lors de l'optimisation par rétropropogation du gradient
+```
 
-*todo : insert code pytorch of training loop*
+Le plus intéressant avec ces opérations de convolutions est qu'elles peuvent écrites comme un produit matricielle et donc les poids des filtres peuvent appris lors de l'optimisation par rétropropogation du gradient. 
+backpropagation pour CNN ?
 
-backpropagation pour CNN
+```python
+# todo : insert code pytorch of training loop (sans les dataloaders)
+
+```
+
 
 ## Deep Dream
 
- calculating the gradient of the image with respect to the activations of a particular layer. The image is then modified to increase these activations, enhancing the patterns seen by the network, and resulting in a dream-like image.
+calculating the gradient of the image with respect to the activations of a particular layer. The image is then modified to increase these activations, enhancing the patterns seen by the network, and resulting in a dream-like image.
 
- calcule le gradient de l'image par rapport aux activations d'une couche particulière. L'image est ensuite modifiée pour augmenter les activations de cette couche, renforçant les motifs vus par le réseau et résultant en une image onirique.
+calcule le gradient de l'image par rapport aux activations d'une couche particulière. L'image est ensuite modifiée pour augmenter les activations de cette couche, renforçant les motifs vus par le réseau et résultant en une image onirique.
 
 ## Grad Cam
 
