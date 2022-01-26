@@ -29,7 +29,7 @@ var store = [{
         "url": "/posts/2021-09-10-reseau_de_neurone/",
         "teaser": "/assets/images/teaser_neural_network.jpg"
       },{
-        "title": "CNN : convolution, Deep Dream, Grad Cam",
+        "title": "CNN : convolution, Pytorch, Deep Dream",
         "excerpt":"écriture en cours … Les réseaux de neurones convolutionnels (CNN) sont les modèles qui ont permis de faire un bon en avant dans les problèmes de reconnaissance d’image. Ils sont au coeur de nombreuses applications allant des systèmes de sécurité par identification faciale à la classification de vos photos de...","categories": ["blog"],
         "tags": ["machine learning","deep learning","convolution","deep dream"],
         "url": "/posts/2022-01-01-convolution_deepdream/",

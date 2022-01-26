@@ -1,5 +1,5 @@
 ---
-title: "CNN : convolution, Deep Dream, Grad Cam"
+title: "CNN : convolution, Pytorch, Deep Dream"
 date: 2022-01-01T17:10:10-02:00 
 classes: wide
 layout: single
@@ -110,7 +110,7 @@ class My_Custom_Model(nn.Module):
         return x
 ```
 
-Comme vous l'aurez peut être compris, ce qui est intéressant avec ces opérations de convolutions est que le poids des filtres peuvent être appris lors de l'optimisation par rétropropogation du gradient puisque 
+Comme vous l'aurez peut être compris, ce qui est intéressant avec ces opérations de convolutions est que le poids des filtres peuvent être appris lors de l'optimisation par rétropropogation du gradient puisqu'il est possible de calculer de façon exacte la valeur de $\frac{\partial\mathcal{L}}{\partial W}$ par dérivation en chaîne. 
 
 
 ```python
@@ -132,13 +132,13 @@ for epoch in range(num_epochs):
         optimizer.step()
 ```
 
-todo : sgd par mini batch pour des questions de taille mémoire (et peut eviter de tomber dans un minimum local ? )
+**Note:** Pour des données d'entrées volumineuses, on utilise souvent comme algorithme d'optimisation une *descente de gradient stochastique* où la loss est approchée en utilisant un batch de quelques données (par exemple, 8, 16 ou 32 images).  
+{: .notice--info}
+
 
 ## Deep Dream
 
 calculating the gradient of the image with respect to the activations of a particular layer. The image is then modified to increase these activations, enhancing the patterns seen by the network, and resulting in a dream-like image.
 
 calcule le gradient de l'image par rapport aux activations d'une couche particulière. L'image est ensuite modifiée pour augmenter les activations de cette couche, renforçant les motifs vus par le réseau et résultant en une image onirique.
-
-## Grad Cam
 
