@@ -30,7 +30,7 @@ var store = [{
         "teaser": "/assets/images/teaser_neural_network.jpg"
       },{
         "title": "CNN : convolution, Deep Dream, Grad Cam",
-        "excerpt":"écriture en cours … intro CNN backpropagation pour CNN Deep Dream calculating the gradient of the image with respect to the activations of a particular layer. The image is then modified to increase these activations, enhancing the patterns seen by the network, and resulting in a dream-like image. calcule le...","categories": ["blog"],
+        "excerpt":"écriture en cours … Les réseaux de neurones convolutionnels (CNN) sont les modèles qui ont permis de faire un bon en avant dans les problèmes de reconnaissance d’image. Ils sont au coeur de nombreuses applications allant des systèmes de sécurité par identification faciale à la classification de vos photos de...","categories": ["blog"],
         "tags": ["machine learning","deep learning","convolution","deep dream"],
         "url": "/posts/2022-01-01-convolution_deepdream/",
         "teaser": "/assets/images/teaser_deepdream.jpg"
