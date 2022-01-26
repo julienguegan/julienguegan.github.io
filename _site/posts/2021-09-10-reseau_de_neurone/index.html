@@ -198,7 +198,7 @@
     
     
       <div class="author__bio" itemprop="description">
-        <p>Hello, je suis ingénieur en bidouille et j’aime les machins et les trucmuches. Ici, je parle bidule et parfois de chose.</p>
+        <p>Ingénieur en IA. Je travaille en R&amp;D chez ESSILOR. Ici, je parle de maths, bidules et autres machins qui m’intéressent.</p>
 
       </div>
     
@@ -324,7 +324,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          11 minute(s) de lecture
+          12 minute(s) de lecture
         
       </span>
     
@@ -348,7 +348,7 @@
 
 \[R_{emp}(h) = \frac{1}{n} \sum_{i=1}^n L\left(h(x_i),y_i\right)\]
 
-<p>Le principe de minimisation du risque empirique dit que l’algorithme d’apprentissage doit choisir un modèle $\hat{h}$ qui minimise ce risque empirique : $ \hat{h} = \arg \min_{h \in \mathcal{H}} R_{emp}(h) $. L’algorithme d’apprentissage consiste donc à résoudre un problème d’optimisation. A propos de la fonction loss, on peut en théorie utiliser la fonction <em>0-1 loss</em> :</p>
+<p>Le principe de minimisation du risque empirique dit que l’algorithme d’apprentissage doit choisir un modèle $\hat{h}$ qui minimise ce risque empirique : $ \hat{h} = \arg \min_{h \in \mathcal{H}} R_{emp}(h) $. L’algorithme d’apprentissage consiste donc à résoudre un problème d’optimisation. La fonction à minimiser est une approximation d’une probabilité inconnue, elle est faite en moyennant les données à disposition et plus ces données seront nombreuses plus elle l’approximation sera juste. À propos de la fonction <em>loss</em> $L(\hat{y},y)$, on peut en théorie utiliser la fonction <em>0-1 loss</em> pour pénaliser les erreurs et ne rien faire sinon :</p>
 
 \[L(\hat{y},y) = \left\{
     \begin{array}{ll}

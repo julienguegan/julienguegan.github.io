@@ -36,7 +36,7 @@ L'idée est de faire glisser le noyau spatialement sur toute l'image et à chaqu
    <img src="/assets/images/image_convolution.gif" width="40%"/>
 </p>
 
-**Remarque:** Il existe plusieurs paramètres associés à l'opération de convolution comme la taille du noyau utilisé, la taille du pas lorsqu'on fait glissé la fenêtre sur l'image, la façon dont on gère les bords de l'image, le taux de dilatation du noyau ([plus d'infos ici](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215))
+**Remarque:** Il existe plusieurs paramètres associés à l'opération de convolution comme la taille du noyau utilisé, la taille du pas lorsqu'on fait glisser la fenêtre sur l'image, la façon dont on gère les bords de l'image, le taux de dilatation du noyau ... [plus d'infos ici](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215)
 {: .notice--warning}
 
 On peut par exemple mettre en avant les pixels d'une image correspondants aux contours horizontaux en appliquant une convolution avec un noyau de taille $3 \times 3$ avec des $-1$ dans la 1ère ligne, des $0$ dans la 2ème ligne et des $+1$ dans la 3ème ligne de la matrice.
@@ -70,7 +70,7 @@ L'idée de l'architecture des modèles CNN est de garder des couches complèteme
    <img src="/assets/images/multichannel_convolution.png" width="100%"/>
 </p>
 
-**Note:** En 2D (1 seul canal), on utilise le terme *kernel* pour parler du noyau. En 3D (plus d'un canal), on utilise le terme *filtre* qui a alors le même nombre de canaux que le volume d'entrée. 
+**Note:** En 2D (1 seul canal), on utilise le terme *kernel* pour parler du noyau. En 3D (plus d'un canal), on utilise le terme *filtre* qui est constitué d'autant de kernel que le nombre de canaux du volume d'entrée. 
 {: .notice--info}
 
 Plus précisément dans les CNN, une couche convolutionnelle est composée un ensemble de $N_f$ filtres de taille $N_W$ x $N_H$ x $N_C$ plus un biais par filtre suivi d'une fonction d'activation non linéaire. Ici, $N_W$ et $N_H$ désigne les tailles spatiales du filtre alors que $N_C$ est le nombre de canaux (parfois appelé *feature map*). Chaque filtres réalisent une convolution multi-canaux, on obtient alors $N_f$ produits de convolution qui sont concaténés dans un volume de sortie. Ces $N_f$ produits deviennent alors les canaux du prochain volume qui passera dans la prochaine couche convolutionnelle. Notez que la profondeur des filtres doit nécessairement correspondre au nombre de canaux du volume d'entrée de chaque couche mais le nombre de filtres est un hyperparamètre d'architecture du modèle. Au final, l'enchaînement de ces convolutions multicanaux crée en sortie un volume de caractéristiques (*features*) de l'image d'entrée, ces features sont alors passées au réseau complètement connecté pour la classification.
@@ -79,22 +79,60 @@ Plus précisément dans les CNN, une couche convolutionnelle est composée un en
    <img src="/assets/images/architecture_cnn.png" width="100%"/>
 </p>
 
-**Important:** Une couche convolutionnelle est généralement composée (en plus de la convolution) d'une fonction d'activation non linéaire et parfois d'autres types d'opérations comme le pooling, la batch-normalization, le dropout ... 
+**Important:** Une couche convolutionnelle est généralement composée (en plus de la convolution) d'une fonction d'activation non linéaire et parfois d'autres types d'opérations (pooling, batch-normalization, dropout ...).
 {: .notice--success}
 
-```python
-# todo : insert code pytorch of model
-
-```
-
-Le plus intéressant avec ces opérations de convolutions est qu'elles peuvent écrites comme un produit matricielle et donc les poids des filtres peuvent appris lors de l'optimisation par rétropropogation du gradient. 
-backpropagation pour CNN ?
+Dans le post précédent, on a défini un MLP et son entraînement de zéro. Ici, la librairie **PyTorch** est utilisée. Elle permet de facilement construire des réseaux de neurones en profitant de son [moteur de différentiation automatique](https://pytorch.org/blog/overview-of-pytorch-autograd-engine/#what-is-autograd) pour l'entraînement ainsi que ses nombreuses fonctions spécialiséees (comme la [convolution](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html)).
 
 ```python
-# todo : insert code pytorch of training loop (sans les dataloaders)
+class My_Custom_Model(nn.Module):
 
+    def __init__(self):
+        ''' define some layers '''
+        super().__init__()
+        # feature learning
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.pool  = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+        # classification
+        self.fc1 = nn.Linear(16*5* 5, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 10)
+
+    def forward(self, x):
+        ''' create model architecture - how operations are linked '''
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = torch.flatten(x, 1)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
 ```
 
+Comme vous l'aurez peut être compris, ce qui est intéressant avec ces opérations de convolutions est que le poids des filtres peuvent être appris lors de l'optimisation par rétropropogation du gradient puisque 
+
+
+```python
+# define loss and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(my_cnn_model.parameters(), lr=0.001)
+# training loop
+num_epochs = 100
+for epoch in range(num_epochs):
+    for i, data in enumerate(train_loader):
+        images, labels = data
+        # Forward pass
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        # Backward pass
+        optimizer.zero_grad()
+        loss.backward()
+        # optimization step
+        optimizer.step()
+```
+
+todo : sgd par mini batch pour des questions de taille mémoire (et peut eviter de tomber dans un minimum local ? )
 
 ## Deep Dream
 
