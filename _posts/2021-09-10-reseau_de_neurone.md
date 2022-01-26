@@ -229,7 +229,7 @@ On obtient donc que la dérivée partielle de $L$ par rapport à $w_{ij}$ à la 
 
 {% include mlp_training.html %}
 
-**Note:** Lors de l'apprentissage, on optimise seulement les poids $W$ du modèle. Le nombre de couches cachées ainsi que le nombre de neurones par couche sont fixes et ne changent pas. On parle d'*hyperparamètres*, ils faut les choisir lors de la conception du modèle. Des techniques de recherches d'hyperparamètres optimaux existent mais sont complexes et gourmandes en temps de calcul.
+**Note:** Lors de l'apprentissage, on optimise seulement les poids $W$ du modèle. Le nombre de couches cachées ainsi que le nombre de neurones par couche sont fixes et ne changent pas. On parle d'*hyperparamètres*, il faut les choisir lors de la conception du modèle. Des techniques de recherches d'hyperparamètres optimaux existent mais sont complexes et gourmandes en temps de calcul.
 {: .notice--danger}
 
 ### Aller plus loin
