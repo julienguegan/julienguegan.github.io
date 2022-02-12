@@ -3,3 +3,8 @@
    ========================================================================== */
 
 // Intentionally left blank
+
+$primary-color: #242424 !default;
+$masthead-background-color: $primary-color !default;
+$masthead-border-color: $masthead-background-color !default;
+$masthead-menu-border-color: mix(#fff, $masthead-background-color, 20%) !default;
