@@ -1,6 +1,7 @@
 ---
 title: "Réseau de Neurone : statistique, gradient, perceptron"
 date: 2021-09-10T19:25:30-04:00 
+lang: en
 classes: wide
 layout: single
 categories:

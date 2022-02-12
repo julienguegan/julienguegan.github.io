@@ -1,6 +1,7 @@
 ---
 title: "Objet Fractal : Dimension, Auto-similarité, Infini"
 date: 2021-08-02T15:34:30-04:00
+lang: en
 classes: wide
 layout: single
 categories:

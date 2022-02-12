@@ -1,6 +1,7 @@
 ---
 title: "Optimisation : algorithme, XFOIL, profil d'aile"
 date: 2021-08-21T22:25:30-04:00
+lang: fr
 classes: wide
 layout: single
 categories:

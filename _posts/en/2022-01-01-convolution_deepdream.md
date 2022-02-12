@@ -1,6 +1,7 @@
 ---
 title: "CNN : convolution, Pytorch, Deep Dream"
 date: 2022-01-01T17:10:10-02:00 
+lang: en
 classes: wide
 layout: single
 categories:

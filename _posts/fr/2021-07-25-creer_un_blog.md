@@ -1,6 +1,7 @@
 ---
 title: "Créer un blog avec Jekyll : Markdown, Github, Latex"
 date: 2021-07-25T15:34:30-04:00
+lang: fr
 classes: wide
 layout: single
 categories:

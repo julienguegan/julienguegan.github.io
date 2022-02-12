@@ -8,6 +8,8 @@
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
 repository: "julienguegan/julienguegan.github.io"
+url: "https://julienguegan.github.io"
+baseurl: ""
 
 # Site settings
 title: Blog du Julien
@@ -26,7 +28,7 @@ remote_theme: mmistakes/minimal-mistakes
 github: [metadata]
 # Outputting
 permalink: /:categories/:title/
-paginate: 5 # amount of posts to show
+paginate: 12 # amount of posts to show
 paginate_path: /page:num/
 timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
@@ -53,6 +55,7 @@ plugins:
   - jekyll-feed
   - jekyll-include-cache
   - jekyll-seo-tag
+  - jekyll-polyglot
 
 author:
   name   : "Julien Guégan"
@@ -145,15 +148,13 @@ social:
 collections:
   posts:
     output: true
-    permalink: /:collection/:path/
+    permalink: /:collection/:path/ #;name
 
 # Reading Files
 include:
   - .htaccess
   - _pages
 exclude:
-  - "*.sublime-project"
-  - "*.sublime-workspace"
   - vendor
   - .asset-cache
   - .bundle
@@ -180,3 +181,11 @@ keep_files:
   - .svn
 encoding: "utf-8"
 markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+
+# jekyll-polyglot
+languages: ["en", "fr"]
+default_lang: "fr"
+#parallel_localization: false
+exclude_from_localization: ["assets"]
+sass:
+  sourcemap: 'never'
