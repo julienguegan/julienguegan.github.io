@@ -45,6 +45,7 @@ $(document).ready(function() {
 
   // Search toggle
   $(".search__toggle").on("click", function() {
+    console.log("là")
     $(".search-content").toggleClass("is--visible");
     $(".initial-content").toggleClass("is--hidden");
     // set focus on input
@@ -53,12 +54,10 @@ $(document).ready(function() {
     }, 400);
   });
 
-  $(".lang-switcher-toggle").click(function () {
-    $(this).toggleClass("close");
-  });
-
-  $("#site-nav > button").click(function () {
+  $(".lang-switcher-toggle").on("click", function () {
     var shouldOpenMenu = $(this).hasClass("close");
+    console.log("ici")
+    console.log(shouldOpenMenu)
     if (shouldOpenMenu) {
         // Ensure all other menus are closed
         $("#site-nav > button").removeClass("close");

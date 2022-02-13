@@ -140,7 +140,7 @@
   }
 }
 
-.greedy-nav .floating-menu {
+.floating-menu {
   position: absolute;
   top: 100%;
   right: 0;
@@ -196,7 +196,7 @@
   }
 
   .search__toggle {
-      color: revert;
+      //color: revert;
       height: unset;
       margin-right: unset;
   }

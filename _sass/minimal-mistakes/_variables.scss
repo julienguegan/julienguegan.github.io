@@ -117,6 +117,9 @@ $link-color-visited: mix(#fff, $link-color, 15%) !default;
 $masthead-link-color: $primary-color !default;
 $masthead-link-color-hover: mix(#000, $primary-color, 25%) !default;
 $navicon-link-color-hover: mix(#fff, $primary-color, 75%) !default;
+$masthead-background-color: $primary-color !default;
+$masthead-border-color: $masthead-background-color !default;
+$masthead-menu-border-color: mix(#fff, $masthead-background-color, 20%) !default;
 
 /* notices */
 $notice-background-mix: 80% !default;

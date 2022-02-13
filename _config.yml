@@ -17,7 +17,8 @@ email: julienguegan56520@gmail.com
 description: Blog personnel de Julien GUEGAN, ingénieur calcul et IA. Vous y trouverez divers articles sur des sujets qui l'intéressent, la plupart du temps scientifiques et techniques.
 github_username: julienguegan
 minimal_mistakes_skin: default
-search: true
+minimal_mistakes_skin2: "dark"
+search: false
 logo: "/assets/images/brain_icon.png"
 
 # Build settings
@@ -30,7 +31,6 @@ github: [metadata]
 permalink: /:categories/:title/
 paginate: 12 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 include:
   - _pages
