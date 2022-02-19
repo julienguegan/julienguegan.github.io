@@ -1,5 +1,5 @@
 ---
-title: "Réseau de Neurone : statistique, gradient, perceptron"
+title: "Neural Network: statistics, gradient, perceptron"
 date: 2021-09-10T19:25:30-04:00 
 lang: en
 classes: wide
@@ -13,30 +13,30 @@ header:
   teaser: /assets/images/teaser_neural_network.jpg
 ---
 
-Ces dernières années, on entend de plus en plus dans les médias les mots : *intelligence artificielle*, *réseau de neurone*, *Deep Learning* ... En effet, de nombreuses innovations ont emmergées grâce à ces technologies mais que ce cache-t-il vraiment derrière cette terminologie ? Depuis que les premiers ordinateurs programmables ont été conçus, les gens ont été étonnés de voir ces ordinateurs résoudre des tâches impossibles pour tout être humain. Cependant, ces problèmes étaient en fait faciles à décrire par une liste formelle de règles mathématiques. Le vrai challenge pour les ordinateurs est d'effectuer des tâches que les humains réalisent facilement et intuitivement mais qu'ils ont beaucoup plus de mal à décrire formellement comme, par exemple, reconnaître un langage ou des visages. De nos jours, on appelle intelligence artificielle (IA) toute technique permettant de résoudre un problème plus ou moins complexe par le biais d’une machine. Le Machine Learning et le Deep Learning sont des champs d'étude de l'IA fondés sur des théories statistiques.
+In recent years, we hear more and more in the media the words: *artificial intelligence*, *neural network*, *Deep Learning* ... Indeed, many innovations have emerged thanks to these technologies but that this hides really behind this terminology? Ever since the first programmable computers were designed, people have been amazed to see these computers solving tasks impossible for any human being. However, these problems were actually easy to describe by a formal list of mathematical rules. The real challenge for computers is to perform tasks that humans perform easily and intuitively but have much more difficulty in formally describing, such as recognizing language or faces. Nowadays, we call artificial intelligence (AI) any technique allowing to solve a more or less complex problem by means of a machine. Machine Learning and Deep Learning are fields of study of AI based on statistical theories.
 
 <p align="center">
    <img src="/assets/images/IA_classification.png" width="70%"/>
 </p>
 
-## Apprentissage Statistique
+## Statistical Learning
 
-L'apprentissage statistique (ou *Machine Learning* en anglais) se concentre sur l'étude des algorithmes permettant aux ordinateurs d'*apprendre* à partir des données et d'améliorer leur performances à résoudre des tâches sans avoir explicitement programmée chacune d'entre elles. Soit un ensemble $(x_i,y_i)$ de $n$ données d'apprentissage (avec $x_i$ une donnée et $y_i$ sa classe). Le but de l'apprentissage supervisé est de déterminer une estimation $h$ de $f$ en utilisant les données $(x_i,y_i)$ à disposition. On distingue alors deux types de prédictions selon la nature de $Y$ : si $Y \subset \mathbb{R}$, on parle de problème de **régression** et si $Y = \{1,...,I\}$ on parle de problème de **classification**. Pour estimer la loi $f$, une approche classique est la minimisation du risque empirique. Étant donné une fonction loss $L(\hat{y},y)$ (aussi appelé fonction de coût, de perte, objectif) qui mesure à quel point la prédiction $\hat{y}$ d'un modèle $h$ est différente de la vraie classe $y$ alors le risque empirique est : 
+Statistical learning (or *Machine Learning*) focuses on the study of algorithms that allow computers to *learn* from data and improve their performance at solving tasks without having explicitly programmed each of them. between them. Consider a set $(x_i,y_i)$ of $n$ training data (with $x_i$ a data and $y_i$ its class). The goal of supervised learning is to determine an estimate $h$ of $f$ using the available data $(x_i,y_i)$. We then distinguish two types of predictions depending on the nature of $Y$: if $Y \subset \mathbb{R}$, we speak of a **regression** problem and if $Y = \{1,..., I\}$ we are talking about a **classification** problem. To estimate the law $f$, a classical approach is the minimization of the empirical risk. Given a loss function $L(\hat{y},y)$ (also called cost, loss, goal function) that measures how well the prediction $\hat{y}$ of a model $h$ is different from the true class $y$ then the empirical risk is:
 
 $$ R_{emp}(h) = \frac{1}{n} \sum_{i=1}^n L\left(h(x_i),y_i\right) $$
 
-Le principe de minimisation du risque empirique dit que l'algorithme d'apprentissage doit choisir un modèle $\hat{h}$ qui minimise ce risque empirique : $ \hat{h} = \arg \min_{h \in \mathcal{H}} R_{emp}(h) $. L'algorithme d'apprentissage consiste donc à résoudre un problème d'optimisation. La fonction à minimiser est une approximation d'une probabilité inconnue, elle est faite en moyennant les données à disposition et plus ces données seront nombreuses plus elle l'approximation sera juste. À propos de la fonction *loss* $L(\hat{y},y)$, on peut en théorie utiliser la fonction *0-1 loss* pour pénaliser les erreurs et ne rien faire sinon : 
+The principle of empirical risk minimization says that the learning algorithm must choose a model $\hat{h}$ which minimizes this empirical risk: $ \hat{h} = \arg \min_{h \in \mathcal{ H}} R_{emp}(h) $. The learning algorithm therefore consists in solving an optimization problem. The function to be minimized is an approximation of an unknown probability, it is made by averaging the data available and the more data there is, the more accurate the approximation will be. About the *loss* $L(\hat{y},y)$ function, we can theoretically use the *0-1 loss* function to penalize errors and do nothing otherwise:
 
 $$ L(\hat{y},y) = \left\{
     \begin{array}{ll}
-        1 & \text{si } \hat{y} \neq y \\
-        0 & \text{si } \hat{y} = y
+        1 & \text{if } \hat{y} \neq y \\
+        0 & \text{if } \hat{y} = y
     \end{array}
 \right.$$
 
-Mais, en pratique, il est préférable d'avoir une fonction loss continue et différentiable pour l'algorithme d'optimisation. Par exemple, la *mean squared error* (MSE) qui est souvent choisie pour des problèmes de regression, par exemple pour un cas linéaire où l'on veut trouver la meilleure droite passant par des points. Cependant, la MSE a le désavantage d'être dominée par les *outliers* qui peuvent faire tendre la somme vers une valeur élevée. Une loss fréquemment utilisée en classification et plus adaptée est la *cross-entropie* (CE) :
+But, in practice, it is better to have a continuous and differentiable loss function for the optimization algorithm. For example, the *mean squared error* (MSE) which is often chosen for regression problems, for example for a linear case where we want to find the best straight line passing through points. However, the MSE has the disadvantage of being dominated by *outliers* which can cause the sum to tend towards a high value. A loss frequently used in classification and more suitable is the *cross-entropy* (CE):
 
-$$ MSE =  (y - \hat{y})^2 \quad \quad \quad CE = - y \log(\hat{y}) $$
+$$ MSE = (y - \hat{y})^2 \quad \quad \quad CE = - y \log(\hat{y}) $$
 
 ```python
 def compute_loss(y_true, y_pred, name):
@@ -47,39 +47,39 @@ def compute_loss(y_true, y_pred, name):
     return loss.mean()
 ```
 
-**Note:** Pour résoudre ce problème de minimisation, le plus efficace est d'utiliser un algorithme de descente de gradient (cf [post précédent](https://julienguegan.github.io/posts/2021-08-21-optimisation_profil_aile/#descente-de-gradient)) mais nécessite de connaître la dérivée exacte de la fonction Loss. Les librairies récente de Deep Learning (Pytorch, Tensorflow, Caffe ...) implémentent ces algorithmes d'optimisation ainsi que des frameworks d'[auto-différentation](https://fr.wikipedia.org/wiki/D%C3%A9rivation_automatique)
+**Note:** To solve this minimization problem, the most efficient way is to use a gradient descent algorithm (see [previous post](https://julienguegan.github.io/posts/2021-08-21-optimisation_profil_aile/#descente-de-gradient)) but requires knowing the exact derivative of the Loss function. Recent Deep Learning libraries (Pytorch, Tensorflow, Caffe ...) implement these optimization algorithms as well as [self-differentiation](https://fr.wikipedia.org/wiki/D%C3%A9rivation_automatic) frameworks 
 {: .notice--info}
 
-Maintenant que la notion d'apprentissage a été définie, l'élément le plus important est de construire un modèle $h$ capable de classifier ou régresser des données. L'un des modèles parmis les plus connues de nos jours est celui des réseaux de neurones.
+Now that the notion of learning has been defined, the most important element is to build a $h$ model capable of classifying or regressing data. One of the most well-known models today is that of neural networks.
 
-## Réseaux de Neurones
+## Neural Networks
 
-### Perceptron 
+### Perceptron
 
-Le premier modèle à l’origine des réseaux de neurones est le Perceptron (F. Rosenblatt,1957), il peut être vu comme un unique et simple neurone qui résout un problème de classification linéaire. Le Perceptron transforme un vecteur d'entrée $X=(x_1,...,x_d) \in \mathbb{R}^d$ en une sortie $Y \in [0,1]$, l’étiquette de classification. L'idée est qu'on cherche à séparer notre espace d’entrée en 2 régions par un hyperplan $\mathcal{H}$ définit simplement par : 
+The first model at the origin of neural networks is the Perceptron (F. Rosenblatt, 1957), it can be seen as a single and simple neuron which solves a linear classification problem. The Perceptron transforms an input vector $X=(x_1,...,x_d) \in \mathbb{R}^d$ into an output $Y \in [0,1]$, the classification label. The idea is that we seek to separate our input space into 2 regions by a hyperplane $\mathcal{H}$ defined simply by:
 
-$$\mathcal{H} : w^T X + b = 0 \iff \mathcal{H} : \sum_{i=1}^d w_i x_i + b = 0 $$
+$$\mathcal{H}: w^T X + b = 0 \iff \mathcal{H}: \sum_{i=1}^d w_i x_i + b = 0 $$
 
-où $w=(w_1,...,w_d) \in \mathbb{R}^d$ et $b \in \mathbb{R}$ sont les paramètres de l'hyperplan $\mathcal{H}$ qu'on appelle communément les poids du neurone.
+where $w=(w_1,...,w_d) \in \mathbb{R}^d$ and $b \in \mathbb{R}$ are the parameters of the hyperplane $\mathcal{H}$ that commonly called the weights of the neuron.
 
 ```python
 class Perceptron:
     
     def __init__(self, n_inputs, n_iter=30, alpha=2e-4):
         self.n_iter = n_iter # number of iterations during training
-        self.alpha  = alpha # learning rate
-        self.w      = np.zeros((n_iter, n_inputs+1))
+        self.alpha = alpha # learning rate
+        self.w = np.zeros((n_iter, n_inputs+1))
         self.w[0,:] = np.random.randn(n_inputs+1) # weights and bias parameters
 
-    def predict(self, X, i=-1): 
-        return np.sign(X @ self.w[i,1:] + self.w[i,0]) 
+    def predict(self, X, i=-1):
+        return np.sign(X @ self.w[i,1:] + self.w[i,0])
 ```
 
 <p align="center">
    <img src="/assets/images/perceptron.png" width="100%"/>
 </p>
 
-Cet hyperplan sépare donc l'espace en 2 et est donc capable de classifier un donnée $X$ en créant une règle comme $ f(X) = 1 \ \text{si } w^T X + b<0  \ ; 0 \text{ sinon} $. Notre modèle de neurone se résume donc à des paramètres modélisant un hyperplan et une règle de classification. Dans notre paradigme du machine learning, on suppose qu'on a, à notre disposition, un ensemble de $n$ données étiquetées $(X,Y) \in \mathbb{R}^{n\times d} \times [0,1]^n$. Comme expliqué dans la section précédentes, la phase d'apprentissage consiste à minimiser l'erreur de classification que fait le modèle sur ces données et ajuster les paramètres $w$ et $b$ qui permettent au modèle du Perceptron de séparer correctement ces données. 
+This hyperplane therefore separates the space into 2 and is therefore able to classify a datum $X$ by creating a rule like $ f(X) = 1 \ \text{si } w^T X + b<0 \ ; 0 \text{ otherwise} $. Our neuron model therefore boils down to parameters modeling a hyperplane and a classification rule. In our machine learning paradigm, we assume that we have, at our disposal, a set of $n$ data labeled $(X,Y) \in \mathbb{R}^{n\times d} \times [0 ,1]^n$. As explained in the previous section, the learning phase (or training phase) consists in minimizing the classification error made by the model on these data and adjusting the parameters $w$ and $b$ which allow the Perceptron model to correctly separate these data.
 
 ```python
     def gradient_descent(self, i, y, y_pred):
@@ -88,14 +88,14 @@ Cet hyperplan sépare donc l'espace en 2 et est donc capable de classifier un do
         # compute gradient of the MSE loss
         gradient_loss = -2 * np.dot(y_true - y_pred, inputs)
         # apply a step of gradient descent
-        self.w[i+1,:] = self.w[i, :] - self.alpha * gradient_loss
+        self.w[i+1,:] = self.w[i,:] - self.alpha * gradient_loss
 ```
 
 <p align="center">
    <img src="/assets/images/perceptron_training.jpg" width="100%"/>
 </p>
 
- <details> <summary> Ci-dessus, la loss MSE a été utilisée. Sa dérivée exacte en fonction de $w$ peut se calculer facilement (cf ci-dessous). </summary>
+ <details> <summary> Above, the MSE loss was used. Its exact derivative as a function of $w$ can be calculated easily (see below). </summary>
 
  $$
     L = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2 =  \frac{1}{n}\sum_{i=1}^n (y_i - (w_i x_i + b))^2 \\[5pt]
@@ -118,14 +118,14 @@ Cet hyperplan sépare donc l'espace en 2 et est donc capable de classifier un do
         \end{array}
     \right. \\
  $$
- En python, on a rajouté 1 à l'entrée X pour prendre en compte l'équation du biais. Le gradient s'écrit bien `gradient_loss = -2 * np.dot(y_true - y_pred, inputs)`
+In python, we added 1 to the input X to take into account the bias equation. The gradient is well written `gradient_loss = -2 * np.dot(y_true - y_pred, inputs)`
 </details> {: .notice--primary}
 
-Notez que ce modèle est très proche d'une simple régression linéaire mais présenté ici pour un problème de classification, on peut facilement l'adapter à une régression en supprimant la fonction `np.sign()` dans le code python. D'autres part, le problème résolu ici est binaire (on a 2 classes) mais on peut facilement étendre le modèle pour qu'il prédise plusieurs classes en remplaçant le vecteur de poids $w \in \mathbb{R}^d$ par une matrice $W \in \mathbb{R}^{d \times c}$ représentant donc plusieurs hyperplans séparateurs où $c$ est le nombre de classes possible, la sortie du modèle $Y$ n'est plus un scalaire mais alors un vecteur de $\mathbb{R}^c$. Enfin, on notera qu'en pratique, la fonction de classification $f$ est remplacée par une fonction différentiable $\sigma : \mathbb{R} \rightarrow [0,1]$. Pour un problème binaire, la fonction sigmoïde $\sigma(z)=\frac{1}{1+e^{-z}}$ est utilisée puis la classe est choisie selon un seuil (ex : $\sigma(z) > 0.5$). Pour un cas multi-classe, la fonction de classification est une fonction softmax $\sigma(z_j)=\frac{e^{z_j}}{\sum_{k=1}^Ke^{z_k}}$ qui retourne un vecteur de *pseudo-probabilité* (somme à 1) et la classe retenue est choisie en gardant la position de la valeur maximum du vecteur.
+Note that this model is very close to a simple linear regression but presented here for a classification problem, it can easily be adapted to a regression by removing the `np.sign()` function in the python code. On the other hand, the problem solved here is binary (we have 2 classes) but we can easily extend the model so that it predicts several classes by replacing the weight vector $w \in \mathbb{R}^d$ by a matrix $W \in \mathbb{R}^{d \times c}$ therefore representing several separating hyperplanes where $c$ is the number of possible classes, the output of the model $Y$ is no longer a scalar but then a vector of $\mathbb{R}^c$. Finally, note that in practice, the classification function $f$ is replaced by a differentiable function $\sigma: \mathbb{R} \rightarrow [0,1]$. For a binary problem, the sigmoid function $\sigma(z)=\frac{1}{1+e^{-z}}$ is used then the class is chosen according to a threshold (ex: $\sigma(z) > $0.5). For a multi-class case, the classification function is a softmax function $\sigma(z_j)=\frac{e^{z_j}}{\sum_{k=1}^Ke^{z_k}}$ which returns a vector of *pseudo-probability* (sum to 1) and the retained class is chosen by keeping the position of the maximum value of the vector.
 
-### Perceptron Multi-Couches 
+### Multi-Layer Perceptron
 
-Comme décrit ci-dessus, un neurone unique peut résoudre un problème linéairement séparable mais échoue lorsque les données ne sont pas linéairement séparable. Pour approximer des comportements non linéaires, l'idée est d'ajouter notamment des fonctions non linéaires dans le modèle, elles sont appelées *fonctions d'activation* (cf exemples ci-dessous). 
+As described above, a single neuron can solve a linearly separable problem but fails when the data is not linearly separable. To approximate nonlinear behaviors, the idea is to add nonlinear functions in the model, they are called *activation functions* (see examples below).
 
 <p align="center">
    <img src="/assets/images/activation_function.png" width="100%"/>
@@ -135,14 +135,14 @@ Comme décrit ci-dessus, un neurone unique peut résoudre un problème linéaire
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
-def relu(x):
+def read(x):
     return x * (x > 0)
 
 def tanh(x):
     return np.tanh(x)
 ```
 
-Le modèle du réseau de neurones ou Perceptron Multi-Couches consiste à enchaîner successivement plusieurs transformations linéaires effectuées par des neurones simples et des transformations non linéaires réalisées par ces fonctions d'activations jusqu'à la dernière opération qui retournera la classe prédite par le modèle. Une couche $l$ du réseau de neurone est alors composée de $m$ neurones modélisés par une matrice de poids $W^l \in \mathbb{R}^{(d+1)\times m}$ (par simplicité on intègre le biais $b$ dans $W$) ainsi que d'une fonction d'activation $A^l$. Au final, le réseau de neurone complet peut être décrit par une combinaison de **composition de fonctions et multiplications matricielles** en allant de la 1ère couche à la dernière : 
+The model of the neural network or Perceptron Multi-Layers consists in chaining successively several linear transformations carried out by simple neurons and nonlinear transformations carried out by these functions of activations until the last operation which will return the class predicted by the model. A layer $l$ of the neural network is then composed of $m$ neurons modeled by a weight matrix $W^l \in \mathbb{R}^{(d+1)\times m}$ (for simplicity we integrates the bias $b$ in $W$) as well as an activation function $A^l$. In the end, the complete neural network can be described by a combination of **composition of functions and matrix multiplications** going from the 1st layer to the last:
 
 $$ h(X) = \hat{Y} = A^l(W^l A^{l-1}(W^{l-1} \cdots A^0(W^0 X)\cdots)) $$
 
@@ -155,14 +155,14 @@ class MultiLayerPerceptron:
         self.W1 = np.random.randn(n_0, n_1)
         self.b1 = np.zeros(shape=(1, n_1))
         self.W2 = np.random.randn(n_1, n_2)
-        self.b2 = np.zeros(shape=(1, n_2))        
+        self.b2 = np.zeros(shape=(1, n_2))
 
     def forward(self, X):
         # input
         self.A0 = X
         # first layer
         self.Z1 = np.dot(self.A0, self.W1) + self.b1
-        self.A1 = relu(self.Z1)
+        self.A1 = reread(self.Z1)
         # second layer
         self.Z2 = np.dot(self.A1, self.W2) + self.b2
         self.A2 = sigmoid(self.Z2)
@@ -171,14 +171,14 @@ class MultiLayerPerceptron:
         return y_pred
 ```
 
-**Note:** Notez qu'on peut construire un réseau avec autant de couches cachées que l'on veut et que chacunes de ces couches peuvent être constituées également d'un nombre arbitraire de neurones et ce peu importe la dimension d'entrée et de sortie du problème.
+**Note:** Note that we can build a network with as many hidden layers as we want and that each of these layers can also consist of an arbitrary number of neurons, regardless of the input dimension and out of the problem.
 {: .notice--danger}
 
 <p align="center">
    <img src="/assets/images/multi_layer_perceptron.png" width="70%"/>
 </p>
 
-Cet enchaînement de couches de neurones pose problème pour la phase d'entraînement : le calcul de $\frac{\partial\mathcal{L}}{\partial W}$ est moins trivial que pour le modèle du neurone formel puisqu'il faut prendre en compte les poids $W^l$ de chaque couche $l$. La technique de la **rétropropagation du gradient** permet d'entraîner des réseaux de neurones multi-couches en se basant sur la règle de dérivation en chaîne. Le gradient de la loss est calculé en utilisant les dérivées des poids des neurones et leur fonction d'activation en partant de la dernière couche jusqu'à la première couche. Il faut donc parcourir le réseau vers l'avant (*<span style="color:green">forward pass</span>*) pour obtenir la valeur de la loss puis vers l'arrière (*<span style="color:red">backward pass</span>*) pour obtenir la valeur de la dérivée de la loss nécessaire à l'algorithme d'optimisation. Si on s'intéresse au neurone $j$ de la couche $l$ vers le neurone $i$ de la couche $l+1$, on note $a$ la valeur du produit vectoriel, $o$ la sortie du neurone (après activation) et qu'on garde le reste des notations précédentes, le calcul du gradient de $L$ en fonction de $W$ est :
+This sequence of layers of neurons poses a problem for the training phase: the calculation of $\frac{\partial\mathcal{L}}{\partial W}$ is less trivial than for the formal neuron model since it takes take into account the weights $W^l$ of each layer $l$. The **gradient backpropagation** technique allows to train multi-layered neural networks based on the chain derivation rule. The loss gradient is calculated using the derivatives of the weights of the neurons and their activation function starting from the last layer to the first layer. It is therefore necessary to browse the network forwards (*<span style="color:green">forward pass</span>*) to obtain the value of the loss then backwards (*<span style="color :red">backward pass</span>*) to obtain the value of the derivative of the loss needed by the optimization algorithm. If we are interested in the neuron $j$ of the layer $l$ towards the neuron $i$ of the layer $l+1$, we note $a$ the value of the vector product, $o$ the output of the neuron ( after activation) and keeping the rest of the previous notations, the calculation of the gradient of $L$ as a function of $W$ is:
 
 $$ 
 \begin{align*}
@@ -187,11 +187,11 @@ $$
 \end{align*} 
 $$
 
-On a donc que la dérivée $\dfrac{\partial L}{\partial w_{ij}^l}$ dépend du terme $\delta_j^l$ de la couche $l$ et de la sortie $o_i^{l-1}$ de la couche $l-1$. Ça fait sens puisque le poids $w_{ij}^l$ connecte la sortie du neurone $i$ dans la couche $l-1$ à l'entrée du neurone $j$ dans la couche $l$. On développe maintenant le terme $\delta_j^l$ : 
+We therefore have that the derivative $\dfrac{\partial L}{\partial w_{ij}^l}$ depends on the term $\delta_j^l$ of the layer $l$ and on the output $o_i^{l- 1}$ of layer $l-1$. This makes sense since the weight $w_{ij}^l$ connects the output of neuron $i$ in layer $l-1$ to the input of neuron $j$ in layer $l$. We now expand the term $\delta_j^l$:
 
 $$ \delta_j^l = \dfrac{\partial L}{\partial a_{j}^l} =  \sum_{n=1}^{N_{l+1}} \dfrac{\partial L}{\partial a_n^{l+1}}\dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} = \sum_{n=1}^{N_{l+1}} \delta_n^{l+1} \dfrac{\partial  a_n^{l+1}}{\partial  a_j^l} $$
 
-or, on a : 
+however, we have:
 
 $$ 
 \begin{align*}
@@ -200,13 +200,13 @@ $$
 \end{align*}
 $$
 
-et donc :
+and so:
 
 $$ \dfrac{\partial L}{\partial w_{ij}^l} = \delta_j^l o_i^{l-1} = A'(a_j^l) o_i^{l-1} \sum_{n=1}^{N_{l+1}} w_{jn}^{l+1} \delta_n^{l+1} $$ 
 
-On obtient donc que la dérivée partielle de $L$ par rapport à $w_{ij}$ à la couche $l$ dépend également de la dérivée à la couche $l+1$. Pour calculer la dérivée de tout le réseau en utilisant la règle de la dérivation en chaîne, il est donc nécessaire de commencer par la dernière couche pour finir par la première d'où le terme de *backpropagation de l'erreur*.
+We therefore obtain that the partial derivative of $L$ with respect to $w_{ij}$ at layer $l$ also depends on the derivative at layer $l+1$. To calculate the derivative of the entire network using the rule of chain derivation, it is therefore necessary to start with the last layer and end with the first, hence the term *error backpropagation*.
 
-**Attention:** Comme les calculs de la phase de backpropagation dépendent également de $a_j^l$ et $o_i^{l-1}$, il faut faire d'abord une *pass forward* avant la *pass backward* pour stocker ces valeurs en mémoires.
+**Warning:** As the calculations of the backpropagation phase also depend on $a_j^l$ and $o_i^{l-1}$, you must first do a *pass forward* before the *pass backward* to store these values in memory.
 {: .notice--warning}
 
 ```python
@@ -230,18 +230,18 @@ On obtient donc que la dérivée partielle de $L$ par rapport à $w_{ij}$ à la 
 
 {% include mlp_training.html %}
 
-**Note:** Lors de l'apprentissage, on optimise seulement les poids $W$ du modèle. Le nombre de couches cachées ainsi que le nombre de neurones par couche sont fixes et ne changent pas. On parle d'*hyperparamètres*, il faut les choisir lors de la conception du modèle. Des techniques de recherches d'hyperparamètres optimaux existent mais sont complexes et gourmandes en temps de calcul.
+**Note:** During training, only the weights $W$ of the model are optimized. The number of hidden layers as well as the number of neurons per layer are fixed and do not change. We are talking about *hyperparameters*, they must be chosen when designing the model. Optimal hyperparameter search techniques exist but are complex and computationally intensive.
 {: .notice--danger}
 
-### Aller plus loin
+### Go further
 
-La popularité des réseaux de neurones ces dernières années n'est en réalité pas due au modèle du MLP  présenté jusqu'à présent. En effet, l'inconvénient principal du MLP est le grand nombre de connexion existant entre chaque neurone qui entraîne une forte redondance et une difficulté à l'entrainement lorsque le nombre de neurone et de dimension d'entrée sont élevés. 
+The popularity of neural networks in recent years is actually not due to the MLP model presented so far. Indeed, the main drawback of MLP is the large number of connections existing between each neuron which leads to high redundancy and difficulty in training when the number of neurons and the input dimension are high.
 
 <p align="center">
    <img src="/assets/images/advanced_neural_network.png" width="100%"/>
 </p>
 
-Sur des problèmes complexes comme l'analyse d'image, le traitement de texte ou le traitement de la parole, l'efficacité des réseaux de neurones actuels est, en majorité, due à des opérations et des connexions plus avancées qui permettent de modéliser et représenter efficacement ces problèmes. Par exemple, pour les images, des opérateurs de convolution sont exploités, ils tirent parti de la structure locale des pixels pour comprendre les informations présentes, allant de formes simples (lignes, cercles, couleur ...) à plus complexes (animaux, bâtiment, paysages ...). Pour des données séquentielles, les connexions LSTM (*long short-term memory*) sont capables de mémoriser des données importantes passées en évitant les problèmes de disparition de gradient. D'autres parts, de nombreuses techniques existent pour améliorer la phase d'apprentissage et avoir des performances qui généralisent le modèle à des données dites de test jamais vues par le modèle lors de l'entraînement (augmentation de données, dropout, early stopping ...).
+On complex problems such as image analysis, word processing or speech processing, the effectiveness of current neural networks is, for the most part, due to more advanced operations and connections that allow modeling and effectively represent these issues. For example, for images, convolution operators are exploited, they take advantage of the local pixel structure to understand the information present, ranging from simple shapes (lines, circles, color ...) to more complex (animals, building , landscapes, etc.). For sequential data, LSTM (*long short-term memory*) connections are able to memorize important past data avoiding the problems of disappearance of gradient. On the other hand, many techniques exist to improve the learning phase and have performances that generalize the model to so-called test data never seen by the model during training (data augmentation, dropout, early stopping ...).
 
 ---
 

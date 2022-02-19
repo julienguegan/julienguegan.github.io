@@ -6,7 +6,7 @@ var store = [{
         "teaser": "/assets/images/teaser_blog_jekyll.png"
       },{
         "title": "Objet Fractal : Dimension, Auto-similarité, Infini",
-        "excerpt":"Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler...","categories": ["blog"],
+        "excerpt":"Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans fil. Ce mystère de la nature a enfin été percé à jour. “Bon sang ! Mais c’est bien sûr !”. Peut-être n’avez vous jamais entendu parler...","categories": ["blog"],
         "tags": ["Fractal","Python","Julia","Mandelbrot","Récursivité","Infini"],
         "url": "/posts/fr/2021-08-02-objet_fractal/",
         "teaser": "/assets/images/teaser_fractal.jfif"
