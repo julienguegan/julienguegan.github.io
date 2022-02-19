@@ -21,7 +21,7 @@ header:
   teaser: /assets/images/teaser_fractal.jfif
 ---
 
-> *Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans film. Ce mystère de la nature a enfin été percé à jour. "Bon sang ! Mais c'est bien sûr !". Peut-être n'avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.*
+> *Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans fil. Ce mystère de la nature a enfin été percé à jour. "Bon sang ! Mais c'est bien sûr !". Peut-être n'avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.*
 
 <cite> reportage ARTE </cite> -- à la recherche de la dimension cachée
 {: .small}
@@ -31,7 +31,6 @@ header:
 ## Introduction
 
 Comme vous l'aurez compris si vous avez regardé l'excellent documentaire d'ARTE présenté ci-dessus, les fractales sont des objets géométriques *infiniment morcelés* qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels (motifs des flocons,  chemin pris par la foudre, forme d'un choux de romanesco, structure des poumons ...) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages ...).
-{: .text-justify}
 
 <p align="center">
    <img src="/assets/images/fractals_in_nature.png" width="100%"/>

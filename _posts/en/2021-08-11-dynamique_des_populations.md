@@ -1,5 +1,5 @@
 ---
-title: "Dynamique des populations : EDO, écologie, logistique"
+title: "Population dynamics: ODE, ecology, logistics"
 date: 2021-08-11T22:18:30-04:00
 lang: en
 classes: wide
@@ -15,35 +15,35 @@ header:
   teaser: /assets/images/teaser_dynamique_population.jpg
 ---
 
-Parmis les enjeux du 21<sup>ème</sup> siècle, l'écologie a un rôle majeure puisqu'elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s'intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu'elle peut permettre de répondre à des problèmes variés comme la gestion d'espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.
+Among the challenges of the 21<sup>th</sup> century, ecology has a major role since it is the science that studies the interactions of living beings with each other and with their environment. To model these interactions, population dynamics is the branch that is interested in the demographic fluctuations of species. Its applications are numerous since it can make it possible to respond to various problems such as the management of endangered species, the protection of crops against pests, the control of bioreactors or the prediction of epidemics.
 
 <p align="center">
    <img src="/assets/images/ecologie.png"/>
 </p>
 
-## Modèle de Verhulst
+## Verhulst model
 
-À la fin du 18<sup>ème</sup> siècle, le modèle de **Malthus** décrit la variation d'une taille de population $y$ au cours du temps $t$ par l'équation différentielle ordinaire[^1] (EDO) :
+At the end of the 18<sup>th</sup> century, the model of **Malthus** describes the variation of a population size $y$ over time $t$ by the ordinary differential equation[^ 1] (EDO):
 
-[^1]: Le terme ordinaire est utilisé par opposition au terme équation différentielle partielle (ou équation aux dérivées partielles) où la ou les fonctions inconnues peuvent dépendre de plusieurs variables.
+[^1]: The term ordinary is used as opposed to the term partial differential equation (or partial differential equation) where the unknown function(s) may depend on more than one variable.
 
 $$ y'(t) = (n-m) y(t) = r y(t) $$
 
-avec les constantes : $n$ le taux de natalité, $m$ le taux de mortalité et $r$ le taux de croissance. Ce modèle nous dit que, selon le taux de croissance $r$, la taille des populations peut soit diminuer, rester constante ou augmenter de manière exponentielle. Ce modèle ne reflète pas la réalité puisque une population n'augmentera jamais à l'infini.
+with the constants: $n$ the birth rate, $m$ the death rate and $r$ the growth rate. This model tells us that, depending on the growth rate $r$, the size of the populations can either decrease, remain constant or increase exponentially. This model does not reflect reality since a population will never increase ad infinitum.
 
 <p align="center">
    <img src="/assets/images/malthus_verlhust_photos.png" width="50%"/>
 </p>
 
-En 1840, **Verlhust** propose un modèle de croissance plus adapté en partant de l'hypothèse que le taux de croissance $r$ n'est pas une constante mais est fonction affine de la taille de population $y$ :
+In 1840, **Verlhust** proposed a more suitable growth model based on the assumption that the growth rate $r$ is not a constant but is an affine function of the population size $y$:
 
 $$ y'(t) = \big(n(y) - m(y)\big) y(t) $$
 
-Verlhust part notamment de l'hypothèse que plus la taille d'une population augmente alors plus son taux de natalité $n$ diminue et plus son taux de mortalité $m$ augmente. En partant de cette hypothèse et en appliquant quelques manipulations algébriques astucieuses, on peut montrer que l'équation différentielle précédente peut se réécrire sous la forme :
+Verlhust notably starts from the hypothesis that the more the size of a population increases, the more its birth rate $n$ decreases and the more its death rate $m$ increases. Starting from this hypothesis and applying some clever algebraic manipulations, we can show that the previous differential equation can be rewritten in the form:
 
 $$ y'(t) = r y(t) \left(1 - \frac{y(t)}{K}\right) $$
 
-avec $K$ une constante appelée *capacité d'accueil*. On peut résoudre analytiquement cette équation avec la condition initiale $y(t=0)=y_0$, on obtient la **solution logistique** :
+with $K$ a constant called *accommodation capacity*. We can analytically solve this equation with the initial condition $y(t=0)=y_0$, we obtain the **logistic solution**:
 
 $$ y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}} $$
 
@@ -52,7 +52,7 @@ $$ y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}} $$
 </p>
 
 <details>
-  <summary>Résolution détaillée de l'équation différentielle logistique par séparation de variable</summary>
+  <summary>Detailed solution of the logistic differential equation by variable separation</summary>
 
   $$
   \begin{align*}
@@ -70,19 +70,19 @@ $$ y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}} $$
   $$
 </details> {: .notice--primary}
 
-On remarque que $ \lim\limits_{t\to\infty} y(t) = K $. Ce qui signifie que peut importe la taille de la population initiale $y_0$, la population finira toujours par tendre vers $K$ la capacité d'accueil qu'on qualifie souvent comme le nombre d’individus maximal que le milieu peut accueillir (selon l'espace, les ressources ...). Cette [fonction dite logistique](https://fr.wikipedia.org/wiki/Fonction_logistique_(Verhulst)) introduite pour la première fois par Verlhust pour modéliser la croissance des populations trouvera par la suite plein d'application dans des domaines variés comme l'économie, la chimie, les statistiques et plus récemment les réseaux de neurones artificielles.
+Note that $ \lim\limits_{t\to\infty} y(t) = K $. This means that regardless of the size of the initial population $y_0$, the population will always end up tending towards $K$ the carrying capacity that is often qualified as the maximum number of individuals that the environment can accommodate (according to space, resources, etc.). This [so-called logistic function](https://fr.wikipedia.org/wiki/Fonction_logistique_(Verhulst)) introduced for the first time by Verlhulst to model the growth of populations will subsequently find many applications in various fields such as economics, chemistry, statistics and more recently artificial neural networks.
 
-## Modèle de Lotka-Volterra
+## Lotka-Volterra Model
 
-Les modèles de Lotka-Volterra sont des sytèmes d'équations simples qui sont apparus au début du 20<sup>ème</sup> siècle. Ils portent le nom de deux mathématiciens qui ont publié en même temps mais indépendamment sur le sujet : Volterra, en 1926, pour modéliser les populations de sardines et de leurs prédateurs et Lotka, en 1924, dans son livre _Elements of Physical Biology_. Contrairement au modèle de Verlhust qui s'intéresse à une seule population, les modèles de Lotka-Volterra modélisent les interactions entre plusieurs espèces, chacune ayant un impact sur le développement de l'autres.
+Lotka-Volterra models are systems of simple equations that appeared at the beginning of the 20<sup>th</sup> century. They bear the name of two mathematicians who published simultaneously but independently on the subject: Volterra, in 1926, to model the populations of sardines and their predators and Lotka, in 1924, in his book _Elements of Physical Biology_. Unlike the Verlhust model, which focuses on a single population, the Lotka-Volterra models model the interactions between several species, each having an impact on the development of the other.
 
 <p align="center">
    <img src="/assets/images/lotka_volterra_photos.png" width="50%"/>
 </p>
 
-### *Proie-prédateur*
+### *Prey-predator*
 
-Le modèle proie-prédateur de Lotka-Volterra a permis d'expliquer des données collectées de certaines populations d'animaux comme le lynx et lièvre ainsi que le loup et l'élan aux Etats-Unis. On y représente l'évolution du nombre proies $x$ et de prédateurs $y$ au cours du temps $t$ selon le modèle suivant :
+The prey-predator model of Lotka-Volterra has made it possible to explain data collected from certain populations of animals such as the lynx and hare as well as the wolf and the elk in the United States. It represents the evolution of the number of prey $x$ and predators $y$ over time $t$ according to the following model:
 
 $$
 \left\{
@@ -93,18 +93,18 @@ $$
 \right.
 $$
 
-avec les paramètres $\alpha$ et $\delta$ sont les taux de reproduction respectivement des proies et des prédateurs et $\beta$ et $\gamma$ sont les taux de mortalité, respectivement, des proies et des prédateurs. 
+with the parameters $\alpha$ and $\delta$ are the reproduction rates of prey and predators respectively and $\beta$ and $\gamma$ are the mortality rates of prey and predators respectively.
 
-**Note:** On parle de système autonome : le temps $t$ n'apparaît pas explicitement dans les équations.
+**Note:** We speak of an autonomous system: the time $t$ does not appear explicitly in the equations.
 {: .notice--primary}
 
-Si on développe chacune des équations, on peut plus facilement donner une interprétation. Pour les proies, on a d'une part le terme $\alpha x(t)$ qui modélise la croissance exponentielle avec une source illimitée de nourriture et d'autre part $- \beta x(t) y(t)$ qui représente la prédation proportionnelle à la fréquence de rencontre entre prédateurs et proies. L'équation des prédateurs est très semblable à celle des proies, $\delta x(t)y(t)$ est la croissance des prédateurs proportionnelle à la quantité de nourriture disponible (les proies) et $- \gamma y(t)$ représente la mort naturelle des prédateurs.
+If we develop each of the equations, we can more easily give an interpretation. For prey, we have on the one hand the term $\alpha x(t)$ which models exponential growth with an unlimited source of food and on the other hand $- \beta x(t) y(t)$ which represents predation proportional to the frequency of encounter between predators and prey. The equation for predators is very similar to that for prey, $\delta x(t)y(t)$ is the growth of predators proportional to the amount of food available (the prey) and $- \gamma y(t) $ represents the natural death of predators.
 
 <p align="center">
    <img src="/assets/images/fox_rabbit.gif" width="70%"/>
 </p>
 
-On peut caculer les équilibres de ce système d'équations différentielles et également en déduire un comportement mais les solutions n'ont pas d'expression analytique simple. Néanmoins, il est possible de calculer une solution approchée numériquement (plus de détails dans la [`section suivante`](#méthode-numérique-pour-les-edo)).
+We can calculate the equilibria of this system of differential equations and also deduce a behavior from it, but the solutions do not have a simple analytical expression. Nevertheless, it is possible to compute an approximate solution numerically (more details in the [`next section`](#numerical-method-for-odes)). 
 
 ```python
 # define ODE function to resolve
@@ -121,7 +121,8 @@ Tmax = 12
 n    = 200
 T    = np.linspace(T0, Tmax, n) 
 ```
-On calcule ici l'évolution des 2 populations en fonction du temps pour une condition initiale fixée, on voit qu'elles ont un comportement périodique et en décalage de phase.
+Here we calculate the evolution of the 2 populations as a function of time for a fixed initial condition, we see that they have a periodic behavior and a phase shift.
+
 ```python
 # TEMPORAL DYNAMIC
 X0 = [1,1]
@@ -131,7 +132,7 @@ solution = integrate.odeint(prey_predator, X0, T) # use scipy solver
    <img src="/assets/images/lotka_volterra_graph2.png" width="70%"/>
 </p>
 
-Ici, on calcule plusieurs solutions pour différentes conditions initiales qu'on affiche dans l'espace de phase (le temps n'appararaît pas). On peut également afficher le champ de vecteur généré par le système d'équation avec `plt.quiver()` pour une grille de valeur.
+Here, we calculate several solutions for different initial conditions that we display in phase space (time does not appear). You can also display the vector field generated by the system of equations with `plt.quiver()` for a grid of values.
 
 ```python
 # PHASES SPACE
@@ -154,17 +155,17 @@ DX_grid, DY_grid = DX_grid/N, DY_grid/N
    <img src="/assets/images/lotka_volterra_graph1.png" width="70%"/>
 </p>
 
-**Attention:** Les unités des simulations ne reflète pas la réalité, il faut des populations suffisamment grandes pour que la modélisation soit correcte.
+**Warning:** The units of the simulations do not reflect reality, populations must be large enough for the modeling to be correct.
 {: .notice--danger}
 
-Dans le modèle utilisé, les prédateurs prospèrent lorsque les proies sont nombreuses, mais finissent par épuiser leurs ressources et déclinent. Lorsque la population de prédateurs a suffisamment diminué, les proies profitant du répit se reproduisent et leur population augmente de nouveau. Cette dynamique se poursuit en un cycle de croissance et déclin. Il existe 2 équilibres : le point $(0,0)$ est un point de selle instable qui montre que l'extinction des 2 espèce est en fait quasiment impossible à obtenir et le point $(\frac{\gamma}{\delta}, \frac{\alpha}{\beta})$ est un centre stable, les populations oscillent autour cet état.
+In the model used, predators thrive when prey is plentiful, but eventually exhaust their resources and decline. When the predator population has diminished enough, the prey taking advantage of the respite reproduce and their population increases again. This dynamic continues in a cycle of growth and decline. There are 2 equilibria: the point $(0,0)$ is an unstable saddle point which shows that the extinction of the 2 species is in fact almost impossible to obtain and the point $(\frac{\gamma}{\delta }, \frac{\alpha}{\beta})$ is a stable center, the populations oscillate around this state.
 
-**Note:** Cette modélisation reste assez simple, un grande nombre de variante existe. On peut rajouter des termes de disparition des 2 espèces (dus à la pêche, chasse, pesticide ...), tenir compte de la capacité d'accueil du milieu en utilisant un terme logistique.
+**Note:** This modeling remains quite simple, a large number of variants exist. We can add terms for the disappearance of the 2 species (due to fishing, hunting, pesticides, etc.), take into account the carrying capacity of the environment by using a logistical term.
 {: .notice--info}
 
-### *Compétition*
+### *Competition*
 
-Le modèle de compétition de Lotka-Volterra est une variante du modèle de prédation où les 2 espèces n'ont pas une hierarchie de proies et prédateurs mais sont en compétition l'une et l'autre. De plus, la dynamique de base n'est plus une simple croissance exponentielle mais logistique (avec les paramètres $r_i$ et $K_i$) : 
+The Lotka-Volterra competition model is a variant of the predation model where the 2 species do not have a hierarchy of prey and predators but are in competition with each other. Moreover, the basic dynamic is no longer a simple exponential growth but a logistic one (with the parameters $r_i$ and $K_i$):
 
 $$
 \left\{
@@ -175,13 +176,13 @@ $$
 \right.
 $$
 
-avec $\alpha_{12}$ l'effet de l'espèce 2 sur la population de l'espèce 1 et réciproquement $\alpha_{21}$ l'effet de l'espèce 2 sur l'espèce 1. Par exemple, pour l'équation de l'espèce 1, le coefficient $\alpha_{12}$ est multiplié par la taille de la population $x_2$. Quand $\alpha_{12} < 1$ alors l'effet de l'espèce 2 sur l'espèce 1 est plus petit que l'effet de l'espèce 1 sur ces propres membres. Et inversement, quand $\alpha_{12} > 1$, l'effet de l'espèce 2 sur l'espèce 1 est supérieur à l'effet de l'espèce 1 sur ces propres membres.
+with $\alpha_{12}$ the effect of species 2 on the population of species 1 and conversely $\alpha_{21}$ the effect of species 2 on species 1. For example, for the species 1 equation, the coefficient $\alpha_{12}$ is multiplied by the population size $x_2$. When $\alpha_{12} < 1$ then the effect of species 2 on species 1 is smaller than the effect of species 1 on its own members. And conversely, when $\alpha_{12} > 1$, the effect of species 2 on species 1 is greater than the effect of species 1 on its own members.
 
 <p align="center">
    <img src="/assets/images/competition_interspecific.jfif" width="60%"/>
 </p>
 
-Pour comprendre plus en détails les prédictions du modèles, il est utile de tracer comme précédemment les diagrammes d'espace de phase $(x_1,x_2)$. On peut distinguer 4 scénarios selon les valeurs des coefficients de compétition, j'affiche ci-dessous les champs de vecteurs de ces scénarios avec `plt.streamplot()` ainsi que les isoclines, les courbes pour lesquelles $$x_1'(t)=0$$ ou $$x_2'(t)=0$$:
+To understand the predictions of the models in more detail, it is useful to plot the phase space diagrams $(x_1,x_2)$ as before. We can distinguish 4 scenarios according to the values ​​of the competition coefficients, I display below the vector fields of these scenarios with `plt.streamplot()` as well as the isoclines, the curves for which $$x_1'(t) =0$$ or $$x_2'(t)=0$$:
 
 <p align="center">
   <img src="/assets/images/lotka_volterra_graph3.png" width="70%"/>
@@ -207,40 +208,40 @@ for k,(a1,a2) in enumerate(coeffs):
     DX_grid[k,:], DY_grid[k,:] = competition([X_grid, Y_grid], a1, a2)
 ```
 
-Au final, les 4 comportements possibles en fonction de $\alpha_{12}$ et $\alpha_{21}$ sont les suivants :
+In the end, the 4 possible behaviors depending on $\alpha_{12}$ and $\alpha_{21}$ are the following:
 
-1. Exclusion compétitive d'une des deux espèces en fonction des conditions initiales.
-2. Coexistence stable des deux espèces.
-3. Exclusion compétitive de l'espèce 1 par l'espèce 2.
-4. Exclusion compétitive de l'espèce 2 par l'espèce 1.
+1. Competitive exclusion of one of the two species depending on the initial conditions.
+2. Stable coexistence of the two species.
+3. Competitive exclusion of species 1 by species 2.
+4. Competitive exclusion of species 2 by species 1.
 
-La coexistence stable des 2 espèces n'est possible que si $\alpha_{12} < 1$ et $\alpha_{21} < 1$, c'est-à-dire qu'il faut que la *compétition interspécifique* soit plus faible que la *compétition intraspécifique*.
+The stable coexistence of the 2 species is only possible if $\alpha_{12} < 1$ and $\alpha_{21} < 1$, i.e. *interspecific competition* must be weaker than *intraspecific competition*.
 
-## Méthode numérique pour les EDO
+## Numerical method for ODEs
 
-Cette section est un petit peu à part du réel sujet de ce post puisque j'y introduis les méthodes numériques pour résoudre les équations différentielles. En effet, il est possible de déduire de nombreuses propriétés d'un système d'EDO en se basant sur les théorèmes mathématiques pour la théorie des systèmes dynamiques ([méthode de Lyapunov](https://fr.wikipedia.org/wiki/Stabilit%C3%A9_de_Liapounov), [invariance de LaSalle](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [théorème de Poincaré-Bendixon](https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) mais seul un nombre restreint d'équations différentielles admettent une solution analytique. En pratique, on préfère souvent avoir une méthode qui calcule une solution approximative du problème à tout temps $t$. On considère le problème $$y'(t) = f\big(t,y(t)\big)$$ avec $y(t_0)=y_0$. L'idée des méthodes numériques est de résoudre le problème sur un ensemble discret de points $(t_n,y_n)$ avec $h_n=t_{n+1}-t_n$, un pas de temps fixé.
+This section is a little bit apart from the real subject of this post since I introduce numerical methods to solve differential equations. Indeed, it is possible to deduce many properties of an ODE system based on mathematical theorems for the theory of dynamical systems ([Lyapunov method](https://fr.wikipedia.org/wiki/ Stabilit%C3%A9_de_Liapounov), [LaSalle invariance](https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle), [Poincaré-Bendixon theorem](https://fr.wikipedia.org/wiki/ Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson) ...) but only a restricted number of differential equations admit an analytical solution. In practice, we often prefer to have a method that computes an approximate solution of the problem at any time $t$. We consider the problem $$y'(t) = f\big(t,y(t)\big)$$ with $y(t_0)=y_0$. The idea of ​​numerical methods is to solve the problem on a discrete set of points $(t_n,y_n)$ with $h_n=t_{n+1}-t_n$, a fixed time step.
 
 **Euler**
 
-![image-right](/assets/images/euler_method.png){: .align-right width="30%"} La méthode d'Euler est la plus basique des méthodes numériques pour EDO, elle utilise l'équation différentielle pour calculer la pente de la tangente à n'importe quel point de la courbe solution. La solution est approchée en partant du point initial $y_0$ connu pour lequel on calcule la tangente, on fait ensuite un pas de temps le long de cette tangente on obtient alors un nouveau point $y_1$. L'idée est de répéter ce processus, pour un pas de temps de $t_n$ à $t_{n+1}$ on peut l'écrire comme $y_{n+1} = y_n + h f(t_n,y_n)$.
+![image-right](/assets/images/euler_method.png){: .align-right width="30%"} Euler's method is the most basic numerical method for ODE, it uses the differential equation to calculate the slope of the tangent at any point on the solution curve. The solution is approached starting from the known initial point $y_0$ for which the tangent is calculated, then a time step is taken along this tangent, a new point $y_1$ is then obtained. The idea is to repeat this process, for a time step from $t_n$ to $t_{n+1}$ we can write it as $y_{n+1} = y_n + hf(t_n,y_n)$ .
 
-Cette méthode est très simple à mettre en place, par exemple en python :
+This method is very simple to set up, for example in python:
 ```python
 def Euler_method(f, y0, t):
     y = np.zeros((len(t), len(y0)))
     y[0,:] = y0
-    for i in range(len(t)-1):
+    for i in range(slow(t)-1):
         y[i+1] = y[i] + h*f(y[i], t[i])
     return y
 ```
 
-**Runge-Kutta**
+**Runge Kutta**
 
-![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} Les méthodes de Runge-Kutta sont une famille de méthodes, la plus connue est celle d'ordre 4. Elle est plus précise que la méthode d'Euler en faisant une moyenne pondérée de 4 termes correspondant à différentes pentes de la courbe dans l'intervalle de temps fixé. On la définit par :
+![image-right](/assets/images/rungekutta_method.png){: .align-right width="45%"} Runge-Kutta methods are a family of methods, the best known is that of order 4 It is more precise than the Euler method by making a weighted average of 4 terms corresponding to different slopes of the curve in the fixed time interval. It is defined by:
 
 $$ y_{n+1} = y_n + \frac{h}{6} (k_1+2k_2+2k_3+k_4) $$
 
-avec :
+with:
  - $k_1=f(t_n,y_n)$
  - $k_2=f(t_n+h/2,y_n+hk_1/2)$
  - $k_3=f(t_n+h/2,y_n+hk_2/2)$
@@ -259,11 +260,11 @@ def RungeKutta4_method(f, y0, t):
     return y
 ```
 
-**Exemple**
+**Example**
 
-Pour vérifier le comportement de ces méthodes, j'ai choisi de les testées sur un modèle bien connu de la physique : l'oscillateur harmonique. Dans sa forme la plus simple, on peut calculer exactement la solution du problème et donc comparer nos méthodes de résolution approchées. Le problème peut s'écrire :
+To verify the behavior of these methods, I chose to test them on a well-known model of physics: the harmonic oscillator. In its simplest form, we can calculate exactly the solution of the problem and therefore compare our approximate resolution methods. The problem can be written:
 
-$$ 
+$$
 \left\{
   \begin{array}{ccc}
     y''(t) + y(t) = 0 \\
@@ -272,35 +273,35 @@ $$
 \right.
 $$
 
-et admet pour solution $ y(t) = y_0 \cos(t) $.
+and admits for solution $ y(t) = y_0 \cos(t) $.
 
 ```python
 # initial condition
 y0 = [2, 0]
 # discretization
-t = np.linspace(0, 5*pi, 100)
+t = np.linspace(0.5*pi, 100)
 h = t[1] - t[0]
-# ODE formulation
-def problem(y, t):
+# ODE wording
+defproblem(y, t):
     return np.array([y[1], -y[0]])
-# analytic solution
+# analytics solution
 def exact_solution(t):
     return y0[0]*np.cos(t)
 y_exact = exact_solution(t)
 y_euler = Euler_method(problem, y0, t)[:, 0]
-y_rk4   = RungeKutta4_method(problem, y0, t)[:, 0]    
+y_rk4 = RungeKutta4_method(problem, y0, t)[:, 0]
 ```
 
-Comme attendu la méthode de Runge-Kutta est bien plus précise que la méthode d'Euler (mais plus lente). L'erreur des méthodes numériques diminue en fonction de la taille du pas de temps $h$ mais plus $h$ est petit et plus le temps de calcul est long. En théorie, pour analyser les méthodes numériques on se base sur 3 critères : 
-- la convergence qui garantit que la solution approchée est proche de la solution réelle.
-- l'ordre qui quantifie la qualité de l'approximation pour une itération. 
-- la stabilité qui juge du comportement de l'erreur.
+As expected the Runge-Kutta method is much more accurate than the Euler method (but slower). The error of the numerical methods decreases according to the size of the time step $h$ but the smaller $h$ is, the longer the calculation time. In theory, to analyze numerical methods, we base ourselves on 3 criteria:
+- the convergence which guarantees that the approximate solution is close to the real solution.
+- the order which quantifies the quality of the approximation for an iteration.
+- the stability which judges the behavior of the error.
 
 <p align="center">
    <img src="/assets/images/numerical_ODE.gif" width="70%"/>
 </p>
 
-**En pratique** : Dans les [`problèmes précédents`](#proie-prédateur) , j'utilise la fonction `integrate.odeint(f, y0, t)` de [scipy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html) qui est un solveur d'EDO plus avancé qui utilise la méthode d'[Adams–Bashforth](https://en.wikipedia.org/wiki/Linear_multistep_method#Adams–Bashforth_methods)
+**In practice**: In the [`previous problems`](#predator-predator) , I use the `integrate.odeint(f, y0, t)` function from [scipy](https://docs. scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html) which is a more advanced ODE solver that uses the method of [Adams–Bashforth](https://en.wikipedia.org /wiki/Linear_multistep_method#Adams–Bashforth_methods)
 {: .notice--info}
 
 ---

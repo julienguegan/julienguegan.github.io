@@ -15,44 +15,44 @@ header:
   teaser: /assets/images/teaser_deepdream.jpg
 ---
 
-Les réseaux de neurones convolutionnels (CNN) sont les modèles qui ont permis de faire un bon en avant dans les problèmes de reconnaissance d'image. Ils sont au coeur de nombreuses applications allant des systèmes de sécurité par identification faciale à la classification de vos photos de vacances en passant par la génération synthétique de visage et les filtres snapchat. L'un des fondateurs de ce modèle est Yann Le Cun (un français !) qui, en 1989, applique la backpropagation du gradient pour apprendre des filtres de convolution et permet à un réseau de neurone à reconnaître des chiffres manuscrits. Cependant, c'est seulement en 2012 que les CNN se répandent largement dans la communauté scientifique de la vision par ordinateur avec Alex Krizhevsky qui conçoit l'architecture *AlexNet* et remporte la compétition *ImageNet Large Scale Visual Recognition Challenge* (1 million d'images de 1000 classes différentes) en implémentant son algorithme sur des GPUs ce qui permet au modèle d'apprendre rapidement d'une grande quantité d'image. Ce modèle atteint des performances 10% plus élevées que tous les autres à cette époque et il est désormais l'un des papiers publiés les plus influents en Computer Vision (en 2021, plus de 80 000 citations selon Google Scholar).
+Convolutional neural networks (CNN) are the models that have made it possible to make a leap forward in image recognition problems. They are at the heart of many applications ranging from facial identification security systems to the classification of your vacation photos, including synthetic face generation and Snapchat filters. One of the founders of this model is Yann Le Cun (a Frenchman!) who, in 1989, applied gradient backpropagation to learn convolution filters and enabled a neural network to recognize handwritten digits. However, it was only in 2012 that CNNs spread widely in the computer vision scientific community with Alex Krizhevsky designing the *AlexNet* architecture and winning the *ImageNet Large Scale Visual Recognition Challenge* competition (1 million images of 1000 different classes) by implementing its algorithm on GPUs which allows the model to learn quickly from a large quantity of images. This model achieves 10% higher performance than all the others at this time and it is now one of the most influential published papers in Computer Vision (in 2021, more than 80,000 citations according to Google Scholar).
 
 <p align="center">
    <img src="/assets/images/cnn_header.png" width="80%"/>
 </p>
 
-## Convolutions et Réseaux de neurones
+## Convolutions and Neural Networks
 
-Les modèles de réseaux de neurones complètements connectés (cf [post précédent](https://julienguegan.github.io/posts/2021-09-10-reseau_de_neurone/)) ne sont pas adaptés pour résoudre des problèmes de traitement d'image. En effet, les MLP ont chaque neurone d'une couche connecté à chaque unité d'entrée : le nombre de paramètre à apprendre devient vite élevé et une forte redondance dans les poids du réseau peut exister. De plus, pour utiliser une image dans un tel réseau, tous les pixels devrait être transformée en vecteur et aucune information sur la structure locale des pixels serait alors prise en compte. 
+Completely connected neural network models (see [previous post](https://julienguegan.github.io/posts/2021-09-10-reseau_de_neurone/)) are not suitable for solving image processing problems . Indeed, MLPs have each neuron of a layer connected to each input unit: the number of parameters to learn quickly becomes high and a strong redundancy in the weights of the network can exist. Moreover, to use an image in such a network, all the pixels would have to be transformed into a vector and no information on the local structure of the pixels would then be taken into account.
 
-Le produit de convolution, noté $\ast$, est un opérateur qui généralise l'idée de moyenne glissante. Il s'applique aussi bien à des données temporelles (en traitement du signal par exemple) qu'à des données spatiales (en traitement d'image). Pour le cas des images, c'est-à-dire discret et en 2 dimensions, la convolution entre une image $I$ et un noyau  $w$ (ou kernel) peut se calculer comme suit :
+The convolution product, denoted $\ast$, is an operator which generalizes the idea of ​​a moving average. It applies both to temporal data (in signal processing for example) and to spatial data (in image processing). For the case of images, i.e. discrete and in 2 dimensions, the convolution between an image $I$ and a kernel $w$ (or kernel) can be calculated as follows:
 
-$$I(i,j) * \omega =\sum_{x=-a}^a{\sum_{y=-b}^b{ I(i+x,j+y)} \ \omega(x,y)}$$
+$$I(i,j) * \omega =\sum_{x=-a}^a{\sum_{y=-b}^b{ I(i+x,j+y)} \ \omega(x ,y)}$$
 
-L'idée est de faire glisser le noyau spatialement sur toute l'image et à chaque fois de faire une moyenne pondérée des pixels de l'image se retrouvant dans la fenêtre concernée par les éléments du noyau. Selon la valeur des éléments du noyau de convolution $w$, l'opération peut mettre en avant des caractéristiques particulières se trouvant dans l'image comme des contours, des textures, des formes.
+The idea is to drag the kernel spatially over the entire image and each time to make a weighted average of the pixels of the image found in the window concerned by the elements of the kernel. Depending on the value of the elements of the convolution kernel $w$, the operation can highlight particular characteristics found in the image such as contours, textures, shapes.
 
 <p align="center">
    <img src="/assets/images/image_convolution.gif" width="40%"/>
 </p>
 
-**Remarque:** Il existe plusieurs paramètres associés à l'opération de convolution comme la taille du noyau utilisé, la taille du pas lorsqu'on fait glisser la fenêtre sur l'image, la façon dont on gère les bords de l'image, le taux de dilatation du noyau ... [plus d'infos ici](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215)
+**Note:** There are several parameters associated with the convolution operation like the size of the kernel used, the step size when dragging the window over the image, the way we handle the edges of the image, the rate of core expansion... [more info here](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215 )
 {: .notice--warning}
 
-On peut par exemple mettre en avant les pixels d'une image correspondants aux contours horizontaux en appliquant une convolution avec un noyau de taille $3 \times 3$ avec des $-1$ dans la 1ère ligne, des $0$ dans la 2ème ligne et des $+1$ dans la 3ème ligne de la matrice.
+For example, we can highlight the pixels of an image corresponding to the horizontal contours by applying a convolution with a kernel of size $3 \times 3$ with $-1$ in the 1st line, $0$ in the 2nd line and $+1$ in the 3rd row of the matrix.
 
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import convolve2d
-# read image
+#readimage
 image = np.array(Image.open("path/to/file.jpg").convert('L'))
 # apply convolution
 kernel = np.array([[-1, -1, -1],
-                   [ 0,  0,  0],
+                   [0, 0, 0],
                    [+1, +1, +1]])
 conv_output = convolve2d(image, kernel, mode='same')
 # display
-plt.figure(figsize=(15,5))
+plt.figure(figsize=(15.5))
 plt.subplot(121), plt.imshow(image, cmap='gray'), plt.axis('off')
 plt.subplot(122), plt.imshow(np.abs(conv_output), cmap='gray'), plt.axis('off')
 plt.tight_layout()
@@ -63,25 +63,25 @@ plt.show()
    <img src="/assets/images/convolution_exemple.png" width="80%"/>
 </p>
 
-L'idée de l'architecture des modèles CNN est de garder des couches complètement connectées pour la classification. Cependant, en entrées de ces couches, l'image n'est pas directement utilisée, mais la sortie de plusieurs opérations de convolution qui ont pour but de mettre en avant les différentes caractéristiques d'une image en encodant d'une certaine façon les objets qui sont présents ou non. On utilise notamment des convolutions multi-canaux qui consistent à appliquer une convolution standard à chaque canaux de l'entrée puis sommer chaque produits de convolution obtenus pour obtenir une unique matrice 2D. Par exemple pour une image couleur les canaux sont le rouge, vert et bleu, on a alors 3 kernels à convoluer avec les canaux associés puis les 3 produits obtenus sont sommés.
+The idea of ​​the CNN model architecture is to keep completely connected layers for classification. However, at the inputs of these layers, the image is not directly used, but the output of several convolution operations which aim to highlight the different characteristics of an image by encoding the objects in a certain way. which are present or not. In particular, multi-channel convolutions are used which consist in applying a standard convolution to each channel of the input then summing each convolution product obtained to obtain a single 2D matrix. For example for a color image the channels are red, green and blue, we then have 3 kernels to convolve with the associated channels then the 3 products obtained are summed.
 
 <p align="center">
    <img src="/assets/images/multichannel_convolution.png" width="100%"/>
 </p>
 
-**Note:** En 2D (1 seul canal), on utilise le terme *kernel* pour parler du noyau. En 3D (plus d'un canal), on utilise le terme *filtre* qui est constitué d'autant de kernel que le nombre de canaux du volume d'entrée. 
+**Note:** In 2D (1 channel only), we use the term *kernel* to talk about the kernel. In 3D (more than one channel), we use the term *filter* which is made up of as many kernels as the number of channels of the input volume.
 {: .notice--info}
 
-Plus précisément dans les CNN, une couche convolutionnelle est composée un ensemble de $N_f$ filtres de taille $N_W$ x $N_H$ x $N_C$ plus un biais par filtre suivi d'une fonction d'activation non linéaire. Ici, $N_W$ et $N_H$ désigne les tailles spatiales du filtre alors que $N_C$ est le nombre de canaux (parfois appelé *feature map*). Chaque filtres réalisent une convolution multi-canaux, on obtient alors $N_f$ produits de convolution qui sont concaténés dans un volume de sortie. Ces $N_f$ produits deviennent alors les canaux du prochain volume qui passera dans la prochaine couche convolutionnelle. Notez que la profondeur des filtres doit nécessairement correspondre au nombre de canaux du volume d'entrée de chaque couche mais le nombre de filtres est un hyperparamètre d'architecture du modèle. Au final, l'enchaînement de ces convolutions multicanaux crée en sortie un volume de caractéristiques (*features*) de l'image d'entrée, ces features sont alors passées au réseau complètement connecté pour la classification.
+More precisely in CNNs, a convolutional layer is composed of a set of $N_f$ filters of size $N_W$ x $N_H$ x $N_C$ plus a bias per filter followed by a nonlinear activation function. Here, $N_W$ and $N_H$ designate the spatial sizes of the filter while $N_C$ is the number of channels (sometimes called *feature map*). Each filter performs a multi-channel convolution, we then obtain $N_f$ convolution products which are concatenated in an output volume. These $N_f$ products then become the channels of the next volume which will pass into the next convolutional layer. Note that the depth of the filters must necessarily correspond to the number of channels of the input volume of each layer but the number of filters is an architecture hyperparameter of the model. In the end, the sequence of these multichannel convolutions creates at output a volume of features (*features*) of the input image, these features are then passed to the fully connected network for classification.
 
 <p align="center">
    <img src="/assets/images/architecture_cnn.png" width="100%"/>
 </p>
 
-**Important:** Une couche convolutionnelle est généralement composée (en plus de la convolution) d'une fonction d'activation non linéaire et parfois d'autres types d'opérations (pooling, batch-normalization, dropout ...).
+**Important:** A convolutional layer is usually composed (in addition to convolution) of a nonlinear activation function and sometimes other types of operations (pooling, batch-normalization, dropout...).
 {: .notice--success}
 
-Dans le post précédent, on a défini un MLP et son entraînement de zéro. Ici, la librairie **PyTorch** est utilisée. Elle permet de facilement construire des réseaux de neurones en profitant de son [moteur de différentiation automatique](https://pytorch.org/blog/overview-of-pytorch-autograd-engine/#what-is-autograd) pour l'entraînement ainsi que ses nombreuses fonctions spécialisées (comme la [convolution](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html)).
+In the previous post, we defined an MLP and its training from zero. Here, the **PyTorch** library is used. It allows to easily build neural networks by taking advantage of its [automatic differentiation engine](https://pytorch.org/blog/overview-of-pytorch-autograd-engine/#what-is-autograd) for the training as well as its many specialized functions (like the [convolution](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html)).
 
 ```python
 import torch
@@ -98,10 +98,10 @@ class My_Custom_Model(nn.Module):
         super().__init__()
         # feature learning
         self.conv1 = nn.Conv2d(3, 6, 5)
-        self.pool  = nn.MaxPool2d(2, 2)
+        self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
         # classification
-        self.fc1 = nn.Linear(16*5* 5, 120)
+        self.fc1 = nn.Linear(16*5*5, 120)
         self.fc2 = nn.Linear(120, 84)
         self.fc3 = nn.Linear(84, 10)
 
@@ -110,13 +110,13 @@ class My_Custom_Model(nn.Module):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = torch.flatten(x, 1)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
+        x = F.read(self.fc1(x))
+        x = F.read(self.fc2(x))
         x = self.fc3(x)
         return x
 ```
 
-Comme vous l'aurez peut être compris, ce qui est intéressant avec ces opérations de convolutions est que le poids des filtres peuvent être appris lors de l'optimisation par rétropropogation du gradient puisqu'il est possible de calculer de façon exacte la valeur de $\frac{\partial\mathcal{L}}{\partial W}$ par dérivation en chaîne. 
+As you may have understood, what is interesting with these convolution operations is that the weight of the filters can be learned during the optimization by backward propagation of the gradient since it is possible to calculate in an exact way the value of $ \frac{\ partial\mathcal{L}}{\partial W}$ by chain derivation.
 
 
 ```python
@@ -129,7 +129,7 @@ for epoch in range(num_epochs):
     for i, data in enumerate(train_loader):
         images, labels = data
         # Forward pass
-        outputs = model(images)
+        output = model(images)
         loss = criterion(outputs, labels)
         # Backward pass
         optimizer.zero_grad()
@@ -138,23 +138,23 @@ for epoch in range(num_epochs):
         optimizer.step()
 ```
 
-**Note:** Pour des données d'entrées volumineuses, on utilise souvent comme algorithme d'optimisation une *descente de gradient stochastique* où la loss est approchée en utilisant un batch de quelques données (par exemple, 8, 16 ou 32 images).  
+**Note:** For large input data, we often use as an optimization algorithm a *stochastic gradient descent* where the loss is approximated by using a batch of some data (for example, 8, 16 or 32 pictures).
 {: .notice--info}
 
 
 ## Deep Dream
 
-L'un des challenges des réseaux de neurones est de comprendre ce qu'il se passe exactement à chaque couche. En effet, leur architecture en cascade ainsi que leurs nombreuses interconnexions font qu'il n'est pas évident d'interpréter le rôle de chaque filtre. La visualisation des *features* est un axe de recherches s'étant développé ces dernières années qui consiste à trouver des méthodes pour comprendre comment les CNNs voient un image.
+One of the challenges of neural networks is to understand what exactly is happening at each layer. Indeed, their cascade architecture as well as their numerous interconnections make it not easy to interpret the role of each filter. The visualization of *features* is a line of research that has developed in recent years, which consists of finding methods to understand how CNNs see an image.
 
-DeepDream est le nom d'une de ces techniques créée en 2015 par une équipe d'ingénieur de Google, l'idée est d'utiliser un réseau déjà entraîné à reconnaître des formes pour modifier une image afin qu'un neurone donné renvoie une sortie plus élevée que les autres. L'algorithme ressemble à la backpropagation classique mais au lieu de modifier les poids du réseau on ajuste les pixels de l'image d'entrée. De plus, le critère d'optimisation n'est pas une cross entropie mais directement la norme de la sortie du neurone à visualiser (ça peut être la couche entière ou un filtre) qu'on va chercher à maximiser, on fait alors une montée de gradient (on pourrait également minimiser l'opposée).
+DeepDream is the name of one of these techniques created in 2015 by a team of engineers from Google, the idea is to use a network already trained to recognize shapes to modify an image so that a given neuron returns an output higher than the others. The algorithm looks like classic backpropagation but instead of modifying the weights of the network we adjust the pixels of the input image. Moreover, the optimization criterion is not a cross entropy but directly the norm of the output of the neuron to be visualized (it can be the entire layer or a filter) that we will seek to maximize, we then make a rise gradient (we could also minimize the opposite).
 
 ```python
 # Parameters
-iterations   = 25   # number of gradient ascent steps per octave
-at_layer     = 26   # layer at which we modify image to maximize outputs
-lr           = 0.02 # learning rate
-octave_scale = 2    # image scale between octaves
-num_octaves  = 4    # number of octaves
+iterations = 25 # number of gradient ascent steps per octave
+at_layer = 26 # layer at which we modify image to maximize outputs
+lr = 0.02 # learning rate
+octave_scale = 2 # image scale between octaves
+num_octaves = 4 # number of octaves
 ```
 
 ```python
@@ -168,7 +168,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = model.to(device)
 ```
 
-Une astuce supplémentaire pour obtenir une visualisation intéressante est d'opérer à des résolutions spatiales différentes, ici on parle d'*octave*. De plus, la loss est normalisée à toutes les couches pour que la contribution des grandes couches ne l'emporte pas sur celle des petites couches.
+An additional trick to obtain an interesting visualization is to operate at different spatial resolutions, here we speak of *octave*. In addition, the loss is normalized at all layers so that the contribution of large layers does not outweigh that of small layers.
 
 ```python
 # loop on different resolution scale
@@ -196,37 +196,37 @@ for k, octave_base in enumerate(tqdm(octaves[::-1], desc="Octaves : ")):
         detail = input_image.cpu().data.numpy() - octave_base
 ```
 
-On obtient, selon le nombre d'itération, des images de plus en plus abstraites avec des formes psychédéliques qui apparaissent au fur et à mesure d'où le nom de *DeepDream*. En fait, ces formes abstraites sont présentes surtout pour les couches les plus profondes, les premières couches accentuent généralement des *features* simples comme des arêtes, des coins, des textures ...
+Depending on the number of iterations, we obtain more and more abstract images with psychedelic shapes that appear as and when the name *DeepDream*. In fact, these abstract shapes are present especially for the deeper layers, the first layers usually accentuate simple *features* like edges, corners, textures...
 
 <p align="center">
    <img src="/assets/images/deepdream_exemple.gif" width="80%"/>
 </p>
 
-Avec cet outil, on peut créer des effets artistiques très avancées comme sur [l'instagram de DeepDreamGenerator](https://www.instagram.com/deepdreamgenerator/). Mais on peut également accentuer l'effet pscychédélique en faisant beaucoup d'itérations ou en alimentant plusieurs fois la sortie de l'algorithme en entrée. Et avec un peu d'effort, on peut parvenir à visualiser à quoi ça ressemble d'aller au supermarché dans ces rêves à partir d'images bien réelles. 
+With this tool, one can create very advanced artistic effects like on [DeepDreamGenerator's instagram](https://www.instagram.com/deepdreamgenerator/). But we can also accentuate the pscychedelic effect by doing a lot of iterations or by feeding the output of the algorithm as input several times. And with a little effort, one can manage to visualize what it is like to go to the supermarket in these dreams from very real images.
 
 {% include video id="DgPaCWJL7XI" provider="youtube" %}
 
-Tel que présenté ci-dessus, Deep Dream présente un inconvénient si on veut le lancer sur une image de bruit blanc en entrée pour visualiser ce qui pourrait en émerger et ainsi avoir une représentation plus exact des *features* du CNN. En effet, on voit que l'image reste alors dominée par des motifs de hautes-fréquences. 
+As presented above, Deep Dream has a drawback if you want to run it on an input white noise image to visualize what might emerge and thus have a more accurate representation of CNN *features*. Indeed, it can be seen that the image then remains dominated by high-frequency patterns.
 
 <p align="center">
    <img src="/assets/images/deepdream_noise.png" width="80%"/>
 </p>
 
-Généralement, pour contrer cet effet, ce qui marche le mieux est d'introduire une régularisation d'une façon ou d'une autre dans le modèle. Par exemple, la robustesse à la transformation essaie de trouver des exemples qui activent toujours fortement la fonction d'optimisation lorsqu'on les transforment très faiblement. Concrètement, cela signifie qu'on tremble, tourne, diminue ou augmente l'image de façon aléatoire avant d'appliquer l'étape d'optimisation. Les librairies [lucid](https://github.com/tensorflow/lucid) (tensorflow) et [lucent](https://github.com/greentfrapp/lucent) (pytorch) sont des packages open-source qui implémentent toutes sortes de méthodes de visualisation. 
+Generally, to counter this effect, what works best is to introduce regularization in one way or another into the model. For example, transformation robustness tries to find examples that always strongly activate the optimization function when they are very weakly transformed. Concretely, this means that we shake, rotate, decrease or increase the image randomly before applying the optimization step. The [lucid](https://github.com/tensorflow/lucid) (tensorflow) and [lucent](https://github.com/greentfrapp/lucent) (pytorch) libraries are open-source packages that implement all kinds of visualization methods.
 
 ```python
-# load librairies
+# load libraries
 from lucent.optvis import render
 from lucent.modelzoo import vgg19
-# load model
+#loadmodel
 model = vgg19(pretrained=True)
 model = model.to(device)
 model.eval()
-# run optimisation
+# run optimization
 image = render.render_vis(model, "features:30",thresholds=[100],show_inline=True)
 ```
 
-Un article bien plus complète sur les techniques de visualisation de features est disponible [ici](https://distill.pub/2017/feature-visualization/)
+A much more comprehensive article on feature visualization techniques is available [here](https://distill.pub/2017/feature-visualization/)
 
 <p align="center">
    <img src="/assets/images/lucid_viz.png" width="100%"/>

@@ -45,7 +45,6 @@ $(document).ready(function() {
 
   // Search toggle
   $(".search__toggle").on("click", function() {
-    console.log("là")
     $(".search-content").toggleClass("is--visible");
     $(".initial-content").toggleClass("is--hidden");
     // set focus on input
@@ -54,11 +53,10 @@ $(document).ready(function() {
     }, 400);
   });
 
-  $(".lang-switcher-toggle").on("click", function () {
+  // Language toggle
+  $(".lang__toggle").on("click", function () {
     var shouldOpenMenu = $(this).hasClass("close");
-    console.log("ici")
-    console.log(shouldOpenMenu)
-    if (shouldOpenMenu) {
+    if (!shouldOpenMenu) {
         // Ensure all other menus are closed
         $("#site-nav > button").removeClass("close");
         $("#site-nav > button + ul").addClass("hidden");
@@ -71,6 +69,21 @@ $(document).ready(function() {
     }
   });
 
+  // Theme toggle
+  $(".theme__toggle").on("click", function () {
+    node1 = document.getElementById('theme_source');
+    node2 = document.getElementById('theme_source_2');
+    if(node1.getAttribute('rel')=='stylesheet') {
+      node1.setAttribute('rel', 'stylesheet alternate');
+      node2.setAttribute('rel', 'stylesheet');
+      sessionStorage.setItem('theme', 'dark');
+    } else {
+      node2.setAttribute('rel', 'stylesheet alternate'); 
+      node1.setAttribute('rel', 'stylesheet');
+      sessionStorage.setItem('theme', 'light');
+    } 
+  });
+  
   // Smooth scrolling
   var scroll = new SmoothScroll('a[href*="#"]', {
     offset: 20,
@@ -100,9 +113,7 @@ $(document).ready(function() {
   }
 
   // add lightbox class to all image links
-  $(
-    "a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.gif'],a[href$='.webp']"
-  ).addClass("image-popup");
+  $("a[href$='.jpg'],a[href$='.jpeg'],a[href$='.JPG'],a[href$='.png'],a[href$='.gif'],a[href$='.webp']").addClass("image-popup");
 
   // Magnific-Popup options
   $(".image-popup").magnificPopup({
