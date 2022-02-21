@@ -16,6 +16,8 @@ header:
   teaser: /assets/images/teaser_airflow.jpg
 ---
 
+<script> console.log("{{page.url}}") </script>
+
 Dans la vie de tous les jours, on cherche souvent à optimiser nos actions pour faire le moins d'effort et bien, dans le monde de l'ingénierie, c'est la même chose. Les problèmes de minimisation sont omniprésents dans de nombreux systèmes que ce soit pour obtenir un gain de temps, d’argent, d’énergie, de matière première, ou encore de satisfaction. On peut par exemple chercher à optimiser un trajet, la forme d’un objet, un prix de vente, une réaction chimique, le contrôle aérien, le rendement d’un appareil, le fonctionnement d'un moteur ... La complexité des problèmes et de leur modélisation fait de l'optimisation une branche des mathématiques très vaste et variée, en pratique la qualité des résultats dépend de la pertinence du modèle, du bon choix des variables que l'on cherche à optimiser, de l’efficacité de l’algorithme et des moyens pour le traitement numérique. Dans le domaine de l'aérodynamisme, la forme des avions et des voitures de courses est souvent designer pour que l'énergie dépensée soit minimum. Après avoir introduit quelques aspects algorithmiques du problème de minimisation, l'article suivant présentera comment le profil d'une aile d'avion peut être optimisé pour maximiser ses performances.
 
 <p align="center">
