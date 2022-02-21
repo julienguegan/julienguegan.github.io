@@ -48,7 +48,7 @@ plugins:
 author:
   name   : "Julien Guégan"
   avatar : "/assets/images/photo_profil.jpg"
-  bio    : site.data.strings.profil_description #"Ingénieur en IA. Je travaille en R&D chez ESSILOR. Ici, je parle de maths, bidules et autres machins qui m'intéressent."
+  bio    : "Ingénieur en IA. Je travaille en R&D chez ESSILOR. Ici, je parle de maths, bidules et autres machins qui m'intéressent."
   links:
     - label: "Mail"
       icon: "fas fa-fw fa-envelope-square"

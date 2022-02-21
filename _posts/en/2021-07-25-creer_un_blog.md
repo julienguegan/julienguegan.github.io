@@ -26,7 +26,7 @@ I write the 1st post of this blog to simply talk about how to create a blog like
 To use Jekyll on Windows, one way is to go through the [Windows Subsystem for Linux](https://docs.microsoft.com/fr-fr/windows/wsl/about) which allows you to take advantage of a Linux environment. To do this, you can simply download the WSL app through the Microsoft Store.
 
 <p align="center">
-   <img src="/assets/images/windows_subsystem_linux.png" width="60%"/>
+   <img src="/assets/images/windows_subsytem_linux.png" width="60%"/>
 </p>
 
 Then, you have to install **Ruby** which is the programming language used by Jekyll to work. By opening the previously downloaded Ubuntu application and entering the following commands one after the other in the console, Ruby should be present on your computer:

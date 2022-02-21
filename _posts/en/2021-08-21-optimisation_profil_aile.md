@@ -114,17 +114,17 @@ def nelder_mead(f, x0, params=2, itermax=1000):
 ![image-right](/assets/images/evolution_strategy.gif){: .align-right width="45%"} The methods presented previously are able to find minima but local and not global minima. The techniques called evolution strategies are [metaheuristics](https://fr.wikipedia.org/wiki/M%C3%A9taheuristique) inspired by the theory of evolution which statistically converges towards a global minimum. The idea is to start from a population of $\mu$ *parents* which will produce $\lambda$ *children*. Of these $\lambda$ children, only the best ones are selected to be part of the next *generation*. The vocabulary used is that of evolution but, in practice, we make random draws of points and we keep those for which the function $f$ is minimal. This algorithm can find a global minimum but the main drawback is that it requires a large number of evaluations of the function $f$ which is general
 
 ```python 
-def evolution_strategy(f, x0, params=[5,3,1], itermax=1000):
+def evolution_strategy(f, x0, params=[5,3,1], imax=1000):
     # parameters
     dim = len(x0)
     lambd, mu, tau = params
     # initialization
-    x, xp, s = np.zeros((itermax+1, dim)), np.zeros((itermax+1, lambd, dim)), np.zeros((itermax+1, dim))
+    x, xp, s = np.zeros((imax+1, dim)), np.zeros((imax+1, lambd, dim)), np.zeros((imax+1, dim))
     x[0,:] = x0
     s[0,:] = [0.1,0.1]
     # ITERATIVE LOOP
     k = 0
-    while (k < itermax):
+    while (k < imax):
         # GENERATION
         sp = s[k,:] * np.exp(tau * randn(lambd, dim))
         xp[k,:,:] = x[k,:] + sp * randn(lambd, dim)
