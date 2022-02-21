@@ -23,7 +23,7 @@ Among the challenges of the 21<sup>th</sup> century, ecology has a major role si
 
 ## Verhulst model
 
-At the end of the 18<sup>th</sup> century, the model of **Malthus** describes the variation of a population size $y$ over time $t$ by the ordinary differential equation[^ 1] (EDO):
+At the end of the 18<sup>th</sup> century, the model of **Malthus** describes the variation of a population size $y$ over time $t$ by the ordinary differential equation[^1] (EDO):
 
 [^1]: The term ordinary is used as opposed to the term partial differential equation (or partial differential equation) where the unknown function(s) may depend on more than one variable.
 
