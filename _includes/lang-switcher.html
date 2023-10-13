@@ -4,9 +4,10 @@
         {% if lang == site.active_lang %}
             <li class="lang-option-active masthead__menu-item">{{ lang_name }}</li>
         {% else %}
-            {% capture url %}{% if lang == site.default_lang %}{{site.baseurl}}{{page.url}}{% else %}{{site.baseurl}}{{lang}}{{page.url}}{% endif %}{%- endcapture -%}
+            {% capture url %}{% if lang == site.default_lang %}{{site.baseurl}}{{include.page_url}}{% else %}{{site.baseurl}}{{lang}}{{include.page_url}}{% endif %}{%- endcapture -%}
             <script> console.log("{{page.url}}") </script> 
-            <script> console.log("+ {{page.name}}") </script>
+            <script> console.log("{{include.page_url}}") </script>
+            <script> console.log("{{include.page_url}}") </script>
             <li class="lang-option-inactive masthead__menu-item"><a {% static_href %}href="{{ url | relative_url }}"{% endstatic_href %}>{{ lang_name }} </a></li>
         {% endif %}
     {%- endfor -%}

@@ -34,4 +34,10 @@ var store = [{
         "tags": ["machine learning","deep learning","convolution","deep dream"],
         "url": "/posts/fr/2022-01-01-convolution_deepdream/",
         "teaser": "/assets/images/teaser_deepdream.jpg"
+      },{
+        "title": "Kalman : filtre, tracking, IMU",
+        "excerpt":"Le filtre de Kalman est une méthode très répandue dans le milieu de l’ingénieurie puisqu’elle posséde de nombreuses applications en localisation, navigation, pilotage automatique, suivi d’objet, fusion de données … Il fut introduit en 1960 par l’ingénieur Rudolf E. Kálmán et fut notamment utilisé pour l’estimation de trajectoire pour le...","categories": ["blog"],
+        "tags": [],
+        "url": "/posts/fr/2022-02-24-filtre_kalman/",
+        "teaser": "/assets/images/teaser_ardupilot.jpg"
       }]
