@@ -2,7 +2,7 @@
 title: "Kalman: filter, tracking, IMU"
 date: 2022-02-24T23:00:00-02:00
 lang: en
-classes:wide
+classes: wide
 layout: single
 categories:
    - blog
