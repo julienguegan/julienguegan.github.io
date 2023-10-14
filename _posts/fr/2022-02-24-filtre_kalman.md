@@ -143,7 +143,7 @@ avec le gain de Kalman $ K = \hat P_t (\hat P_t + R)^{-1} $
 où $Z \in \mathbb{R}^d$ est la mesure du système (ou observation) et $R \in \mathbb{R}^{d \times d}$ la matrice de covariance de la mesure qui modélise l'erreur des mesures.
 
 <p align="center">
-   <img src="/assets/images/kalman_2D_line.gif" width="90%"/>
+   <img src="/assets/images/kalman_2d_line.gif" width="90%"/>
 </p>
 
 Il existe des versions plus élaborées du filtre de Kalman qui peuvent prendre en entrée une commande $U$ envoyée au système. On trouve également fréquemment la matrice d'observation $H \in \mathbb{R}^{d \times m}$ reliant l'état réel du système au variables observées, en effet on peut modéliser un système à $d$ dimensions mais seulement observer $m$ de ses variables ($m<d$). La phase de prédiction reste la même mais la phase de correction est alors : 

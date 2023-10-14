@@ -143,7 +143,7 @@ with the Kalman gain $ K = \hat P_t (\hat P_t + R)^{-1} $
 where $Z \in \mathbb{R}^d$ is the measurement of the system (or observation) and $R \in \mathbb{R}^{d \times d}$ the covariance matrix of the measurement which models l measurement error.
 
 <p align="center">
-    <img src="/assets/images/kalman_2D_line.gif" width="90%"/>
+    <img src="/assets/images/kalman_2d_line.gif" width="90%"/>
 </p>
 
 There are more sophisticated versions of the Kalman filter that can take as input a $U$ command sent to the system. We also frequently find the observation matrix $H \in \mathbb{R}^{d \times m}$ linking the real state of the system to the observed variables, in fact we can model a system with $d$ dimensions but only observe $m$ of its variables ($m<d$). The prediction phase remains the same but the correction phase is then:
@@ -385,6 +385,6 @@ Having synthetically generated the data, the real state of the system is availab
 
 # For further
 
-An important limitation of the filter presented here is that it models a linear dependence with time, which is quite rare in practice. We can still use it and obtain good results as shown in the examples above but there is a non-linear version called *[extended Kalman filter](https://en.wikipedia.org/wiki/Extended_Kalman_filter) * where $A$ is replaced by a non-linear and differentiable function $f$ in the state prediction equation and its Jacobian $F=\frac{\partial f}{\partial x}$ in the equation of covariance prediction. This solution is generally used in navigation systems and GPS but we note that it can sometimes be unstable (divergence) depending on the initialization of the initial state unlike the linear version.
+An important limitation of the filter presented here is that it models a linear dependence with time, which is quite rare in practice. We can still use it and obtain good results as shown in the examples above but there is a non-linear version called *[extended Kalman filter](https://en.wikipedia.org/wiki/Extended_Kalman_filter)* where $A$ is replaced by a non-linear and differentiable function $f$ in the state prediction equation and its Jacobian $F=\frac{\partial f}{\partial x}$ in the equation of covariance prediction. This solution is generally used in navigation systems and GPS but we note that it can sometimes be unstable (divergence) depending on the initialization of the initial state unlike the linear version.
 
 Another advantage of the Kalman filter is being able to do [sensor fusion](https://en.wikipedia.org/wiki/Sensor_fusion). A very simple example would be to have a system where we have access to 2 noisy sensors measuring the same size, for example a radar and a GPS which measure the position $x$ we would have the observation matrix $H$ via $\begin{bmatrix} x_{radar} \\\ x_{GPS} \end{bmatrix} = \underbrace{\begin{bmatrix} 1 & 0 \\\ 1 & 0 \end{bmatrix}}_H \begin{bmatrix} x \\\ \dot x \end{bmatrix}$, and we would thus benefit from the 2 information from the 2 different sensors in our predictions.
