@@ -258,7 +258,7 @@ Q = np.eye(4)
 R = np.eye(2)
 ```
 
-We open the video and for each frame, we detect the position of the object then we apply the Kalman filter. It allows us to have access to the speed of the system which is not observed. If the detection fails and the position of the object is not available at time $t$, we only execute the prediction phase of the Kalman filter to have an estimate using the dynamic model.
+We open the video and for each frame, we detect the position of the object then we apply the Kalman filter. It allows us to have access to the speed of the system which is not observed. Speed ​​is represented in the example below by the arrow. Furthermore, if the detection fails and the position of the object is not available at time $t$, we only execute the prediction phase of the Kalman filter to still have an estimate using the dynamic model.
 
 ```python
 # open video

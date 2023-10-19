@@ -258,7 +258,7 @@ Q = np.eye(4)
 R = np.eye(2)
 ```
 
-On ouvre la vidéo et pour chaque frame, on détecte la position de l'objet puis on applique le filtre de Kalman. Il nous permet d'avoir accès à la vitesse du système qui n'est pas observé. Si la détection échoue et la position de l'objet n'est pas disponible à l'instant $t$, on execute seulement la phase de prédiction du filtre de Kalman pour avoir une estimation grâce au modèle dynamique.
+On ouvre la vidéo et pour chaque frame, on détecte la position de l'objet puis on applique le filtre de Kalman. Il nous permet d'avoir accès à la vitesse du système qui n'est pas observé. La vitesse est représentée dans l'exemple ci-dessous par la flèche. De plus, si la détection échoue et que la position de l'objet n'est pas disponible à l'instant $t$, on exécute seulement la phase de prédiction du filtre de Kalman pour avoir malgré tout une estimation grâce au modèle dynamique.
 
 ```python
 # open video
@@ -284,7 +284,10 @@ while True:
 cap.release()
 ```
 
-**todo : insert video**
+
+![][{/assets/images/kalman_object_tracking.avi}]
+
+
 
 ## Central inertiel (IMU)
 
