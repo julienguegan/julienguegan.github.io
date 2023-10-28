@@ -284,7 +284,12 @@ while True:
 cap.release()
 ```
 
-**todo: video insert**
+<p align="center">
+  <video width="80%" controls>
+    <source src="/assets/images/kalman_object_tracking.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+</p>
 
 ## Inertial unit (IMU)
 

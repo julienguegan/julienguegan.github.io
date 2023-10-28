@@ -285,12 +285,11 @@ cap.release()
 ```
 
 <p align="center">
-  <video width="80%" controls>
+  <video width="80%" preload autoplay controls>
     <source src="/assets/images/kalman_object_tracking.mp4" type="video/mp4">
     Votre navigateur ne supporte pas la vidéo.
   </video>
 </p>
-
 
 
 ## Central inertiel (IMU)
