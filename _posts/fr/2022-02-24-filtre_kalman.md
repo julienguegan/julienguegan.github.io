@@ -286,7 +286,8 @@ cap.release()
 
 <p align="center">
   <video width="80%" preload autoplay controls>
-    <source src="/assets/images/kalman_object_tracking.mp4" type="video/mp4">
+    <source src="[/assets/images/kalman_object_tracking.mp4](https://github.com/julienguegan/julienguegan.github.io/assets/45081450/608ecde0-e5f3-48cb-8205-8f9c2c24091a
+)" type="video/mp4">
     Votre navigateur ne supporte pas la vidéo.
   </video>
 </p>
