@@ -221,7 +221,9 @@ optimize.dual_annealing(cost_function, bounds, x0=x0, maxiter=10)
    <img src="/assets/images/optimization_airfoil.gif" width="200%"/>
 </p>
 
-*todo : aerosandbox*
+<center>
+{% include wing_plotly.html %}
+</center>
 
 ---
 
