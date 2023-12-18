@@ -44,6 +44,7 @@ plugins:
   - jekyll-include-cache
   - jekyll-seo-tag
   - jekyll-polyglot
+  - jekyll-scholar
 
 author:
   name   : "Julien Guégan"
@@ -124,6 +125,9 @@ analytics:
 
 locale: "fr-FR"
 
+#scholar:
+#  source: /assets/docs
+
 social:
   type: Person
   name: Julien Guégan
@@ -137,6 +141,11 @@ collections:
   posts:
     output: true
     permalink: /:collection/:path/ #;name
+  # _projects
+  projects:
+    output: true
+    permalink: /:collection/:path/
+    read_time: false
 
 # Reading Files
 include:
