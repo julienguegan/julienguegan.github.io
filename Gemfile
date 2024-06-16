@@ -9,6 +9,7 @@ end
 
 gem "wdm", "~> 0.1.0" if Gem.win_platform?
 gem "webrick"
+gem "jemoji"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
@@ -19,5 +20,5 @@ group :jekyll_plugins do
   gem "jekyll-include-cache"
   gem "jekyll-algolia"
   gem "jekyll-polyglot"
-  #gem "jekyll-scholar"
+  #gem "jekyll-scholar", '~> 5.16'
 end

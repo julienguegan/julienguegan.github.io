@@ -44,7 +44,8 @@ plugins:
   - jekyll-include-cache
   - jekyll-seo-tag
   - jekyll-polyglot
-  - jekyll-scholar
+  #- jekyll-scholar
+  - jemoji
 
 author:
   name   : "Julien Guégan"
@@ -125,8 +126,8 @@ analytics:
 
 locale: "fr-FR"
 
-#scholar:
-#  source: /assets/docs
+scholar:
+  source: /assets/docs
 
 social:
   type: Person
