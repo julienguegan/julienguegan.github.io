@@ -4,11 +4,16 @@ lang: fr
 classes: wide
 author_profile: false
 layout: splash #single #
-toc: true
 header:
   teaser: /assets/images/champignon_rouille.png
 read_time: true
 ---
+
+<nav class="toc" markdown="1">
+<header><h4 class="nav__title"><i class="fas fa-{{ include.icon | default: 'file-alt' }}"></i> {{ include.title | default: site.data.ui-text[site.locale].toc_label }}</h4></header>
+*  Auto generated table of contents
+{:toc .toc__menu}
+</nav>
 
 # Problèmes posés
 
@@ -452,4 +457,6 @@ Akhmetzhanov, A., Grognard, F., Mailleret, L. Optimal life-history strategies in
 [funfit] Présentation du projet Funfit disponible sur : http://www.agence-nationale-recherche.fr/?Projet=ANR-13-BSV7-0011
 
 
-
+{% comment %}
+{% bibliography --file champignon_biblio %}
+{% endcomment %}
