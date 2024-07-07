@@ -37,7 +37,19 @@ var store = [{
       },{
         "title": "Kalman : filtre, tracking, IMU",
         "excerpt":"Le filtre de Kalman est une méthode très répandue dans le milieu de l’ingénieurie puisqu’elle posséde de nombreuses applications en localisation, navigation, pilotage automatique, suivi d’objet, fusion de données … Il fut introduit en 1960 par l’ingénieur Rudolf E. Kálmán et fut notamment utilisé pour l’estimation de trajectoire pour le...","categories": ["blog"],
-        "tags": [],
+        "tags": ["estimateur","navigation","dynamique","gaussienne"],
         "url": "/posts/fr/2022-02-24-filtre_kalman/",
         "teaser": "/assets/images/teaser_ardupilot.jpg"
+      },{
+        "title": "Détection de monture de lunettes par méthode d'intelligence artificielle",
+        "excerpt":"Sur cette page Contexte État de l’art Architectures pour la Segmentation Sémantique UNet PSPNet DeepLab BiseNet Métriques et fonctions Loss Travaux effectués Travaux précédents Expériences sur données synthétiques Base de données Expériences Contexte Le sujet du stage est alors de développer un algorithme qui détecte sur des images 2D les...","categories": [],
+        "tags": [],
+        "url": "/projects/detection_monture/",
+        "teaser": null
+      },{
+        "title": "Évolution des traits d'histoires de vie de champignons phytopathogènes",
+        "excerpt":"Sur cette page Contexte Le projet Funfit La rouille du peuplier La dynamique adaptative Le modèle - 1 cohorte Le modèle - 2 cohortes Travail réalisé Etude à 1 trait - $T=+\\infty$ Diagramme PIP Caractérisation du point singulier Exposant d’invasion Gradient de sélection Etude à 2 traits - $T&lt;+\\infty$ Caractérisation...","categories": [],
+        "tags": [],
+        "url": "/projects/evolution_champignon/",
+        "teaser": "/assets/images/champignon_rouille.png"
       }]

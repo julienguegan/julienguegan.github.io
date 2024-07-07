@@ -44,8 +44,6 @@ plugins:
   - jekyll-include-cache
   - jekyll-seo-tag
   - jekyll-polyglot
-  #- jekyll-scholar
-  - jemoji
 
 author:
   name   : "Julien Guégan"
