@@ -320,7 +320,6 @@ DEPENDENCIES
   jekyll-polyglot
   jekyll-seo-tag
   jekyll-sitemap
-  jemoji
   tzinfo (~> 1.2)
   tzinfo-data
   webrick

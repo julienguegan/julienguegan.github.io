@@ -13,6 +13,9 @@ read_time: true
 {:toc .toc__menu}
 </nav>
 
+** EN COURS DE RÉDACTION **
+
+
 # Contexte
 
 Le sujet du stage est alors de développer un algorithme qui détecte sur des images 2D les pixels appartenant à la face avant de la monture portée par l'utilisateur en étant robuste le plus possible à tous les différents types de monture qui peuvent exister ainsi que les différentes positions que peut avoir l'utilisateur devant la caméra. On parle ici d'un problème de segmentation, contrairement à la tâche de classification où le but est simplement d'identifier si oui ou non l'objet recherché est présent dans les images. L'idée étant de, pour les versions suivantes du projet, retrouver des mesures 3D à partir des sorties de cet algorithme de détection qui aura segmenté la monture pour différents angles de tête d'une même personne. Une piste proposée pour cette future problématique est de fitter un modèle de courbes paramétriques (courbe de Bézier, descripteurs de Fourier ...) 3D aux différentes observations 2D obtenues.

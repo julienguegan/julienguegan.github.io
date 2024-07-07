@@ -18,7 +18,7 @@ header:
 Parmis les enjeux du 21<sup>ème</sup> siècle, l'écologie a un rôle majeure puisqu'elle est la science qui étudie les interactions des êtres vivants entre eux et avec leur milieu. Pour modéliser ces interactions, la dynamique des populations est la branche qui s'intéresse aux fluctuations démographiques des espèces. Ses applications sont nombreuses puisqu'elle peut permettre de répondre à des problèmes variés comme la gestion d'espèces menacées, la protection des cultures contre des nuisibles, le contrôle de bioréacteurs ou la prédiction des épidémies.
 
 <p align="center">
-   <img src="/assets/images/ecologie.png"/>
+   <img src="/assets/images/lotka_header.png"/>
 </p>
 
 ## Modèle de Verhulst
