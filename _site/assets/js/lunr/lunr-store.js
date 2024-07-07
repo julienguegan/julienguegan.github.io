@@ -42,7 +42,7 @@ var store = [{
         "teaser": "/assets/images/teaser_ardupilot.jpg"
       },{
         "title": "Détection de monture de lunettes par méthode d'intelligence artificielle",
-        "excerpt":"Sur cette page Contexte État de l’art Architectures pour la Segmentation Sémantique UNet PSPNet DeepLab BiseNet Métriques et fonctions Loss Travaux effectués Travaux précédents Expériences sur données synthétiques Base de données Expériences Contexte Le sujet du stage est alors de développer un algorithme qui détecte sur des images 2D les...","categories": [],
+        "excerpt":"Sur cette page Contexte État de l’art Architectures pour la Segmentation Sémantique UNet PSPNet DeepLab BiseNet Métriques et fonctions Loss Travaux effectués Travaux précédents Expériences sur données synthétiques Base de données Expériences ** EN COURS DE RÉDACTION ** Contexte Le sujet du stage est alors de développer un algorithme qui...","categories": [],
         "tags": [],
         "url": "/projects/detection_monture/",
         "teaser": null
