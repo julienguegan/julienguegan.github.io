@@ -18,7 +18,7 @@ header:
 Among the challenges of the 21<sup>th</sup> century, ecology has a major role since it is the science that studies the interactions of living beings with each other and with their environment. To model these interactions, population dynamics is the branch that is interested in the demographic fluctuations of species. Its applications are numerous since it can make it possible to respond to various problems such as the management of endangered species, the protection of crops against pests, the control of bioreactors or the prediction of epidemics.
 
 <p align="center">
-   <img src="/assets/images/ecologie.png"/>
+   <img src="/assets/images/lotka_header.png"/>
 </p>
 
 ## Verhulst model
