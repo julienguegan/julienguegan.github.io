@@ -16,9 +16,11 @@ read_time: true
 </nav>
 
 \\
-*NB : Le projet présenté ici a été réalisé dans le cadre de mon stage de M1 à l'INRIA de Sophia Antipolis.*
+
 
 # Contexte
+
+*Le projet présenté ici a été réalisé dans le cadre de mon stage de M1 à l'INRIA de Sophia Antipolis.*
 
 ## Le projet Funfit
 
@@ -53,7 +55,7 @@ Les hypothèses à respecter sont les suivantes :
 
 Le but est d'observer le devenir de ce mutant rare dans la population. Soit il disparaît, soit il envahit le milieu. En envahissant le milieu le mutant devient le nouveau résident en changeant la valeur d'un trait phénotypique le caractérisant qui lui permet d'avoir une meilleure fitness (taux de croissance) que le résident. Excepté dans le cas des branchement évolutifs où les populations mutantes et résidentes sont stables et ont toutes les deux un taux de croisssance positifs, elles peuvent coexister et créer ainsi deux populations avec des traits différents (ce qui pourrait expliquer le phénomène de spéciation).
 
-Afin de respecter l'hypothèse sur la faible densité du mutant, dans mes simulations je me place dans le cas où $n_1 = 100$ (taille de la  population résidente) et $n_2 = 1$ (taille de la population mutante).
+Afin de respecter l'hypothèse sur la faible densité du mutant, dans les simulations on se place dans le cas où $n_1 = 100$ (taille de la  population résidente) et $n_2 = 1$ (taille de la population mutante).
 
 ## Le modèle - 1 cohorte
 La modèlisation mathématique présenté après s'appuie sur ce qu'il se passe au niveau biologique lors de l’infection. En effet, l’infection se déroule en 3 étapes : la pénétration dans la feuille, la croissance du mycélium (ensemble filamenteux du champignon qui permet d’absorber les ressources nécessaires à la survie et à la croissance du champignon) et enfin la sporulation.
@@ -69,7 +71,7 @@ La modèlisation mathématique présenté après s'appuie sur ce qu'il se passe 
     </div>
 </div>
 
-Pour développer le modèle, il a été considéré que le champignon choisissait sa stratégie soit pour maximiser la quantité de spores (cellule issue de la reproduction)  produites au cours de son existence soit pour s'assurer qu'une souche proche ne pourra pas exploiter la stratégie qu'il aurait choisi pour produire plus de spores que lui. On considère une cohorte de champignons se développant pendant une saison sur une même plante hôte et on s’intéresse à la densité de la lésion notée $n$ et représentant la quantité de mycélium dans la cohorte par unité d’aire de l’hôte, on suppose que $n$ est constant pendant la saison. D'où, le modèle suivant  : 
+Pour développer le modèle, il a été considéré que le champignon choisissait sa stratégie soit pour maximiser la quantité de spores (cellule issue de la reproduction) produites au cours de son existence soit pour s'assurer qu'une souche proche ne pourra pas exploiter la stratégie qu'il aurait choisi pour produire plus de spores que lui. On considère une cohorte de champignons se développant pendant une saison sur une même plante hôte et on s’intéresse à la densité de la lésion notée $n$ et représentant la quantité de mycélium dans la cohorte par unité d’aire de l’hôte, on suppose que $n$ est constant pendant la saison. D'où, le modèle suivant  : 
 
 $$ 
   \left\{
@@ -146,7 +148,7 @@ $$ u(t,M) = \left\{
 \right.
 $$
 
-La 1<sup>ère</sup> étape du travail a été de simuler ce modèle sur [Scilab](https://www.scilab.org/). Pour obtenir cette première simulation, j'ai utilisé la fonction $\textcolor{blue}{ode()}$ prédéfinie de Scilab qui est un solveur d'équations différentielles ordinaires explicite du 1<sup>er</sup> ordre qui utilise la méthode Runge-Kutta par défaut. J'ai préféré privilégier la méthode que Scilab conseille pour résoudre les systèmes raides ("stiff") et qui utilise le schéma BDF (Backward Differentiation Formula) puisque le système étudié est bien un système raide dû au fait que $\dot{M}$ varie fortement entre $ M < M^* $ et $ M > M^* $ pendant un temps très court. 
+La 1<sup>ère</sup> étape du travail a été de simuler ce modèle sur [Scilab](https://www.scilab.org/). Pour obtenir cette première simulation, la fonction $\textcolor{blue}{ode()}$ prédéfinie de Scilab qui est un solveur d'équations différentielles ordinaires explicite du 1<sup>er</sup> ordre et utilise la méthode Runge-Kutta par défaut peut être exploité. Le paramètre "stiff" est adapté au problème présenté ici puisqu'il permet de résoudre des systèmes raides et utilise le schéma BDF (Backward Differentiation Formula), ici on a bien un système raide dû au fait que $\dot{M}$ varie fortement entre $ M < M^* $ et $ M > M^* $ pendant un temps très court. 
 
 <p align="center"> <img src="/assets/images/champignon_cohorte1.png" width="90%"/> </p>
 <p align="center"> <i>Simulation du système dynamique - modèle 1 cohorte (n=100). A gauche, le cas où on considère un intervalle infini et à droite, un intervalle fini</i> </p>
@@ -190,24 +192,24 @@ La question qu'on se pose dans ce travail est de savoir si cet équilibre non in
 
 # Travail réalisé
 
-Le problème dans le modèle développé dans notre exemple est que nous n’avons pas d’expression explicite de la taille de nos populations (ici $n_1$ et $n_2$), nous ne pouvons pas faire une étude analytique du modèle avec la théorie de la dynamique adaptative. Mon travail était donc de simuler avec Scilab numériquement en confrontant chaque stratégie 2 à 2 les unes après les autres. Une stratégie l'emporte sur une autre si ses gains sur la durée sont supérieurs à ceux de l'autre stratégie. En biologie, les gains d'un individu sont directement mesurables par le nombre de ses descendants. Ce que j'appelle stratégie est lié aux traits d'histoire de vie mentionnés plus haut, dans notre modèle c'est la taille moyenne de mycélium que va essayer d'atteindre le champignon pendant sa croissance qu'on appellera $M^{\sigma}$ \label{trait} et pour le cas d'un intervalle fini, un autre trait se rajoute c'est le temps $\tau^{\sigma}$ qu'on peut qualifier comme le moment auquel le champignon décide d'utiliser toutes ses ressources à ne produire que des spores avant la fin de la saison. La stratégie non invasible qui a été mise en évidence par les travaux précédents est de choisir comme valeur de trait un $$M^{**}$$ qui vérifie $$f'(M^{**})-g'(M^{**}) = \mu$$ et un $$\tau^{**}$$ tel que $$\lambda(\tau^{**},M^{**}) = 0$$.
+Le problème dans le modèle développé dans notre exemple est que nous n’avons pas d’expression explicite de la taille de nos populations (ici $n_1$ et $n_2$), nous ne pouvons pas faire une étude analytique du modèle avec la théorie de la dynamique adaptative. Mon travail était donc de simuler avec Scilab numériquement en confrontant chaque stratégie 2 à 2 les unes après les autres. Une stratégie l'emporte sur une autre si ses gains sur la durée sont supérieurs à ceux de l'autre stratégie. En biologie, les gains d'un individu sont directement mesurables par le nombre de ses descendants. Le terme stratégie est lié aux traits d'histoire de vie mentionnés plus haut, dans notre modèle c'est la taille moyenne de mycélium que va essayer d'atteindre le champignon pendant sa croissance qu'on appellera $M^{\sigma}$ \label{trait} et pour le cas d'un intervalle fini, un autre trait se rajoute c'est le temps $\tau^{\sigma}$ qu'on peut qualifier comme le moment auquel le champignon décide d'utiliser toutes ses ressources à ne produire que des spores avant la fin de la saison. La stratégie non invasible qui a été mise en évidence par les travaux précédents est de choisir comme valeur de trait un $$M^{**}$$ qui vérifie $$f'(M^{**})-g'(M^{**}) = \mu$$ et un $$\tau^{**}$$ tel que $$\lambda(\tau^{**},M^{**}) = 0$$.
 
 ## Etude à 1 trait - $T=+\infty$
 
 ### Diagramme PIP
 
-Je me suis d'abord intéressé au cas où l'on considère un intervalle de temps infini qui est plus simple car on étudie un seul trait, $M^\sigma$, et j'ai supposé que le nombre total de lésions $n$ était constant d'une année à l'autre mais pas la répartition entre les cohortes. J'ai donc simulé la compétition au cours de plusieurs saisons de 2 cohortes de champignons ayant adoptées des stratégies proches mais différentes et à chaque fin de saison $i$ la densité de lésion de la première cohorte $n_1$ est recalculée en utilisant $n_1^{i+1} =\frac{n_1^i. J_1^i}{n_1^i. J_1^i+n_2^i. J_2^i} n$ (de la même façon pour $n_2$). Le produit $n_1^i J_1^i$ représente le nombre de spores produites à la fin de la saison $i$ par toute la cohorte 1 et $n_1^i. J_1^i+n_2^i. J_2^i$ le nombre total de spores produites par les deux cohortes. Ainsi pour obtenir $n_1^{i+1}$ on multiplie la proportion de spores produits par la cohorte 1 par rapport à la production totale des 2 cohortes par la quantité $n = n_1+n_2$. On constate qu'au bout de plusieurs saisons, l'une des cohortes de champignon tend à disparaître (sauf si les 2 cohortes ont la même stratégie) comme on peut le voir sur la figure ci-dessous.
+On s'intéresse d'abord au cas où l'on considère un intervalle de temps infini qui est plus simple car on étudie un seul trait, $M^\sigma$, et on suppose que le nombre total de lésions $n$ était constant d'une année à l'autre mais pas la répartition entre les cohortes. On simule donc la compétition au cours de plusieurs saisons de 2 cohortes de champignons ayant adoptées des stratégies proches mais différentes et à chaque fin de saison $i$ la densité de lésion de la première cohorte $n_1$ est recalculée en utilisant $n_1^{i+1} =\frac{n_1^i. J_1^i}{n_1^i. J_1^i+n_2^i. J_2^i} n$ (de la même façon pour $n_2$). Le produit $n_1^i J_1^i$ représente le nombre de spores produites à la fin de la saison $i$ par toute la cohorte 1 et $n_1^i. J_1^i+n_2^i. J_2^i$ le nombre total de spores produites par les deux cohortes. Ainsi pour obtenir $n_1^{i+1}$ on multiplie la proportion de spores produits par la cohorte 1 par rapport à la production totale des 2 cohortes par la quantité $n = n_1+n_2$. On constate qu'au bout de plusieurs saisons, l'une des cohortes de champignon tend à disparaître (sauf si les 2 cohortes ont la même stratégie) comme on peut le voir sur la figure ci-dessous.
 
 <p align="center"> <img src="/assets/images/champignon_evolutionn1etn2.png" width="50%"/> </p>
 <p align="center"> <i>Exemple de l'évolution de $n_1$ et $n_2$ (pour $M_1^\sigma = 1250$ et $M_2^\sigma = 1750$)</i> </p>
 
-La cohorte restante est celle qui aura choisi une meilleure stratégie, elle devient la population résidente et est comparée ensuite à une autre stratégie (mutante) proche choisie aléatoirement pour respecter les hypothèses de la dynamique adaptative, par exemple dans mon code Scilab j'utilise : $  M_m^\sigma = M_r^\sigma+\epsilon*(rand()-0.5)$ \footnote{Pour simplifier les notations par la suite pour parler du trait $M^\sigma$  d'une façon population mutante ou résidente on utilisera souvent $M_r$ et $M_m$ au lieu de $M^\sigma_r$ ou $M^\sigma_m$ (idem pour le trait $\tau^\sigma$), ils possèdent cependant la même signification.}, ça signifie que la valeur du trait $M^\sigma$ de la population mutante est choisie aléatoirement dans l'intervalle $[M^\sigma_r-\frac{\epsilon}{2};M^\sigma_r+\frac{\epsilon}{2}]$. On recommence ce processus jusqu'à se rendre compte que l'on converge vers une stratégie qui gagne à tous les coups et est donc imbattable. On remarque que ce $M^\sigma$ stable est très proche du $ M^{**} $.
+La cohorte restante est celle qui aura choisi une meilleure stratégie, elle devient la population résidente et est comparée ensuite à une autre stratégie (mutante) proche choisie aléatoirement pour respecter les hypothèses de la dynamique adaptative, par exemple dans le code Scilab on utilise : $  M_m^\sigma = M_r^\sigma+\epsilon*(rand()-0.5)$ \footnote{Pour simplifier les notations par la suite pour parler du trait $M^\sigma$  d'une façon population mutante ou résidente on utilisera souvent $M_r$ et $M_m$ au lieu de $M^\sigma_r$ ou $M^\sigma_m$ (idem pour le trait $\tau^\sigma$), ils possèdent cependant la même signification.}, ça signifie que la valeur du trait $M^\sigma$ de la population mutante est choisie aléatoirement dans l'intervalle $[M^\sigma_r-\frac{\epsilon}{2};M^\sigma_r+\frac{\epsilon}{2}]$. On recommence ce processus jusqu'à se rendre compte que l'on converge vers une stratégie qui gagne à tous les coups et est donc imbattable. On remarque que ce $M^\sigma$ stable est très proche du $ M^{**} $.
 \label{dynstochM}
 
 <p align="center"> <img src="/assets/images/champignon_convergenceM.png" width="50%"/> </p>
 <p align="center"> <i>Convergence stochastique vers $ M^{**} $ en partant de conditions initiales différentes ($M^\sigma_0 = 1500, 1750 \text{ et } 2150$)</i> </p>
 
-A partir de là, j'ai pu développer un outil graphique connu en théorie de la dynamique adaptative, le diagramme d'invasion binaires ou PIP (Pairwise Invasibility Plots). On y représente en abscisse la valeur du trait de la population résidente et en ordonnée la valeur du trait de la population mutante. Et j'y ai représenté par un point rouge les cas où le mutant peut envahir la population résidente et par un point bleu le cas contraire. Le PIP trouvé nous donne 2 résultats significatifs : 
+A partir de là, un outil graphique connu en théorie de la dynamique adaptative appelé le diagramme d'invasion binaires ou PIP (Pairwise Invasibility Plots)quireprésente en abscisse la valeur du trait de la population résidente et en ordonnée la valeur du trait de la population mutante. Ici les points rouges représente les cas où le mutant peut envahir la population résidente et les points bleu le cas contraire. Le PIP trouvé nous donne 2 résultats significatifs : 
 - le point singulier semble bien correspondre à $M^\sigma = M^{**}$ et donc être le même que celui trouvé dans [^4].
 - en choississant n'importe quelles valeurs de trait initiales, on converge vers cet équilibre stable donc c'est une stratégie continûment stable (CSS).
 
@@ -413,7 +415,7 @@ $$
 \end{align*}
 $$
 
-Dans l'équation canonique (déterministe), les coefficients représentent la variance de nos traits. Or, on utilise la fonction $\textcolor{blue}{rand()}$ de Scilab (stochastique) comme une loi uniforme continue $U(a,b)$ dont la variance est $\frac{(b-a)^2}{12}$, ce qui veut dire que les variances de $M_m^\sigma$ et $\tau_m^\sigma$ sont $\frac{\epsilon_M^2}{12}$ et $\frac{\epsilon_\tau^2}{12}$ respectivement. Pour rester cohérents, il faut alors que nos coefficients vérifient la relation $\frac{\epsilon_M^2}{\epsilon_\tau^2}=\frac{\theta_M}{\theta_\tau}$. Dans mon cas, j'ai choisi $\frac{\epsilon_M}{\epsilon_\tau}=\frac{10}{0.2}=50$ et $\frac{\theta_M}{ \theta_\tau}= \frac{2500}{1}$ pour respecter cette condition. On constate alors que les simulations stochastiques et déterministes sont  cohérentes.
+Dans l'équation canonique (déterministe), les coefficients représentent la variance de nos traits. Or, on utilise la fonction $\textcolor{blue}{rand()}$ de Scilab (stochastique) comme une loi uniforme continue $U(a,b)$ dont la variance est $\frac{(b-a)^2}{12}$, ce qui veut dire que les variances de $M_m^\sigma$ et $\tau_m^\sigma$ sont $\frac{\epsilon_M^2}{12}$ et $\frac{\epsilon_\tau^2}{12}$ respectivement. Pour rester cohérents, il faut alors que nos coefficients vérifient la relation $\frac{\epsilon_M^2}{\epsilon_\tau^2}=\frac{\theta_M}{\theta_\tau}$. Dans notre cas, on choisit $\frac{\epsilon_M}{\epsilon_\tau}=\frac{10}{0.2}=50$ et $\frac{\theta_M}{ \theta_\tau}= \frac{2500}{1}$ pour respecter cette condition. On constate alors que les simulations stochastiques et déterministes sont  cohérentes.
 
 <p align="center"> <img src="/assets/images/champignon_deterministestochastique.png" width="60%"/> </p>
 <p align="center"> <i>Superposition des résultats déterministe et stochastique</i> </p>
@@ -434,7 +436,9 @@ Maintenant qu'on a une relation entre $$M^{**}$$ et $$\tau^{**}$$, on peut calcu
 On remarque que ce point singulier n'est pas tout à fait atteint en $$M^{**}$$ la stratégie non invasible à cause de la mise en place du compromis.
 
 # Discussion
-En conclusion, les simulations numériques que j'ai réalisées ont confirmé la stabilité et l'attractivité de l'équilibre d'un point de vue de l'évolution au long terme pour les cas à 1 traits et à 2 traits. On a cohérence avec les travaux [^4], mais on peut se demander si nos résultats sont toujours valables en augmentant le nombre de trait jusqu'à un cadre plus abstrait où l'on étudierait une infinité de traits.
+En conclusion, les simulations numériques réalisées ont confirmé la stabilité et l'attractivité de l'équilibre d'un point de vue de l'évolution au long terme pour les cas à 1 traits et à 2 traits. On a cohérence avec les travaux [^4], mais on peut se demander si nos résultats sont toujours valables en augmentant le nombre de trait jusqu'à un cadre plus abstrait où l'on étudierait une infinité de traits.
+
+*à compléter ?*
 
 # References
 

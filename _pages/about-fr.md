@@ -21,4 +21,6 @@ En dehors de ça, je lis pas mal de mangas avec les classiques Naruto, One Piece
 
 J'ai eu une période également où je m'intéressais beaucoup aux drones FPV (mais à Paris c'est un peu compliqué). Comparés aux drones de loisir qui sont adaptés pour la prise de vue et autostabilisés, les drones de FPV permettent d'avoir un contrôle total sur la machine et avec des lunettes immersives d'obtenir des sensations de vol bien plus captivante. Mais ils demandent un vrai effort d'apprentissage que ce soit d'un point de vue pilotage mais aussi configuration et bricolage. Et j'ai notamment eu la chance de me crasher plus d'une fois lors de mes débuts. Je commence à avoir une petite collection puisque que j'ai plusieurs engins volants (avion, aile, drone 4'', toothpick, tinywhoop).
 
-TODO : insert picture here
+<p align="center">
+   <img src="/assets/images/fpv.png" width="80%"/>
+</p>
