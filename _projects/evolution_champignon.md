@@ -450,7 +450,7 @@ En conclusion, les simulations numériques réalisées ont confirmé la stabilit
 [^6]: Beverton, R.J.H., Holt, S.J. On the dynamics of exploited fish populations, **1957**, 538 pages   
 [^7]: Leimar, O., The Evolution of Phenotypic Polymorphism: Randomized Strategies versus Evolutionary Branching. *The American Naturalist* **2005**, 165, p. 669-681   
 [^8]:  Brännström, A., Johansson, J., Festenberg, N. The Hitchhiker's guide to adaptive dynamics. *Games* **2013**, 4, p. 304-328   
-[^9]: Diekmann, O., A ^9's guide to adaptive dynamics. *Banach Center Publication* **2004**, 63   
+[^9]: Diekmann, O., A beginner's guide to adaptive dynamics. *Banach Center Publication* **2004**, 63   
 [^10]: Dieckmann, U., Law, R., The dynamical theory of coevolution : a derivation from stochastic processes. *Journal of Mathematical Biology* **1996**, 34, p. 579-612    
 [^11]: Leimar, O., Multidimensional convergence stability. *Evolutionnary Ecology Research* **2009**, 11, p.~191-208   
 [^12]: Hahn, M., The rust fungi. Cytology, physiology and molecular biology of infection. *Fungal Pathology* **2000**, p. 267-306    

@@ -165,7 +165,7 @@ Il existe de nombreux logiciels générateur de fractal gratuits disponibles. Il
 |:---------------------------------------------:| :----------------------------------------:| :-----------------------------------------: |
 | [Mandelbul3D](https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/)| [Mandelbuler](https://mandelbulber.com/) |  [Fragmentarium](https://syntopia.github.io/Fragmentarium/get.html) |
 
-Et pour ceux qui ne veulent pas se compliquer et juste se laisser porter par la géométrie psychadélique des fractales sans effort, vous pourrez trouver sur internet des gens qui ont déjà fait le travail à votre place. On trouve sur youtube une floppée de vidéos comme par exemple *The Hardest Trip - Mandelbrot Fractal Zoom* qui zoome pendant 2h30 sur un point précis du plan complexe.
+Et pour ceux qui ne veulent pas se compliquer et juste se laisser porter par la géométrie psychédélique des fractales sans effort, vous pourrez trouver sur internet des gens qui ont déjà fait le travail à votre place. On trouve sur youtube une floppée de vidéos comme par exemple *The Hardest Trip - Mandelbrot Fractal Zoom* qui zoome pendant 2h30 sur un point précis du plan complexe.
 
 {% include video id="LhOSM6uCWxk" provider="youtube" %}
 
