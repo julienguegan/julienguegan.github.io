@@ -48,7 +48,7 @@ plugins:
 author:
   name   : "Julien Guégan"
   avatar : "/assets/images/photo_profil.jpg"
-  bio    : "Ingénieur en IA. Je travaille en R&D chez ESSILOR. Ici, je parle de maths, bidules et autres machins qui m'intéressent."
+  bio    : "Ingénieur en IA. Ici, je parle de maths, bidules et autres machins qui m'intéressent."
   links:
     - label: "Mail"
       icon: "fas fa-fw fa-envelope-square"
@@ -104,6 +104,7 @@ defaults:
 category_archive:
   type: liquid
   path: /categories/
+
 tag_archive:
   type: liquid
   path: /tags/
@@ -147,9 +148,6 @@ collections:
     read_time: false
 
 # Reading Files
-include:
-  - .htaccess
-  - _pages
 exclude:
   - vendor
   - .asset-cache
@@ -172,10 +170,13 @@ exclude:
   - Rakefile
   - README
   - tmp
+
 keep_files:
   - .git
   - .svn
+
 encoding: "utf-8"
+
 markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
 # jekyll-polyglot
