@@ -24,3 +24,15 @@ J'ai eu une période également où je m'intéressais beaucoup aux drones FPV (m
 <p align="center">
    <img src="/assets/images/fpv.png" width="80%"/>
 </p>
+
+J'écoute aussi un peu de musique sur mon temps perdu. Ci-dessous, tu trouveras mes titres les plus écoutés de 2024 dans lesquels *Fred Again* est l'artiste le plus présent. Mais je donne quand même une mention spéciale à **Innerbloom** de *Rufus Du Sol*, elle dure 9min38 et je la trouve assez plannante et hypnotique.
+
+<iframe 
+   style="border-radius:12px" 
+   src="https://open.spotify.com/embed/playlist/37i9dQZF1FoJKlpesUsa5y?utm_source=generator&theme=0" width="100%" 
+   height="352" 
+   frameBorder="0" 
+   allowfullscreen="" 
+   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+   loading="lazy">
+</iframe>

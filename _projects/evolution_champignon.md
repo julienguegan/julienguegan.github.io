@@ -15,9 +15,6 @@ read_time: true
 {:toc .toc__menu}
 </nav>
 
-\\
-
-
 # Contexte
 
 *Le projet présenté ici a été réalisé dans le cadre de mon stage de M1 à l'INRIA de Sophia Antipolis.*
@@ -437,8 +434,6 @@ On remarque que ce point singulier n'est pas tout à fait atteint en $$M^{**}$$ 
 
 # Discussion
 En conclusion, les simulations numériques réalisées ont confirmé la stabilité et l'attractivité de l'équilibre d'un point de vue de l'évolution au long terme pour les cas à 1 traits et à 2 traits. On a cohérence avec les travaux [^4], mais on peut se demander si nos résultats sont toujours valables en augmentant le nombre de trait jusqu'à un cadre plus abstrait où l'on étudierait une infinité de traits.
-
-*à compléter ?*
 
 # References
 
