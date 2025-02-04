@@ -1,0 +1,767 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>CNN: convolution, Pytorch, Deep Dream - Blog du Julien</title>
+<meta name="description" content="Convolutional neural networks (CNN) are the models that have made it possible to make a leap forward in image recognition problems. They are at the heart of many applications ranging from facial identification security systems to the classification of your vacation photos, including synthetic face generation and Snapchat filters. One of the founders of this model is Yann Le Cun (a Frenchman!) who, in 1989, applied gradient backpropagation to learn convolution filters and enabled a neural network to recognize handwritten digits. However, it was only in 2012 that CNNs spread widely in the computer vision scientific community with Alex Krizhevsky designing the AlexNet architecture and winning the ImageNet Large Scale Visual Recognition Challenge competition (1 million images of 1000 different classes) by implementing its algorithm on GPUs which allows the model to learn quickly from a large quantity of images. This model achieves 10% higher performance than all the others at this time and it is now one of the most influential published papers in Computer Vision (in 2021, more than 80,000 citations according to Google Scholar).">
+
+
+  <meta name="author" content="Julien Guégan">
+  
+  <meta property="article:author" content="Julien Guégan">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Blog du Julien">
+<meta property="og:title" content="CNN: convolution, Pytorch, Deep Dream">
+<meta property="og:url" content="https://julienguegan.github.io/posts/en/2022-01-01-convolution_deepdream/">
+
+
+  <meta property="og:description" content="Convolutional neural networks (CNN) are the models that have made it possible to make a leap forward in image recognition problems. They are at the heart of many applications ranging from facial identification security systems to the classification of your vacation photos, including synthetic face generation and Snapchat filters. One of the founders of this model is Yann Le Cun (a Frenchman!) who, in 1989, applied gradient backpropagation to learn convolution filters and enabled a neural network to recognize handwritten digits. However, it was only in 2012 that CNNs spread widely in the computer vision scientific community with Alex Krizhevsky designing the AlexNet architecture and winning the ImageNet Large Scale Visual Recognition Challenge competition (1 million images of 1000 different classes) by implementing its algorithm on GPUs which allows the model to learn quickly from a large quantity of images. This model achieves 10% higher performance than all the others at this time and it is now one of the most influential published papers in Computer Vision (in 2021, more than 80,000 citations according to Google Scholar).">
+
+
+
+  <meta property="og:image" content="https://julienguegan.github.io/assets/images/teaser_deepdream.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-01T13:10:10-06:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://julienguegan.github.io/en/posts/en/2022-01-01-convolution_deepdream/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Julien Guégan",
+      "url": "https://julienguegan.github.io/",
+      "sameAs": ["https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/","https://www.facebook.com/julien.guegan.754","https://github.com/julienguegan","https://www.instagram.com/julien_guegan_/?hl=fr"]
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="_Cj2FZGjDR1sECXPRL64_CMVDm6adbKqCXSLHArYdSE" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/en/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+  <link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+  <script>
+    let theme = sessionStorage.getItem('theme');
+    if(theme === "dark") {
+      sessionStorage.setItem('theme', 'dark');
+      node1 = document.getElementById('theme_source');
+      node2 = document.getElementById('theme_source_2');
+      node1.setAttribute('rel', 'stylesheet alternate'); 
+      node2.setAttribute('rel', 'stylesheet');
+    } else {
+      sessionStorage.setItem('theme', 'light');
+    }
+  </script>
+
+<link rel="shortcut icon" type="image/png" href="/assets/images/brain_icon.png">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+  });
+</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/en/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
+        
+        <a class="site-title" href="/en/">
+          Blog du Julien
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/en/home/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/cv/">CV</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+        <button class="lang__toggle" type="button">
+          <span class="visually-hidden">Switch language</span>
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M12.65 15.67c.14-.36.05-.77-.23-1.05l-2.09-2.06.03-.03c1.74-1.94 2.98-4.17 3.71-6.53h1.94c.54 0 .99-.45.99-.99v-.02c0-.54-.45-.99-.99-.99H10V3c0-.55-.45-1-1-1s-1 .45-1 1v1H1.99c-.54 0-.99.45-.99.99 0 .55.45.99.99.99h10.18C11.5 7.92 10.44 9.75 9 11.35c-.81-.89-1.49-1.86-2.06-2.88-.16-.29-.45-.47-.78-.47-.69 0-1.13.75-.79 1.35.63 1.13 1.4 2.21 2.3 3.21L3.3 16.87c-.4.39-.4 1.03 0 1.42.39.39 1.02.39 1.42 0L9 14l2.02 2.02c.51.51 1.38.32 1.63-.35zM17.5 10c-.6 0-1.14.37-1.35.94l-3.67 9.8c-.24.61.22 1.26.87 1.26.39 0 .74-.24.88-.61l.89-2.39h4.75l.9 2.39c.14.36.49.61.88.61.65 0 1.11-.65.88-1.26l-3.67-9.8c-.22-.57-.76-.94-1.36-.94zm-1.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+        </button>
+        <ul class="floating-menu lang-switcher hidden">
+            <li class="lang-option-active masthead__menu-item">English</li>
+        
+            <script> console.log("/posts/en/2022-01-01-convolution_deepdream/") </script> 
+            <script> console.log("/posts/en/2022-01-01-convolution_deepdream/") </script>
+            <script> console.log("/posts/en/2022-01-01-convolution_deepdream/") </script>
+            <li class="lang-option-inactive masthead__menu-item"><a href="/posts/en/2022-01-01-convolution_deepdream/">Français </a></li>
+        </ul>
+
+        
+        <button class="theme__toggle" type="button">
+          <span class="visually-hidden">Theme</span>
+          <i class="fas fa-fw fa-adjust" aria-hidden="true"></i>
+        </button>
+        
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/photo_profil.jpg" alt="Julien Guégan" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Julien Guégan</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>AI Engineer. Here, I talk about maths, thingies and other contraptions that interest me.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Contact</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:julienguegan56520@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Mail</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i><span class="label">Facebook</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+
+
+<a href="https://www.buymeacoffee.com/julienguegan" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 43px !important;width: 156px !important;">
+</a>
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="CNN: convolution, Pytorch, Deep Dream">
+    <meta itemprop="description" content="Convolutional neural networks (CNN) are the models that have made it possible to make a leap forward in image recognition problems. They are at the heart of many applications ranging from facial identification security systems to the classification of your vacation photos, including synthetic face generation and Snapchat filters. One of the founders of this model is Yann Le Cun (a Frenchman!) who, in 1989, applied gradient backpropagation to learn convolution filters and enabled a neural network to recognize handwritten digits. However, it was only in 2012 that CNNs spread widely in the computer vision scientific community with Alex Krizhevsky designing the AlexNet architecture and winning the ImageNet Large Scale Visual Recognition Challenge competition (1 million images of 1000 different classes) by implementing its algorithm on GPUs which allows the model to learn quickly from a large quantity of images. This model achieves 10% higher performance than all the others at this time and it is now one of the most influential published papers in Computer Vision (in 2021, more than 80,000 citations according to Google Scholar).">
+    <meta itemprop="datePublished" content="2022-01-01T13:10:10-06:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://julienguegan.github.io/en/posts/en/2022-01-01-convolution_deepdream/" class="u-url" itemprop="url">CNN: convolution, Pytorch, Deep Dream
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute(s) de lecture
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>Convolutional neural networks (CNN) are the models that have made it possible to make a leap forward in image recognition problems. They are at the heart of many applications ranging from facial identification security systems to the classification of your vacation photos, including synthetic face generation and Snapchat filters. One of the founders of this model is Yann Le Cun (a Frenchman!) who, in 1989, applied gradient backpropagation to learn convolution filters and enabled a neural network to recognize handwritten digits. However, it was only in 2012 that CNNs spread widely in the computer vision scientific community with Alex Krizhevsky designing the <em>AlexNet</em> architecture and winning the <em>ImageNet Large Scale Visual Recognition Challenge</em> competition (1 million images of 1000 different classes) by implementing its algorithm on GPUs which allows the model to learn quickly from a large quantity of images. This model achieves 10% higher performance than all the others at this time and it is now one of the most influential published papers in Computer Vision (in 2021, more than 80,000 citations according to Google Scholar).</p>
+
+<p align="center">
+   <img src="/assets/images/cnn_header.png" width="80%" />
+</p>
+
+<h2 id="convolutions-and-neural-networks">Convolutions and Neural Networks</h2>
+
+<p>Completely connected neural network models (see <a href="https://julienguegan.github.io/en/posts/2021-09-10-reseau_de_neurone/">previous post</a>) are not suitable for solving image processing problems . Indeed, MLPs have each neuron of a layer connected to each input unit: the number of parameters to learn quickly becomes high and a strong redundancy in the weights of the network can exist. Moreover, to use an image in such a network, all the pixels would have to be transformed into a vector and no information on the local structure of the pixels would then be taken into account.</p>
+
+<p>The convolution product, denoted $\ast$, is an operator which generalizes the idea of ​​a moving average. It applies both to temporal data (in signal processing for example) and to spatial data (in image processing). For the case of images, i.e. discrete and in 2 dimensions, the convolution between an image $I$ and a kernel $w$ (or kernel) can be calculated as follows:</p>
+
+\[I(i,j) * \omega =\sum_{x=-a}^a{\sum_{y=-b}^b{ I(i+x,j+y)} \ \omega(x ,y)}\]
+
+<p>The idea is to drag the kernel spatially over the entire image and each time to make a weighted average of the pixels of the image found in the window concerned by the elements of the kernel. Depending on the value of the elements of the convolution kernel $w$, the operation can highlight particular characteristics found in the image such as contours, textures, shapes.</p>
+
+<p align="center">
+   <img src="/assets/images/image_convolution.gif" width="40%" />
+</p>
+
+<p class="notice--warning"><strong>Note:</strong> There are several parameters associated with the convolution operation like the size of the kernel used, the step size when dragging the window over the image, the way we handle the edges of the image, the rate of core expansion… <a href="https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215">more info here</a></p>
+
+<p>For example, we can highlight the pixels of an image corresponding to the horizontal contours by applying a convolution with a kernel of size $3 \times 3$ with $-1$ in the 1st line, $0$ in the 2nd line and $+1$ in the 3rd row of the matrix.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">convolve2d</span>
+<span class="c1">#readimage
+</span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="p">.</span><span class="nb">open</span><span class="p">(</span><span class="s">"path/to/file.jpg"</span><span class="p">).</span><span class="n">convert</span><span class="p">(</span><span class="s">'L'</span><span class="p">))</span>
+<span class="c1"># apply convolution
+</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                   <span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">conv_output</span> <span class="o">=</span> <span class="n">convolve2d</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">'same'</span><span class="p">)</span>
+<span class="c1"># display
+</span><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">15.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">conv_output</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'gray'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/convolution_exemple.png" width="80%" />
+</p>
+
+<p>The idea of ​​the CNN model architecture is to keep completely connected layers for classification. However, at the inputs of these layers, the image is not directly used, but the output of several convolution operations which aim to highlight the different characteristics of an image by encoding the objects in a certain way. which are present or not. In particular, multi-channel convolutions are used which consist in applying a standard convolution to each channel of the input then summing each convolution product obtained to obtain a single 2D matrix. For example for a color image the channels are red, green and blue, we then have 3 kernels to convolve with the associated channels then the 3 products obtained are summed.</p>
+
+<p align="center">
+   <img src="/assets/images/multichannel_convolution.png" width="100%" />
+</p>
+
+<p class="notice--info"><strong>Note:</strong> In 2D (1 channel only), we use the term <em>kernel</em> to talk about the kernel. In 3D (more than one channel), we use the term <em>filter</em> which is made up of as many kernels as the number of channels of the input volume.</p>
+
+<p>More precisely in CNNs, a convolutional layer is composed of a set of $N_f$ filters of size $N_W$ x $N_H$ x $N_C$ plus a bias per filter followed by a nonlinear activation function. Here, $N_W$ and $N_H$ designate the spatial sizes of the filter while $N_C$ is the number of channels (sometimes called <em>feature map</em>). Each filter performs a multi-channel convolution, we then obtain $N_f$ convolution products which are concatenated in an output volume. These $N_f$ products then become the channels of the next volume which will pass into the next convolutional layer. Note that the depth of the filters must necessarily correspond to the number of channels of the input volume of each layer but the number of filters is an architecture hyperparameter of the model. In the end, the sequence of these multichannel convolutions creates at output a volume of features (<em>features</em>) of the input image, these features are then passed to the fully connected network for classification.</p>
+
+<p align="center">
+   <img src="/assets/images/architecture_cnn.png" width="100%" />
+</p>
+
+<p class="notice--success"><strong>Important:</strong> A convolutional layer is usually composed (in addition to convolution) of a nonlinear activation function and sometimes other types of operations (pooling, batch-normalization, dropout…).</p>
+
+<p>In the previous post, we defined an MLP and its training from zero. Here, the <strong>PyTorch</strong> library is used. It allows to easily build neural networks by taking advantage of its <a href="https://pytorch.org/blog/overview-of-pytorch-autograd-engine/#what-is-autograd">automatic differentiation engine</a> for the training as well as its many specialized functions (like the <a href="https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html">convolution</a>).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">My_Custom_Model</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">''' define some layers '''</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="c1"># feature learning
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="c1"># classification
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="o">*</span><span class="mi">5</span><span class="o">*</span><span class="mi">5</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">84</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">84</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="s">''' create model architecture - how operations are linked '''</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pool</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div></div>
+
+<p>As you may have understood, what is interesting with these convolution operations is that the weight of the filters can be learned during the optimization by backward propagation of the gradient since it is possible to calculate in an exact way the value of $ \frac{\ partial\mathcal{L}}{\partial W}$ by chain derivation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># define loss and optimizer
+</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">my_cnn_model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="c1"># training loop
+</span><span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="c1"># Forward pass
+</span>        <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="c1"># Backward pass
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="c1"># optimization step
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p class="notice--info"><strong>Note:</strong> For large input data, we often use as an optimization algorithm a <em>stochastic gradient descent</em> where the loss is approximated by using a batch of some data (for example, 8, 16 or 32 pictures).</p>
+
+<h2 id="deep-dream">Deep Dream</h2>
+
+<p>One of the challenges of neural networks is to understand what exactly is happening at each layer. Indeed, their cascade architecture as well as their numerous interconnections make it not easy to interpret the role of each filter. The visualization of <em>features</em> is a line of research that has developed in recent years, which consists of finding methods to understand how CNNs see an image.</p>
+
+<p>DeepDream is the name of one of these techniques created in 2015 by a team of engineers from Google, the idea is to use a network already trained to recognize shapes to modify an image so that a given neuron returns an output higher than the others. The algorithm looks like classic backpropagation but instead of modifying the weights of the network we adjust the pixels of the input image. Moreover, the optimization criterion is not a cross entropy but directly the norm of the output of the neuron to be visualized (it can be the entire layer or a filter) that we will seek to maximize, we then make a rise gradient (we could also minimize the opposite).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Parameters
+</span><span class="n">iterations</span> <span class="o">=</span> <span class="mi">25</span> <span class="c1"># number of gradient ascent steps per octave
+</span><span class="n">at_layer</span> <span class="o">=</span> <span class="mi">26</span> <span class="c1"># layer at which we modify image to maximize outputs
+</span><span class="n">lr</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c1"># learning rate
+</span><span class="n">octave_scale</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># image scale between octaves
+</span><span class="n">num_octaves</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># number of octaves
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load Model pretrained
+</span><span class="n">network</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">vgg19</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># Use only needed layers
+</span><span class="n">layers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">network</span><span class="p">.</span><span class="n">features</span><span class="p">.</span><span class="n">children</span><span class="p">())</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">[:</span> <span class="p">(</span><span class="n">at_layer</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+<span class="c1"># Use GPU is available
+</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda:0"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>An additional trick to obtain an interesting visualization is to operate at different spatial resolutions, here we speak of <em>octave</em>. In addition, the loss is normalized at all layers so that the contribution of large layers does not outweigh that of small layers.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># loop on different resolution scale
+</span><span class="n">detail</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">octaves</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">octave_base</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">octaves</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">desc</span><span class="o">=</span><span class="s">"Octaves : "</span><span class="p">)):</span>
+    <span class="c1"># Upsample detail to new octave dimension
+</span>    <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+      <span class="n">detail</span> <span class="o">=</span> <span class="n">nd</span><span class="p">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">detail</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">octave_base</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">detail</span><span class="p">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+    <span class="c1"># Add detail from previous octave to new base
+</span>    <span class="n">input_image</span> <span class="o">=</span> <span class="n">octave_base</span> <span class="o">+</span> <span class="n">detail</span>
+    <span class="c1"># Updates the image to maximize outputs for n iterations
+</span>    <span class="n">input_image</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">input_image</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">"Iterations : "</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">out</span>  <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="n">norm</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="c1"># gradient ascent
+</span>        <span class="n">avg_grad</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">input_image</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">cpu</span><span class="p">().</span><span class="n">numpy</span><span class="p">()).</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">norm_lr</span>  <span class="o">=</span> <span class="n">lr</span><span class="o">/</span><span class="n">avg_grad</span>
+        <span class="n">input_image</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">input_image</span><span class="p">.</span><span class="n">data</span> <span class="o">+</span> <span class="n">norm_lr</span> <span class="o">*</span> <span class="n">input_image</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">data</span>
+        <span class="n">input_image</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">input_image</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">input_image</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">zero_</span><span class="p">()</span>
+        <span class="c1"># Extract deep dream details
+</span>        <span class="n">detail</span> <span class="o">=</span> <span class="n">input_image</span><span class="p">.</span><span class="n">cpu</span><span class="p">().</span><span class="n">data</span><span class="p">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">octave_base</span>
+</code></pre></div></div>
+
+<p>Depending on the number of iterations, we obtain more and more abstract images with psychedelic shapes that appear as and when the name <em>DeepDream</em>. In fact, these abstract shapes are present especially for the deeper layers, the first layers usually accentuate simple <em>features</em> like edges, corners, textures…</p>
+
+<p align="center">
+   <img src="/assets/images/deepdream_exemple.gif" width="80%" />
+</p>
+
+<p>With this tool, one can create very advanced artistic effects like on <a href="https://www.instagram.com/deepdreamgenerator/">DeepDreamGenerator’s instagram</a>. But we can also accentuate the pscychedelic effect by doing a lot of iterations or by feeding the output of the algorithm as input several times. And with a little effort, one can manage to visualize what it is like to go to the supermarket in these dreams from very real images.</p>
+
+<!-- Courtesy of embedresponsively.com //-->
+
+<div class="responsive-video-container">
+    <iframe src="https://www.youtube-nocookie.com/embed/DgPaCWJL7XI" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+  </div>
+
+<p>As presented above, Deep Dream has a drawback if you want to run it on an input white noise image to visualize what might emerge and thus have a more accurate representation of CNN <em>features</em>. Indeed, it can be seen that the image then remains dominated by high-frequency patterns.</p>
+
+<p align="center">
+   <img src="/assets/images/deepdream_noise.png" width="80%" />
+</p>
+
+<p>Generally, to counter this effect, what works best is to introduce regularization in one way or another into the model. For example, transformation robustness tries to find examples that always strongly activate the optimization function when they are very weakly transformed. Concretely, this means that we shake, rotate, decrease or increase the image randomly before applying the optimization step. The <a href="https://github.com/tensorflow/lucid">lucid</a> (tensorflow) and <a href="https://github.com/greentfrapp/lucent">lucent</a> (pytorch) libraries are open-source packages that implement all kinds of visualization methods.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># load libraries
+</span><span class="kn">from</span> <span class="nn">lucent.optvis</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">lucent.modelzoo</span> <span class="kn">import</span> <span class="n">vgg19</span>
+<span class="c1">#loadmodel
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">vgg19</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>
+<span class="c1"># run optimization
+</span><span class="n">image</span> <span class="o">=</span> <span class="n">render</span><span class="p">.</span><span class="n">render_vis</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">"features:30"</span><span class="p">,</span><span class="n">thresholds</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span><span class="n">show_inline</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>A much more comprehensive article on feature visualization techniques is available <a href="https://distill.pub/2017/feature-visualization/">here</a></p>
+
+<p align="center">
+   <img src="/assets/images/lucid_viz.png" width="100%" />
+</p>
+
+<hr />
+
+<p><a href="https://jupyter.org/try"><img src="https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&amp;logo=Jupyter" alt="Generic badge" /></a> <a href="https://lbesson.mit-license.org/"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=plastic" alt="Generic badge" /></a> <a href="https://github.com/julienguegan/notebooks_blog/blob/main/visualisation_CNN.ipynb"><img src="https://img.shields.io/badge/acces_au_code-github-black.svg?style=plastic&amp;logo=github" alt="Generic badge" /></a> <a href="https://hub.gke2.mybinder.org/user/julienguegan-notebooks_blog-z8qd9bd5/notebooks/visualisation_CNN.ipynb"><img src="https://img.shields.io/badge/execute_le_code-binder-ff69b4.svg?style=plastic&amp;logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAMAAAC%2BRQ9vAAACOlBMVEX%2F%2F%2F9XmsrmZYH1olJXmsr1olJXmsrmZYH1olJXmsr1olJXmsrmZYH1olL1olJXmsr1olJXmsrmZYH1olL1olJXmsrmZYH1olJXmsr1olJXmsq%2FdJX1olLVa4pXmsrmZYH1olL1olJXmspXmsrmZYH1olJXmsr1olJXmspXmsr1olJXmsr1olJXmsrmZYH1olL1olL1olJXmspXmsrmZYH1olL1olL1olJXmsrmZYH1olL1olL1olJXmsrmZYHqdnT1olJXmsq6dZf1olJXmsrKk3rmZYH1olJXmsrCc5RXmsr0n1TtgWz1olJXmspXmsrmZYH1olJXmsqNhq%2Fzmlj1olJXmspZmshXmsr1olL1olJXmsrmZYH1olJXmsr1olL1olL1olJXmsr1olJXmsrtgGz1olL1olJXmsr1olJXmsrmZYH1olJXmsrbaYf1olJXmsr1olJXmsr1olLIcJFXmsr1olJXmsr1olJXmsr1olJXmsr1olL1olJXmspZmshZmsldmsZemsVfl8Zgl8Zom71pk8Frm7tvm7dxkL1ykLx0m7R4m7F6jbh7jbh8nK6CnKmDirOEibOGnKaInKWNhq%2BNnKGSnZ2Vg6qegKaff6WfnZSnfKGnno6ofKGvnoeweZyxeZy3noG5dpjCcpPDcpPGn3bLb4%2FPoG%2FVa4rXoGnYoGjdaIbeaIXhoWHmZYHnaX7obXvpcHjqdHXreHLroVrtgGzuhGnuh2bxk17yl1vzm1j0nlX1olIgJPdZAAAAfnRSTlMAEBAQHx8gICAuLjAwMDw9PUBAQEpQUFBXV1hYWFtgYGBkZnBwcHFxdHx8fn6AgICHiIuQkJCSnKCgoKavsLCwsLO4uMDAwMDBwcTFxsjO0NDQ09TW1tjY3Nzd4ODg4uLl5%2Bjo6uvr7O3v8PDw8%2FPz9vb39%2Fj5%2Bfv7%2FPz9%2Ff5K%2BfZ5AAAI4ElEQVR42uzWAWfDQBjG8Yc4qoihEApBIIoOOpaiFAUBBB3EjFDKRImZy0d7vtuYYWN36Zq4u5v7fYO%2FB%2B%2BLwENBEARBEAR32Zc0gpcWRXmS%2FO7SHPI5PDIvaip01TrypKGlXr2B6%2FKaV%2BirGA67v%2FBa9dKrCLWXGA5anvhXlYBjopI36DdwStrxNo2AO%2Fa8WZ%2FBEaLhGHs4YdFxnGME%2B5KeY7UCtq160v%2BOFUn%2FOxLyH3QkPafSwhrxzukcYcsrp7SFHSWnlcGGnEOaQ57i0ywrqo4DpIB5QlLruI7w07w4U%2BsZ5j1R420n8Ju46qmxhmkZ1WQBJVHq6gUM66hUCujEJ3e%2B3YIqMsWQLZVmMCmSVDgLDEskFR5h0m7kLRatC3NEckSFosPCHA%2FqitEdMxjzwbxZN7eRNGG8tcpr%2BS2vA3KFmZODoFLlDaOS4%2FXxleVj9OqYacLMzMzYR%2BHsZwtz5hnvSNOSf%2F97Vc%2F0NI%2B%2FBwM0q%2FQJMsjoynXfYFr%2BPxe9SgtVijdiLT3Jjrmxlu5UIf5wlLq%2BraqTD9dfqbSjFrhY1T5jLNkzMdbRUMVy6nsqgdpYx4TKbMViHXA2bm%2BOJqoEY7QlNpVEfayDKoD3eqzhBSqNpqo4R7dcyJdjDX%2BHuW7Ouq%2BhshqCiG9yTfPDV%2FgmUWCvpLbCmSMzqsC3%2BSvWcInvEOUyZEeL5mtzxUQEfI9%2FYw3%2F8X2mZsuOVUVxEUDGP%2FwQeZ%2BSM7pSocrL8cNciDXwowQeJaWhQjK6RfwIFzU%2Fe5UfIxpiI0M%2B4npTmduWcZmfIJ%2FU1yshIxtxiTI46tZuZAxhTipDQ659yPACLksG5712IMMLuUwZHHriMuxVYBlXGBD50pHKXgWWEbNJh72MtKgKnMX%2Fxjq8KmZxrALXVNb%2BIV9TBQyAFS4mrFqFO4oNxMDHIUGV%2Bo0sGwDdHxvoT5ChcmNcL2ITl2INF9hAlKlGLz6VjXwSgxoXE%2BI7JRZvu7GJwO8Y63jRaMJRpGcCnlNJXqkgg6aGX3ij7K9Vuig2NQwYkvcNe4GhlMkzZCrOfSKbgQxDhpjGhvH7RNQfWzKLPUMi%2BeUTVEd%2Fwgc4fggtifc0Alkjm6SmeEd%2FivWgikHmGCC3bQoSqKCBsZamtKbXwuaoL4rdqQxUATYcmusQJjNHuikW227kWEvBS7YXH22qjgOQvwX24iDS%2BI%2FHe%2FQqasBtk4KveNoCXcDB%2B6NIC2IMsEc3%2FBl4o%2B7RIFZN5eETAw0T0%2FA74YOEAVW4aDU81pKx%2Bo%2BNpvp7BQ38UPdijKgXKQpxWfdZjCiOJhpluFXp6TFkolg5FXlgooFpafAiWFiNLsaQopMSvWAzwpweG5g7je9y5sgtztw5EUoPbRF%2FUOyhCw2LbMw1PrJnx9qV6gEr1%2B48MAf%2FDfZvJ66RJ0T3GHJi21KlZ%2Fn2U%2FhK1crNQ%2FoTZEKs5dia%2BcrEos2n5GpCFO0zdrv589sWqrZZtPu83FOREKaspO5xeo1KyPz156S2yDZxSldrn16tbHhUSFNaQAZ0Dezm5zcoS%2BZvPw8zRulkEzQJuIPbP1%2FZs%2BjYg85RVIZHiXScX6FKY%2FN5tyqADDJyr847tECVysITcdxUS5WTgf18iyqHvRbeLSgj9ZYqj%2BepHcjo8Lkql5dTVZfR4RtVPp%2Bn5GXIq8A6xPMGUFF9HR5r6Gb27i%2BVK94mV6BGHPOuskY%2BXhVA1wSZp1wyjtyQt%2FTxkcotncgJOTvnSP2o2mDxxp2Hjxxn5uNHDu%2FcuFi1wXdu3Ly%2F3W5%2BijKycs9xfpTjO5YoI6%2BSC3y2qXH7mQPoD6yhd6M5tA0iF0Ro1Kch1aowH%2Fbqz8DRRpiE%2FJwSmykUSEuj4Y4PIwrxsKjxVwWZIeUcwBx1CjIv1cY0uKZZIT4mB2SSP%2ByarQC%2FD4NjVPbbNuWzAiMePB3pogA%2FdnpkcIeu59MK0JoSeXcL6kNkjG866EKe5jg6%2FSpoDi%2Fhe8E6qMK0w8xQAh3Ngg9G8snC1O%2F%2Ft%2FjICKWnn0DPoc%2FlKaWnh0kF9092FrMln4wECRL4OBC1Uf55U2mpEUgdWh2vGI4xSP7gMKV3j%2FESTYfm3XwNPkUv4MTGQGG3WfbVZ%2BFe9hoMI6UfWr3%2BBHG7RsA7NMXEFJS3Rtk8msRZdLCbigRTuH2mrXpjZMF9BBkUm2OKuxUgFgKOsG%2BeDQQ2TUurw%2BUZFvLcKvU4y3Z9xRj4RABZtk6gC9Rw8uDWdeoeq7buO8lmDA39eIFEDipEwNFbnOUE5AjSBQU9qTawdEIy0CpVj%2BAa1R6zY6BY9Qo5IhO5U%2BGTiWeVBnKF70yHT0a6CsgQ0NGfMNDH6yR1CKgAvUsXalc6oiy1ibQM8kMx7xaQgfHyXA6hRy5lCJSJVrm7%2BjJw9Y2x%2B6%2F3morIIC%2FHpTDVo2R0Een%2FNGTtPb2gi1AWHQeJ0N%2FuZkVDKDnjgYxqC4lGeWTBbJEKFwvJcxLC%2FmRFCjTjcmRyBTYT5XyypCtom0TxR4XYDrksWYEHuV1JHC878%2BjJx3vzo7te86gUUq2Vibdg7bdq3aZdd9i0blUZP90PTj%2Fl0Z5gI5VCM%2FyUPI3OJq%2F9xBY1Jf94oytjCLkGiPUO6rlnlY5XSBjzo5fmlH2ssB%2Boi98q22uVekVpSVGlaLVfouJIIV%2BJWJWlloOZwcrCxWSoUXputGuHuLKEQBSGDwaDQmAxrVFtyuDaswB2UIs4a395ueKKCcyd7g4wSX%2B%2BxJ8cWequDpMVA8nVjsiGiIEsGzReWiUrhrr0SmQOtkQMZZUtxaIvdG4xWGJbMmizmW0eo1W2aTPECjsEw3n2qDi8Cpk9ajDezr66B4NfNoqyL2CGwrf0kPRfPpRv7ZjCKe9UMEngjdRilo23UYd5hHeJmEkGVIwgwyrW74iYL%2FEi9VhBVF5RHdbgKs%2FLBqswmWdtWElQnlEc1mKEH9MN63EHPyMGS%2FKfhIjFsnzmn6hYLM2myndKNFif2yvbymbxLWyUwlfHHgy%2BjfMp5eOHpOQtHo%2FH4%2FEY7x8MZ7AAyatDDgAAAABJRU5ErkJggg%3D%3D" alt="Generic badge" /></a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/en/tags/#convolution" class="page__taxonomy-item" rel="tag">convolution</a><span class="sep">, </span>
+    
+      <a href="/en/tags/#deep-dream" class="page__taxonomy-item" rel="tag">deep dream</a><span class="sep">, </span>
+    
+      <a href="/en/tags/#deep-learning" class="page__taxonomy-item" rel="tag">deep learning</a><span class="sep">, </span>
+    
+      <a href="/en/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Catégories : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/en/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Mis à jour :</strong> <time datetime="2022-01-01T13:10:10-06:00">January 1, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/en/posts/en/2021-09-10-reseau_de_neurone/" class="pagination--pager" title="Neural Network: statistics, gradient, perceptron
+">Précédent</a>
+    
+    
+      <a href="/en/posts/en/2022-02-24-filtre_kalman/" class="pagination--pager" title="Kalman: filter, tracking, IMU
+">Suivant</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Laisser un commentaire</h4>
+      <section id="utterances-comments"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Contact</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        
+      
+        
+          <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+    
+
+    
+      <li><a href="/en/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Flux</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 Blog du Julien. Propulsé par <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TY0R5MX0LD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TY0R5MX0LD', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'julienguegan/julienguegan.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>

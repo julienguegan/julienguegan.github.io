@@ -1,0 +1,1063 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Détection de monture de lunettes par méthode d’intelligence artificielle - Blog du Julien</title>
+<meta name="description" content="Sur cette page">
+
+
+  <meta name="author" content="Julien Guégan">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Blog du Julien">
+<meta property="og:title" content="Détection de monture de lunettes par méthode d’intelligence artificielle">
+<meta property="og:url" content="https://julienguegan.github.io/projects/detection_monture/">
+
+
+  <meta property="og:description" content="Sur cette page">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://julienguegan.github.io/en/projects/detection_monture/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Julien Guégan",
+      "url": "https://julienguegan.github.io/",
+      "sameAs": ["https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/","https://www.facebook.com/julien.guegan.754","https://github.com/julienguegan","https://www.instagram.com/julien_guegan_/?hl=fr"]
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="_Cj2FZGjDR1sECXPRL64_CMVDm6adbKqCXSLHArYdSE" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/en/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+  <link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+  <script>
+    let theme = sessionStorage.getItem('theme');
+    if(theme === "dark") {
+      sessionStorage.setItem('theme', 'dark');
+      node1 = document.getElementById('theme_source');
+      node2 = document.getElementById('theme_source_2');
+      node1.setAttribute('rel', 'stylesheet alternate'); 
+      node2.setAttribute('rel', 'stylesheet');
+    } else {
+      sessionStorage.setItem('theme', 'light');
+    }
+  </script>
+
+<link rel="shortcut icon" type="image/png" href="/assets/images/brain_icon.png">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+  });
+</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--splash wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/en/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
+        
+        <a class="site-title" href="/en/">
+          Blog du Julien
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/en/home/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/cv/">CV</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+        <button class="lang__toggle" type="button">
+          <span class="visually-hidden">Switch language</span>
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M12.65 15.67c.14-.36.05-.77-.23-1.05l-2.09-2.06.03-.03c1.74-1.94 2.98-4.17 3.71-6.53h1.94c.54 0 .99-.45.99-.99v-.02c0-.54-.45-.99-.99-.99H10V3c0-.55-.45-1-1-1s-1 .45-1 1v1H1.99c-.54 0-.99.45-.99.99 0 .55.45.99.99.99h10.18C11.5 7.92 10.44 9.75 9 11.35c-.81-.89-1.49-1.86-2.06-2.88-.16-.29-.45-.47-.78-.47-.69 0-1.13.75-.79 1.35.63 1.13 1.4 2.21 2.3 3.21L3.3 16.87c-.4.39-.4 1.03 0 1.42.39.39 1.02.39 1.42 0L9 14l2.02 2.02c.51.51 1.38.32 1.63-.35zM17.5 10c-.6 0-1.14.37-1.35.94l-3.67 9.8c-.24.61.22 1.26.87 1.26.39 0 .74-.24.88-.61l.89-2.39h4.75l.9 2.39c.14.36.49.61.88.61.65 0 1.11-.65.88-1.26l-3.67-9.8c-.22-.57-.76-.94-1.36-.94zm-1.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+        </button>
+        <ul class="floating-menu lang-switcher hidden">
+            <li class="lang-option-active masthead__menu-item">English</li>
+        
+            <script> console.log("/projects/detection_monture/") </script> 
+            <script> console.log("/projects/detection_monture/") </script>
+            <script> console.log("/projects/detection_monture/") </script>
+            <li class="lang-option-inactive masthead__menu-item"><a href="/projects/detection_monture/">Français </a></li>
+        </ul>
+
+        
+        <button class="theme__toggle" type="button">
+          <span class="visually-hidden">Theme</span>
+          <i class="fas fa-fw fa-adjust" aria-hidden="true"></i>
+        </button>
+        
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Détection de monture de lunettes par méthode d’intelligence artificielle">
+    <meta itemprop="description" content="   Sur cette page">
+    
+    
+
+    <section class="page__content" itemprop="text">
+      <div style="text-align: justify;">
+        <nav class="toc">
+  <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Sur cette page</h4></header>
+<ul class="toc__menu" id="markdown-toc">
+  <li><a href="#contexte" id="markdown-toc-contexte">Contexte</a></li>
+  <li><a href="#état-de-lart" id="markdown-toc-état-de-lart">État de l’art</a>    <ul>
+      <li><a href="#architectures-pour-la-segmentation-sémantique" id="markdown-toc-architectures-pour-la-segmentation-sémantique">Architectures pour la Segmentation Sémantique</a>        <ul>
+          <li><a href="#unet" id="markdown-toc-unet">UNet</a></li>
+          <li><a href="#pspnet" id="markdown-toc-pspnet">PSPNet</a></li>
+          <li><a href="#deeplab" id="markdown-toc-deeplab">DeepLab</a></li>
+          <li><a href="#bisenet" id="markdown-toc-bisenet">BiseNet</a></li>
+        </ul>
+      </li>
+      <li><a href="#métriques-et-fonctions-loss" id="markdown-toc-métriques-et-fonctions-loss">Métriques et fonctions Loss</a></li>
+    </ul>
+  </li>
+  <li><a href="#travaux-effectués" id="markdown-toc-travaux-effectués">Travaux effectués</a>    <ul>
+      <li><a href="#expériences-sur-données-synthétiques" id="markdown-toc-expériences-sur-données-synthétiques">Expériences sur données synthétiques</a>        <ul>
+          <li><a href="#base-de-données" id="markdown-toc-base-de-données">Base de données</a></li>
+          <li><a href="#expériences" id="markdown-toc-expériences">Expériences</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</nav>
+
+<p><em>EN COURS DE RÉDACTION</em></p>
+
+<h1 id="contexte">Contexte</h1>
+
+<p>Le projet est de développer un algorithme qui détecte sur des images 2D les pixels appartenant à la face avant de la monture portée par l’utilisateur en étant robuste le plus possible à tous les différents types de monture qui peuvent exister ainsi que les différentes positions que peut avoir l’utilisateur devant la caméra. On parle ici d’un problème de segmentation, contrairement à la tâche de classification où le but est simplement d’identifier si oui ou non l’objet recherché est présent dans les images.</p>
+
+<p>La détection de lunettes est un problème clé pour la recherche de vision par ordinateur dû à sa relation directe avec les systèmes de reconnaissance faciale. Le problème fut typiquement approché en localisant la zone des yeux et en caractérisant les régions alentours. Une combinaison de techniques morphologiques du traitement d’images fut testée pour décrire la zone des lunettes comme l’utilisation de motif binaire locaux <a href="local_binary_pattern">[1]</a>, la décomposition en ondelette <a href="wavelet">[30]</a>, les histogrammes de gradient orienté <a href="hog">[31]</a> ou encore les caractéristiques pseudo-Haar <a href="haar_feature">[32]</a>. Ces approches demandent une expertise fine du domaine et connaissent de vraies limitations pour obtenir une segmentation complète pour tous les types de montures existants et sous toutes les conditions de positions et d’environnement. Ces dernières années, les approches d’apprentissage profond ont été largement utilisées et ont permis de grande avancées dans le domaine de la vision par ordinateur. Elles ont l’avantage d’être agnostiques aux problèmes à résoudre mais nécessitent en contrepartie une base de données annotées au préalable. Saddam BEKHET <a href="selfie_detection">[33]</a> présente un modèle robuste pour classifier des images avec ou sans lunettes dans des conditions difficiles mais ne segmente pas précisément la monture. Cheng-Han LEE et al. <a href="celebamask">[28]</a> fournissent un jeu de données annotées pour la segmentation de 19 classes du visage (nez, bouche, cheveux …), il est composé de plus de 30 000 images. On trouve parmi ces 19 classes, la classe “lunette” définie comme l’ensemble des éléments de la lunette (monture, verre, branche) alors que notre problème exige uniquement une segmentation de la face avant de la monture (pas le verre ni les branches).</p>
+
+<p>L’approche retenue pour le problème de segmentation de la face avant de la monture est celle de l’apprentissage supervisée avec notamment 2 approches. Une première s’appuyant sur un jeu de données générées synthétiquement et permettant d’avoir accès à une grande quantité d’images annotées. Et une deuxième se basant sur un jeu de données réelles ayant été annotées manuellement et plus spécifique au cas d’application mais avec une faible quantité d’image. Un rappel du fonctionnement général des réseaux de neurone sera fait puis plus spécifiquement sur les architectures propres à la segmentation sémantique dans le chapitre \ref{Etat de l’art}. Ensuite, les différentes expériences effectuées seront présentées dans le chapitre \ref{Travaux}. Enfin, les résultats seront discutés et les potentielles améliorations énumérées dans le chapitre \ref{conclusion}.</p>
+
+<h1 id="état-de-lart">État de l’art</h1>
+
+<h2 id="architectures-pour-la-segmentation-sémantique">Architectures pour la Segmentation Sémantique</h2>
+
+<p>Dans un réseau de neurones spécialisé dans la classification, le type d’information est encodé mais pas sa position précise. En effet, les opérations de pooling effectuent un sous-échantillonnage de l’information et permettent au modèle de comprendre le type d’information présent dans l’image mais la position de l’information est perdue au cours du procédé. Comme expliqué en introduction, dans le contexte du stage, la tâche à effectuer est celle de la segmentation. L’objectif de la segmentation sémantique est d’étiqueter chaque pixel d’une image par sa classe correspondante. Contrairement à la tâche de classification qui consisterait à dire si oui ou non il existe une monture dans l’image, la dimension de sortie est alors bien inférieure à la dimension d’entrée (en général).</p>
+
+<p align="center">
+  <img src="/assets/images/monture_semanticsegmentation.png" width="60%" />
+</p>
+<p align="center">
+  <i>Différentes tâches de reconnaissance d'image. La segmentation d'instance est la plus complexe.</i>
+</p>
+
+<p>Pour la segmentation, la dimension de sortie est quasiment identique à celle d’entrée puisqu’elle correspond exactement à la taille de l’image. Le challenge principal est de retrouver où se trouve l’information dans l’image en effectuant du sur-échantillonnage pour récupérer une sortie de la même taille que l’image d’entrée. Pour se faire, de nombreuses techniques du traitement d’images classique sont connues comme l’interpolation bilinéaire, l’interpolation aux plus proches voisins, le unpooling, la convolution transposée (ou déconvolution)… Comme vous vous en doutez, l’opération retenue pour un réseau de neurones convolutionnel est souvent la convolution transposée puisqu’on va pouvoir apprendre les paramètres grâce à nos données et avoir un sur-échantillonnage adapté au problème. L’idée est de réaliser l’opération inverse de la convolution : en partant du produit et du filtre, retrouver l’image d’origine.</p>
+
+<p align="center">
+  <div style="display: flex; justify-content: center; gap: 20%; align-items: flex-start;">
+    <div style="width: 35%;">
+      <img src="/assets/images/monture_convolution.png" alt="Convolution" style="width: 100%;" />
+      <p align="center"><i>(a) Convolution.</i></p>
+    </div>
+    <div style="width: 65%;">
+      <img src="/assets/images/monture_transposedconvolution.png" alt="Convolution transposée" style="width: 100%;" />
+      <p align="center"><i>(b) Convolution transposée.</i></p>
+    </div>
+  </div>
+</p>
+<p align="center">
+  <i>Exemples de calculs de convolution classique (a) et transposée (b).</i>
+</p>
+
+<p>Une majorité des architectures des réseaux de neurones pour la segmentation sont constituées d’une partie encodeur qui encode l’information avec des opérations de convolution et de pooling puis d’une partie décodeur qui décode l’information spatialement en utilisant des opérations de déconvolution et de unpooling. Au final, on obtient un réseau de neurones constitué uniquement de couches convolutionnelles et ne contenant aucune couche dense, ce qui permet d’accepter en entrée des images de n’importe quelle taille. On peut, par exemple, tester des images de taille différentes lors du test et lors de l’entraînement. Dans les sections suivantes, des architectures spécifiques et reconnues seront citées pour mieux comprendre les enjeux rencontrés lors des problèmes de segmentation d’image.</p>
+
+<p align="center">
+  <img src="/assets/images/monture_deconvolution_neural_network.png" width="60%" />
+</p>
+<p align="center">
+  <i>Architecture complètement convolutionnelle (FCN) pour la segmentation</i>
+</p>
+
+<h3 id="unet">UNet</h3>
+
+<p>L’architecture UNet <a href="unet">[6]</a> a été développée par O. Ronneberger en 2014 pour de la segmentation d’images biomédicales. Comme discuté précédemment pour les architectures de segmentation, il y a deux parties principales : l’encodeur qui sous-échantillonne l’information et permet de savoir ce qui est dans l’image et le décodeur qui sur-échantillonne et permet de savoir où est l’information dans l’image. Le principal ajout par rapport à ce qui a été précédemment énoncé est le fait de connecter les couches de même niveau de résolution de l’encodeur et du décodeur. En effet, en concaténant les 2 informations puis en appliquant 2 opérations de convolution, le modèle a une information supplémentaire et peut apprendre comment sur-échantillonner de façon plus efficace.</p>
+
+<p align="center">
+  <img src="/assets/images/monture_unet.png" width="60%" />
+</p>
+<p align="center">
+  <i>Architecture UNet</i>
+</p>
+
+<h3 id="pspnet">PSPNet</h3>
+
+<p>L’architecture PSPNet (Pyramid Scene Parsing) <a href="pspnet">[7]</a> développée en 2016 par H. ZHao et al. de CUHK et l’entreprise Sensetime a réalisé des performances “state-of-the-art” sur les benchmark d’<em>ImageNet 2016 scene parsing challenge</em>, <em>PASCAL VOC 2012</em> et <em>Cityscapes</em>. En observant les mauvaises prédictions faites par un CNN, ils ont conclu que le modèle avait besoin de plus d’information globale de l’image. En effet, il remarque par exemple que le modèle prédit un bateau sur l’eau comme une voiture en se basant sur son apparence alors que le sens commun nous dit qu’une voiture a peu de chance de flotter sur l’eau. 
+Pour décrire cette information globale de l’image, l’encodeur de PSPNet utilise des couches de convolutions dilatées qui aident à augmenter le champ récepteur des features. Ensuite des features de différentes tailles sont regroupées par des opérations de pooling. Ces  différentes échelles de contexte sont directement sur-échantillonnées avec des interpolations bilinéaires pour être concaténées et formées un seul volume encodant différents contextes d’information. Ce volume est finalement passées à une couche de convolution pour générer la prédiction finale.</p>
+
+<p align="center">
+  <img src="/assets/images/monture_pspnet.png" width="60%" />
+</p>
+<p align="center">
+    <i>Architecture PSPNet</i>
+</p>
+
+<h3 id="deeplab">DeepLab</h3>
+
+<p>DeepLab <a href="deeplab">[12]</a> est une architecture développée la même année que PSPNet et réalise également des performances du même ordre de grandeur puisque l’idée et les techniques utilisées sont semblables. Elle est notamment connue pour introduire précisément la notion des convolutions dilatées (ou atrous convolution) pour aider à encoder l’information locale et globale de l’image. D’autre part, DeepLab a subi plusieurs améliorations depuis sa création et 3 versions existent actuellement. Les convolutions dilatées (\ref{fig:atrous_convolution}) permettent d’élargir le champ récepteur des filtres et donc de se passer de toutes les couches de déconvolution pour la partie décodage utilisées dans les réseaux complètement convolutionnels (UNet, FCN …) mais DeepLab V1 est contraint de faire passer la sortie des convolutions dilatées dans une interpolation bilinéaire et un modèle CRF.</p>
+
+<p align="center">
+  <img src="/assets/images/monture_atrous_convolution.png" width="70%" />
+</p>
+<p align="center">
+  <i>A gauche, convolution standard. A droite, convolution dilatée (avec un taux de dilatation de 2).</i>
+</p>
+
+<p>L’idée de DeepLab V2 est, de la même manière que PSPNet, d’effectuer un pooling spatial pyramidal dilaté (ASPP) en appliquant de multiples convolutions dilatées avec des taux d’échantillonnage différents (exemple : 4 kernels 3x3 avec des taux de 6, 12, 18 et 24) et de concaténer les sorties en un seul volume, ce qui aide à prendre en compte différentes échelles d’objet. Enfin, DeepLab V3 <a href="deeplab_v3">[13]</a> et V3+ se concentre sur la capture de frontières plus nettes pour la segmentation des objets. En effet, jusqu’ici le modèle utilisait une interpolation pour le sur-échantillonnage et non un décodeur avec des convolutions comme dans UNet. En utilisant une partie décodeur peu profonde qui exploite les convolutions dilatées, le modèle obtient des résultats plus précis et nets autour des objets segmentés.</p>
+
+<h3 id="bisenet">BiseNet</h3>
+
+<p>BiseNet <a href="bisenet">[14]</a> est une architecture développé en 2018 par une équipe chinoise ayant pour but de trouver un équilibre entre performance et vitesse d’inférence. En effet, pour accélérer un modèle on peut choisir de : réduire la taille de l’entrée (en rognant ou redimensionnant l’image), réduire les channels du réseau ou supprimer les dernières couches mais à chaque fois au détriment de la perte de détails spatiaux. BiseNet propose alors un réseau avec 2 parties : <em>Spatial Path</em> (SP) et <em>Context Path</em> (CP). Le <em>Spatial Path</em> empile 3 couches convolutionnelles pour obtenir une feature map 1/8 et le <em>Context Path</em> ajoute une couche de global average pooling à la fin de Xception où le champ récepteur est maximum. Ensuite pour fusionner ces 2 informations et raffiner la prédiction, des modules appelés <em>Feature Fusion</em> (FFM) et <em>Attention Refinement</em> (ARM) sont respectivement développés.</p>
+
+<p align="center">
+  <img src="/assets/images/monture_bisenet_-_speedup.png" width="60%" />
+</p>
+<p align="center">
+  <i>Architecture BiseNet</i>
+</p>
+
+<h2 id="métriques-et-fonctions-loss">Métriques et fonctions Loss</h2>
+
+<p>La première métrique qu’on peut évaluer pour la tâche de segmentation est la précision (accuracy) au niveau pixel qui consiste simplement au pourcentage de pixels de l’image qui sont classifiés correctement. Cette métrique peut être pertinente pour des cas où les classes sont distribuées de façon équilibré sur l’image mais lorsque notre problème est déséquilibré et qu’une classe domine largement l’image et une autre occupe seulement une petite portion, le score de précision peut être trompeur puisqu’une prédiction qui donnerait la valeur de la classe dominante à l’image entière aurait un très bon score.</p>
+
+<p align="center">
+  <img src="/assets/images/monture_pixel_accuracy_bad.png" width="60%" />
+</p>
+<p align="center">
+  <i>Exemple de classe déséquilibré où le score de précision est inefficace. En prédisant l'image entière comme du background, on obtient quand même une précision de 90%.</i>
+</p>
+
+<p>Le score IoU\footnote{Intersection Over Union} aussi appelé indice de Jaccard est l’une des métriques les plus utilisée en segmentation sémantique puisqu’elle exprime l’aire de chevauchement entre prédiction et vérité divisé par l’aire d’union des deux. Elle peut être calculée ainsi : \(\text{IoU} = \frac{TP}{TP+FP+FN}\) 
+où $TP$ désigne les vrais positifs, $FP$ les faux positifs et $FN$ les faux négatifs. Si on reprend l’exemple de la figure \ref{accuracy}, on a 90% de chevauchement pour la classe background mais 0% pour la classe lunette, on obtient donc au final un score IoU de 45% ce qui paraît un peu plus approprié pour la prédiction proposée. Pour un problème binaire comme celui de notre problème, on pourra calculer le score IoU seulement de la classe lunette (pour des problèmes multi-classes, on peut également exclure le background). Une grandeur qui revient également souvent pour la segmentation et qui est très proche de l’IoU est le coefficient Dice (ou F1 score) : \(\text{Dice} = \frac{2TP}{2TP+FP+FN}\)
+Ces deux métriques sont corrélées positivement, c’est-à-dire que pour une unique donnée si un classifieur A est meilleur qu’un classifieur B sous l’une des métriques alors il sera également meilleur que B sous l’autre métrique. La différence entre les deux vient quand on compare les deux sur un ensemble de données. En général, la métrique IoU pénalise plus fortement les mauvaises segmentation que le coefficient Dice. On peut penser au coefficient Dice comme une métrique qui mesure une performance moyenne alors le score IoU mesure quelque chose qui s’approche plus de la pire performance.</p>
+
+<p>Les problèmes de classification d’images basées sur des CNN sont typiquement entraînés en minimisant la cross-entropie (page \pageref{CE}) qui mesure une affinité entre la probabilité sortie du réseau et le label. La cross-entropie standard a des inconvénients bien connus pour des problèmes où la distribution des classes sont fortement déséquilibrées, il en résulte des entraînements instables et des frontières de décision biaisées envers la classe majoritaire. Pour les tâches de segmentation, les métriques de score évoquées précédemment peuvent être directement utilisé comme fonction de Loss en utilisant $1 - \text{IoU}$ ou $1 - \text{Dice}$ pour bien avoir un problème de minimisation. En effet, comme expliqué précédemment, elles surpassent les performances de la cross-entropie et sont plus robustes aux problèmes déséquilibrés et en plus, elles permettent au réseau non pas de se concentrer sur le résultat de chaque pixel mais sur la forme globale de l’objet de la segmentation.</p>
+
+<h1 id="travaux-effectués">Travaux effectués</h1>
+
+<p>L’objectif des travaux est la segmentation de monture de lunettes pour un instrument de mesure. Seule la face avant de la lunette est considérée dans ces travaux puisque les mesures nécessaires pour l’instrument concernent seulement le plan vertical avant de la monture. Les branches ainsi que les verres ne seront donc pas concernés par la segmentation. De plus, le problème est binaire puisqu’il existe 2 classes : la monture et le background.</p>
+
+<p>Dû à l’absence d’une base de données annotées de qualité suffisante et de taille suffisante, les sujets de l’apprentissage semi-supervisé et des réseaux génératifs (GAN) ont été abordés. Le premier permet d’utiliser un petit jeu de données annotées et d’exploiter un grand nombre de données non annotées, le second permet de générer des images sans utiliser d’annotation. Ces approches ont été abandonnées, d’une part du fait de leur complexité et d’autre part, l’apport en performance qu’elles peuvent procurer est faible comparé à celui d’une base de données annotées de qualité.</p>
+
+<p>L’approche retenue ici est finalement celle de l’apprentissage supervisé avec les architectures de réseau de neurones convolutionnel propres à la segmentation (cf section \ref{segmentation}). Pour la phase d’apprentissage, deux approches ont été mises en place. La première est d’utiliser des images synthétiques où la monture a été apposée automatiquement sur le visage d’une personne. La deuxième approche est de constituer manuellement une base de données en étiquetant chaque image collectée. Avant de décrire les expériences réalisées, un bref rappel des travaux précédemment testés au sein de l’entreprise sera fait. Les différentes technologies logiciel et matériel seront également énumérées.</p>
+
+<h2 id="expériences-sur-données-synthétiques">Expériences sur données synthétiques</h2>
+
+<h3 id="base-de-données">Base de données</h3>
+
+<p>Une première partie des travaux fut d’utiliser des données synthétiques pour la base d’apprentissage. En effet, aucune base de données annotées correspondant à la segmentation voulue existe au sein de l’entreprise ou en open-source. Ces données synthétiques sont générées avec le même outil de \textit{Virtual Try On} (VTO) cité en section \ref{previous_work}. Cet outil utilise les landmarks du visage pour y superposer une image de lunette sur la zone des yeux. Avec ce procédé, il est possible de connaître exactement les pixels modifiés et donc d’avoir l’étiquette associée à chaque image nécessaire pour l’apprentissage supervisé. La base de donnée publique \textit{Labeled Faces in the Wild} <a href="LFW_database">[23]</a> composée de \textasciitilde 10 000 images (et \textasciitilde 5000 personnes différents) a été utilisée. Les images sont de taille 250*250 pixels. Pour chaque image, une monture choisie aléatoirement parmi 50 a été placée avec le VTO. Ainsi, la base de donnée obtenue est assez variée avec beaucoup de visages différents chacun dans des conditions différents (position, luminosité, arrière-plan). Aucun pré-traitement n’est appliqué sur l’image comme ce fut le cas dans les travaux précédents.</p>
+
+<p align="center">
+  <div style="display: flex; justify-content: center; gap: 10%;">
+    <div style="width: 40%;">
+      <img src="/assets/images/monture_virtual_images.png" alt="Images" style="width: 100%;" />
+      <p align="center"><i>Images.</i></p>
+    </div>
+    <div style="width: 40%;">
+      <img src="/assets/images/monture_virtual_masks.png" alt="Masques" style="width: 100%;" />
+      <p align="center"><i>Masques.</i></p>
+    </div>
+  </div>
+</p>
+<p align="center">
+  <i>Base de donnée d'apprentissage générée à partir du VTO.</i>
+</p>
+
+<h3 id="expériences">Expériences</h3>
+
+<p>&lt;!DOCTYPE HTML PUBLIC “-//W3C//DTD HTML 4.01 Transitional//EN”&gt;</p>
+
+<html>
+
+<head>
+<title>bibliography</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="bibtex2html" />
+</head>
+
+<body>
+
+<!-- This document was automatically generated with bibtex2html 1.99
+     (see http://www.lri.fr/~filliatr/bibtex2html/),
+     with the following command:
+     bibtex2html -o bibliography bibliography.bib  -->
+
+
+<table>
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="Goodfellow-et-al-2016">1</a>]
+</td>
+<td class="bibtexitem">
+Ian Goodfellow, Yoshua Bengio, and Aaron Courville.
+ <em>Deep Learning</em>.
+ MIT Press, 2016.
+ <a href="http://www.deeplearningbook.org">http://www.deeplearningbook.org</a>.
+[&nbsp;<a href="bibliography_bib.html#Goodfellow-et-al-2016">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="ERM">2</a>]
+</td>
+<td class="bibtexitem">
+Vladimir Vapnik.
+ Principles of risk minimization for learning theory.
+ <em>NIPS</em>, 1992.
+[&nbsp;<a href="bibliography_bib.html#ERM">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="AlexNet">3</a>]
+</td>
+<td class="bibtexitem">
+Alex Krizhevsky, Ilya Sutskever, and Geoffrey&nbsp;E Hinton.
+ Imagenet classification with deep convolutional neural networks.
+ In <em>Advances in Neural Information Processing Systems 25</em>, pages
+  1097--1105. 2012.
+[&nbsp;<a href="bibliography_bib.html#AlexNet">bib</a>&nbsp;| 
+<a href="http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf">.pdf</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="VGG">4</a>]
+</td>
+<td class="bibtexitem">
+Karen Simonyan and Andrew Zisserman.
+ Very deep convolutional networks for large-scale image recognition,
+  2015.
+[&nbsp;<a href="bibliography_bib.html#VGG">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1409.1556">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="Resnet">5</a>]
+</td>
+<td class="bibtexitem">
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+ Deep residual learning for image recognition, 2015.
+[&nbsp;<a href="bibliography_bib.html#Resnet">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1512.03385">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="unet">6</a>]
+</td>
+<td class="bibtexitem">
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+ U-net: Convolutional networks for biomedical image segmentation,
+  2015.
+[&nbsp;<a href="bibliography_bib.html#unet">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1505.04597">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="pspnet">7</a>]
+</td>
+<td class="bibtexitem">
+Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang, and Jiaya Jia.
+ Pyramid scene parsing network, 2017.
+[&nbsp;<a href="bibliography_bib.html#pspnet">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1612.01105">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="loss_visualizing">8</a>]
+</td>
+<td class="bibtexitem">
+Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, and Tom Goldstein.
+ Visualizing the loss landscape of neural nets, 2018.
+[&nbsp;<a href="bibliography_bib.html#loss_visualizing">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1712.09913">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="grid_search">9</a>]
+</td>
+<td class="bibtexitem">
+James&nbsp;Bergstra ans Yoshua&nbsp;Bengio.
+ Random search for hyper-parameter optimization.
+ <em>Journal of Machine Learning Research</em>, 2012.
+[&nbsp;<a href="bibliography_bib.html#grid_search">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="transferable_feature">10</a>]
+</td>
+<td class="bibtexitem">
+Jason Yosinski, Jeff Clune, Yoshua Bengio, and Hod Lipson.
+ How transferable are features in deep neural networks?
+ In <em>Advances in Neural Information Processing Systems 27</em>, pages
+  3320--3328. 2014.
+[&nbsp;<a href="bibliography_bib.html#transferable_feature">bib</a>&nbsp;| 
+<a href="http://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf">.pdf</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="LeCunEtAl">11</a>]
+</td>
+<td class="bibtexitem">
+Y.&nbsp;LeCun, B.&nbsp;Boser, J.&nbsp;S. Denker, D.&nbsp;Henderson, R.&nbsp;E. Howard, W.&nbsp;Hubbard, and
+  L.&nbsp;D. Jackel.
+ Backpropagation applied to handwritten zip code recognition.
+ <em>Neural Computation</em>, 1:541--551, 1989.
+[&nbsp;<a href="bibliography_bib.html#LeCunEtAl">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="deeplab">12</a>]
+</td>
+<td class="bibtexitem">
+Liang-Chieh Chen, George Papandreou, Iasonas Kokkinos, Kevin Murphy, and
+  Alan&nbsp;L. Yuille.
+ Deeplab: Semantic image segmentation with deep convolutional nets,
+  atrous convolution, and fully connected crfs, 2017.
+[&nbsp;<a href="bibliography_bib.html#deeplab">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1606.00915">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="deeplab_v3">13</a>]
+</td>
+<td class="bibtexitem">
+Liang-Chieh Chen, George Papandreou, Florian Schroff, and Hartwig Adam.
+ Rethinking atrous convolution for semantic image segmentation, 2017.
+[&nbsp;<a href="bibliography_bib.html#deeplab_v3">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1706.05587">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="bisenet">14</a>]
+</td>
+<td class="bibtexitem">
+Changqian Yu, Jingbo Wang, Chao Peng, Changxin Gao, Gang Yu, and Nong Sang.
+ Bisenet: Bilateral segmentation network for real-time semantic
+  segmentation, 2018.
+[&nbsp;<a href="bibliography_bib.html#bisenet">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1808.00897">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="unet++">15</a>]
+</td>
+<td class="bibtexitem">
+Zongwei Zhou, Md&nbsp;Mahfuzur&nbsp;Rahman Siddiquee, Nima Tajbakhsh, and Jianming Liang.
+ Unet++: A nested u-net architecture for medical image segmentation,
+  2018.
+[&nbsp;<a href="bibliography_bib.html#unet++">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1807.10165">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="resnext">16</a>]
+</td>
+<td class="bibtexitem">
+Saining Xie, Ross Girshick, Piotr Dollár, Zhuowen Tu, and Kaiming He.
+ Aggregated residual transformations for deep neural networks, 2017.
+[&nbsp;<a href="bibliography_bib.html#resnext">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1611.05431">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="albumentations">17</a>]
+</td>
+<td class="bibtexitem">
+Alexander Buslaev, Vladimir&nbsp;I. Iglovikov, Eugene Khvedchenya, Alex Parinov,
+  Mikhail Druzhinin, and Alexandr&nbsp;A. Kalinin.
+ Albumentations: Fast and flexible image augmentations.
+ <em>Information</em>, 11(2), 2020.
+[&nbsp;<a href="bibliography_bib.html#albumentations">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.3390/info11020125">DOI</a>&nbsp;| 
+<a href="https://www.mdpi.com/2078-2489/11/2/125">http</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="segmentation_models_pytorch">18</a>]
+</td>
+<td class="bibtexitem">
+Pavel Yakubovskiy.
+ Segmentation models pytorch.
+ <a href="https://github.com/qubvel/segmentation_models.pytorch">https://github.com/qubvel/segmentation_models.pytorch</a>, 2020.
+[&nbsp;<a href="bibliography_bib.html#segmentation_models_pytorch">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="pytorch">19</a>]
+</td>
+<td class="bibtexitem">
+Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
+  Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, Alban
+  Desmaison, Andreas Kopf, Edward Yang, Zachary DeVito, Martin Raison, Alykhan
+  Tejani, Sasank Chilamkurthy, Benoit Steiner, Lu&nbsp;Fang, Junjie Bai, and Soumith
+  Chintala.
+ Pytorch: An imperative style, high-performance deep learning library.
+ In H.&nbsp;Wallach, H.&nbsp;Larochelle, A.&nbsp;Beygelzimer, F.&nbsp;d
+  Alch&eacute;-Buc, E.&nbsp;Fox, and R.&nbsp;Garnett, editors, <em>Advances in Neural
+  Information Processing Systems 32</em>, pages 8024--8035. Curran Associates,
+  Inc., 2019.
+[&nbsp;<a href="bibliography_bib.html#pytorch">bib</a>&nbsp;| 
+<a href="http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf">.pdf</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="ray_tune">20</a>]
+</td>
+<td class="bibtexitem">
+Richard Liaw, Eric Liang, Robert Nishihara, Philipp Moritz, Joseph&nbsp;E Gonzalez,
+  and Ion Stoica.
+ Tune: A research platform for distributed model selection and
+  training.
+ <em>arXiv preprint arXiv:1807.05118</em>, 2018.
+[&nbsp;<a href="bibliography_bib.html#ray_tune">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="tensorflow">21</a>]
+</td>
+<td class="bibtexitem">
+Mart&iacute;n Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen,
+  Craig Citro, Greg&nbsp;S. Corrado, Andy Davis, Jeffrey Dean, Matthieu Devin,
+  Sanjay Ghemawat, Ian Goodfellow, Andrew Harp, Geoffrey Irving, Michael Isard,
+  Yangqing Jia, Rafal Jozefowicz, Lukasz Kaiser, Manjunath Kudlur, Josh
+  Levenberg, Dan Man&eacute;, Rajat Monga, Sherry Moore, Derek Murray, Chris Olah,
+  Mike Schuster, Jonathon Shlens, Benoit Steiner, Ilya Sutskever, Kunal Talwar,
+  Paul Tucker, Vincent Vanhoucke, Vijay Vasudevan, Fernanda Vi&eacute;gas, Oriol
+  Vinyals, Pete Warden, Martin Wattenberg, Martin Wicke, Yuan Yu, and Xiaoqiang
+  Zheng.
+ TensorFlow: Large-scale machine learning on heterogeneous systems,
+  2015.
+ Software available from tensorflow.org.
+[&nbsp;<a href="bibliography_bib.html#tensorflow">bib</a>&nbsp;| 
+<a href="http://tensorflow.org/">http</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="via">22</a>]
+</td>
+<td class="bibtexitem">
+Abhishek Dutta and Andrew Zisserman.
+ The VIA annotation software for images, audio and video.
+ In <em>Proceedings of the 27th ACM International Conference on
+  Multimedia</em>, New York, NY, USA, 2019. ACM.
+[&nbsp;<a href="bibliography_bib.html#via">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1145/3343031.3350535">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="LFW_database">23</a>]
+</td>
+<td class="bibtexitem">
+Gary&nbsp;B. Huang, Manu Ramesh, Tamara Berg, and Erik Learned-Miller.
+ Labeled faces in the wild: A database for studying face recognition
+  in unconstrained environments.
+ Technical Report 07-49, University of Massachusetts, Amherst, 2007.
+[&nbsp;<a href="bibliography_bib.html#LFW_database">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="autoaugment">24</a>]
+</td>
+<td class="bibtexitem">
+Ekin&nbsp;D. Cubuk, Barret Zoph, Dandelion Mane, Vijay Vasudevan, and Quoc&nbsp;V. Le.
+ Autoaugment: Learning augmentation policies from data, 2019.
+[&nbsp;<a href="bibliography_bib.html#autoaugment">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1805.09501">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="pose_estimation">25</a>]
+</td>
+<td class="bibtexitem">
+Zhe Cao, Tomas Simon, Shih-En Wei, and Yaser Sheikh.
+ Realtime multi-person 2d pose estimation using part affinity fields,
+  2017.
+[&nbsp;<a href="bibliography_bib.html#pose_estimation">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1611.08050">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="nas_unet">26</a>]
+</td>
+<td class="bibtexitem">
+Y.&nbsp;Weng, T.&nbsp;Zhou, Y.&nbsp;Li, and X.&nbsp;Qiu.
+ Nas-unet: Neural architecture search for medical image segmentation.
+ <em>IEEE Access</em>, 7:44247--44257, 2019.
+[&nbsp;<a href="bibliography_bib.html#nas_unet">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1109/ACCESS.2019.2908991">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="super_resolution">27</a>]
+</td>
+<td class="bibtexitem">
+Wenming Yang, Xuechen Zhang, Yapeng Tian, Wei Wang, Jing-Hao Xue, and Qingmin
+  Liao.
+ Deep learning for single image super-resolution: A brief review.
+ <em>IEEE Transactions on Multimedia</em>, 21(12):3106–3121, 2019.
+[&nbsp;<a href="bibliography_bib.html#super_resolution">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1109/tmm.2019.2919431">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="celebamask">28</a>]
+</td>
+<td class="bibtexitem">
+Cheng-Han Lee, Ziwei Liu, Lingyun Wu, and Ping Luo.
+ Maskgan: Towards diverse and interactive facial image manipulation.
+ In <em>IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)</em>, 2020.
+[&nbsp;<a href="bibliography_bib.html#celebamask">bib</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="local_binary_pattern">29</a>]
+</td>
+<td class="bibtexitem">
+Alberto Fernández&nbsp;Villán, Rodrigo García, Rubén Usamentiaga, and Ruben
+  Casado.
+ Glasses detection on real images based on robust alignment.
+ <em>Machine Vision and Applications</em>, 26:1--13, 05 2015.
+[&nbsp;<a href="bibliography_bib.html#local_binary_pattern">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1007/s00138-015-0674-1">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="wavelet">30</a>]
+</td>
+<td class="bibtexitem">
+Bo Wu, Haizhou Ai, and Ran Liu.
+ Glasses detection by boosting simple wavelet features.
+ In <em>Proceedings of the 17th International Conference on Pattern
+  Recognition, 2004. ICPR 2004.</em>, volume&nbsp;1, pages 292--295 Vol.1, 2004.
+[&nbsp;<a href="bibliography_bib.html#wavelet">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1109/ICPR.2004.1334110">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="hog">31</a>]
+</td>
+<td class="bibtexitem">
+A.&nbsp;S. Mohammad, A.&nbsp;Rattani, and R.&nbsp;Derahkshani.
+ Eyeglasses detection based on learning and non-learning based
+  classification schemes.
+ In <em>2017 IEEE International Symposium on Technologies for
+  Homeland Security (HST)</em>, pages 1--5, 2017.
+[&nbsp;<a href="bibliography_bib.html#hog">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1109/THS.2017.7943484">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="haar_feature">32</a>]
+</td>
+<td class="bibtexitem">
+Shaoyi Du, Juan Liu, Yuehu Liu, Xuetao Zhang, and Jianru Xue.
+ Precise glasses detection algorithm for face with in-plane rotation.
+ <em>Multimedia Systems</em>, 23, 06 2017.
+[&nbsp;<a href="bibliography_bib.html#haar_feature">bib</a>&nbsp;| 
+<a href="http://dx.doi.org/10.1007/s00530-015-0483-4">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="selfie_detection">33</a>]
+</td>
+<td class="bibtexitem">
+Saddam Bekhet and Hussein Alahmer.
+ A robust deep learning approach for glasses detection in non-standard
+  facial images.
+ <em>IET Biometrics</em>, 10(1):74--86, 2021.
+[&nbsp;<a href="bibliography_bib.html#selfie_detection">bib</a>&nbsp;| 
+<a href="https://doi.org/10.1049/bme2.12004">DOI</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="semi_supervised_semantic">34</a>]
+</td>
+<td class="bibtexitem">
+Geoff French, Samuli Laine, Timo Aila, Michal Mackiewicz, and Graham Finlayson.
+ Semi-supervised semantic segmentation needs strong, varied
+  perturbations, 2020.
+[&nbsp;<a href="bibliography_bib.html#semi_supervised_semantic">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1906.01916">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="domain_adaptation">35</a>]
+</td>
+<td class="bibtexitem">
+Mei Wang and Weihong Deng.
+ Deep visual domain adaptation: A survey, 2018.
+[&nbsp;<a href="bibliography_bib.html#domain_adaptation">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1802.03601">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="texture_bias">36</a>]
+</td>
+<td class="bibtexitem">
+Robert Geirhos, Patricia Rubisch, Claudio Michaelis, Matthias Bethge, Felix&nbsp;A.
+  Wichmann, and Wieland Brendel.
+ Imagenet-trained cnns are biased towards texture; increasing shape
+  bias improves accuracy and robustness, 2019.
+[&nbsp;<a href="bibliography_bib.html#texture_bias">bib</a>&nbsp;| 
+<a href="http://arxiv.org/abs/1811.12231">arXiv</a>&nbsp;]
+
+</td>
+</tr>
+
+
+<tr valign="top">
+<td align="right" class="bibtexnumber">
+[<a name="dlib">37</a>]
+</td>
+<td class="bibtexitem">
+Davis&nbsp;E. King.
+ Dlib-ml: A machine learning toolkit.
+ <em>Journal of Machine Learning Research</em>, 10:1755--1758, 2009.
+[&nbsp;<a href="bibliography_bib.html#dlib">bib</a>&nbsp;]
+
+</td>
+</tr>
+</table><hr /><p><em>This file was generated by
+<a href="http://www.lri.fr/~filliatr/bibtex2html/">bibtex2html</a> 1.99.</em></p>
+</body>
+</html>
+
+
+      </div>
+    </section>
+    
+  </article>
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Contact</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        
+      
+        
+          <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+    
+
+    
+      <li><a href="/en/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Flux</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 Blog du Julien. Propulsé par <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TY0R5MX0LD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TY0R5MX0LD', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,841 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Population dynamics: ODE, ecology, logistics - Blog du Julien</title>
+<meta name="description" content="Among the challenges of the 21th century, ecology has a major role since it is the science that studies the interactions of living beings with each other and with their environment. To model these interactions, population dynamics is the branch that is interested in the demographic fluctuations of species. Its applications are numerous since it can make it possible to respond to various problems such as the management of endangered species, the protection of crops against pests, the control of bioreactors or the prediction of epidemics.">
+
+
+  <meta name="author" content="Julien Guégan">
+  
+  <meta property="article:author" content="Julien Guégan">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Blog du Julien">
+<meta property="og:title" content="Population dynamics: ODE, ecology, logistics">
+<meta property="og:url" content="https://julienguegan.github.io/posts/en/2021-08-11-dynamique_des_populations/">
+
+
+  <meta property="og:description" content="Among the challenges of the 21th century, ecology has a major role since it is the science that studies the interactions of living beings with each other and with their environment. To model these interactions, population dynamics is the branch that is interested in the demographic fluctuations of species. Its applications are numerous since it can make it possible to respond to various problems such as the management of endangered species, the protection of crops against pests, the control of bioreactors or the prediction of epidemics.">
+
+
+
+  <meta property="og:image" content="https://julienguegan.github.io/assets/images/teaser_dynamique_population.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-11T21:18:30-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://julienguegan.github.io/en/posts/en/2021-08-11-dynamique_des_populations/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Julien Guégan",
+      "url": "https://julienguegan.github.io/",
+      "sameAs": ["https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/","https://www.facebook.com/julien.guegan.754","https://github.com/julienguegan","https://www.instagram.com/julien_guegan_/?hl=fr"]
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="_Cj2FZGjDR1sECXPRL64_CMVDm6adbKqCXSLHArYdSE" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/en/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+  <link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+  <script>
+    let theme = sessionStorage.getItem('theme');
+    if(theme === "dark") {
+      sessionStorage.setItem('theme', 'dark');
+      node1 = document.getElementById('theme_source');
+      node2 = document.getElementById('theme_source_2');
+      node1.setAttribute('rel', 'stylesheet alternate'); 
+      node2.setAttribute('rel', 'stylesheet');
+    } else {
+      sessionStorage.setItem('theme', 'light');
+    }
+  </script>
+
+<link rel="shortcut icon" type="image/png" href="/assets/images/brain_icon.png">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+  });
+</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/en/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
+        
+        <a class="site-title" href="/en/">
+          Blog du Julien
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/en/home/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/en/cv/">CV</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+        <button class="lang__toggle" type="button">
+          <span class="visually-hidden">Switch language</span>
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M12.65 15.67c.14-.36.05-.77-.23-1.05l-2.09-2.06.03-.03c1.74-1.94 2.98-4.17 3.71-6.53h1.94c.54 0 .99-.45.99-.99v-.02c0-.54-.45-.99-.99-.99H10V3c0-.55-.45-1-1-1s-1 .45-1 1v1H1.99c-.54 0-.99.45-.99.99 0 .55.45.99.99.99h10.18C11.5 7.92 10.44 9.75 9 11.35c-.81-.89-1.49-1.86-2.06-2.88-.16-.29-.45-.47-.78-.47-.69 0-1.13.75-.79 1.35.63 1.13 1.4 2.21 2.3 3.21L3.3 16.87c-.4.39-.4 1.03 0 1.42.39.39 1.02.39 1.42 0L9 14l2.02 2.02c.51.51 1.38.32 1.63-.35zM17.5 10c-.6 0-1.14.37-1.35.94l-3.67 9.8c-.24.61.22 1.26.87 1.26.39 0 .74-.24.88-.61l.89-2.39h4.75l.9 2.39c.14.36.49.61.88.61.65 0 1.11-.65.88-1.26l-3.67-9.8c-.22-.57-.76-.94-1.36-.94zm-1.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+        </button>
+        <ul class="floating-menu lang-switcher hidden">
+            <li class="lang-option-active masthead__menu-item">English</li>
+        
+            <script> console.log("/posts/en/2021-08-11-dynamique_des_populations/") </script> 
+            <script> console.log("/posts/en/2021-08-11-dynamique_des_populations/") </script>
+            <script> console.log("/posts/en/2021-08-11-dynamique_des_populations/") </script>
+            <li class="lang-option-inactive masthead__menu-item"><a href="/posts/en/2021-08-11-dynamique_des_populations/">Français </a></li>
+        </ul>
+
+        
+        <button class="theme__toggle" type="button">
+          <span class="visually-hidden">Theme</span>
+          <i class="fas fa-fw fa-adjust" aria-hidden="true"></i>
+        </button>
+        
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/photo_profil.jpg" alt="Julien Guégan" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Julien Guégan</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>AI Engineer. Here, I talk about maths, thingies and other contraptions that interest me.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Contact</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:julienguegan56520@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Mail</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i><span class="label">Facebook</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+
+
+<a href="https://www.buymeacoffee.com/julienguegan" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 43px !important;width: 156px !important;">
+</a>
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Population dynamics: ODE, ecology, logistics">
+    <meta itemprop="description" content="Among the challenges of the 21th century, ecology has a major role since it is the science that studies the interactions of living beings with each other and with their environment. To model these interactions, population dynamics is the branch that is interested in the demographic fluctuations of species. Its applications are numerous since it can make it possible to respond to various problems such as the management of endangered species, the protection of crops against pests, the control of bioreactors or the prediction of epidemics.">
+    <meta itemprop="datePublished" content="2021-08-11T21:18:30-05:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://julienguegan.github.io/en/posts/en/2021-08-11-dynamique_des_populations/" class="u-url" itemprop="url">Population dynamics: ODE, ecology, logistics
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute(s) de lecture
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>Among the challenges of the 21<sup>th</sup> century, ecology has a major role since it is the science that studies the interactions of living beings with each other and with their environment. To model these interactions, population dynamics is the branch that is interested in the demographic fluctuations of species. Its applications are numerous since it can make it possible to respond to various problems such as the management of endangered species, the protection of crops against pests, the control of bioreactors or the prediction of epidemics.</p>
+
+<p align="center">
+   <img src="/assets/images/lotka_header.png" />
+</p>
+
+<h2 id="verhulst-model">Verhulst model</h2>
+
+<p>At the end of the 18<sup>th</sup> century, the model of <strong>Malthus</strong> describes the variation of a population size $y$ over time $t$ by the ordinary differential equation<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> (EDO):</p>
+
+\[y'(t) = (n-m) y(t) = r y(t)\]
+
+<p>with the constants: $n$ the birth rate, $m$ the death rate and $r$ the growth rate. This model tells us that, depending on the growth rate $r$, the size of the populations can either decrease, remain constant or increase exponentially. This model does not reflect reality since a population will never increase ad infinitum.</p>
+
+<p align="center">
+   <img src="/assets/images/malthus_verlhust_photos.png" width="50%" />
+</p>
+
+<p>In 1840, <strong>Verlhust</strong> proposed a more suitable growth model based on the assumption that the growth rate $r$ is not a constant but is an affine function of the population size $y$:</p>
+
+\[y'(t) = \big(n(y) - m(y)\big) y(t)\]
+
+<p>Verlhust notably starts from the hypothesis that the more the size of a population increases, the more its birth rate $n$ decreases and the more its death rate $m$ increases. Starting from this hypothesis and applying some clever algebraic manipulations, we can show that the previous differential equation can be rewritten in the form:</p>
+
+\[y'(t) = r y(t) \left(1 - \frac{y(t)}{K}\right)\]
+
+<p>with $K$ a constant called <em>accommodation capacity</em>. We can analytically solve this equation with the initial condition $y(t=0)=y_0$, we obtain the <strong>logistic solution</strong>:</p>
+
+\[y(t) = \frac{K}{1+\left(\frac{K}{y_0}-1\right)e^{-rt}}\]
+
+<p align="center">
+   <img src="/assets/images/verlhust_graph.png" width="70%" />
+</p>
+
+<details class="notice--primary">
+  <summary>Detailed solution of the logistic differential equation by variable separation</summary>
+
+  $$
+  \begin{align*}
+    \int_{y_0}^{y(t)} \frac{1}{y(1-y/K)}dy &amp;= \int_0^t r \ d\tau \\
+    \int_{y_0}^{y(t)} \frac{K}{y(K-y)}dy &amp;= \int_0^t r \ d\tau \\
+    \int_{y_0}^{y(t)} \frac{1}{y}dy +  \int_{y_0}^{y(t)} \frac{1}{K-1}dy &amp;= \int_0^t r \ d\tau \\
+    \ln \left| \frac{y(t)}{y_0} \right| - \ln \left| \frac{K-y(t)}{K-y_0} \right| &amp;= r \ t \\
+    \ln \left( \frac{y(t)\big(K-y_0\big)}{y_0\big(K-y(t)\big)} \right) &amp;= r \ t \\
+    \frac{y(t)}{K-y(t)} &amp;= \frac{y_0}{K-y_0}e^{rt} \\
+    y(t)\left(1+\frac{y_0}{K-y_0}e^{rt} \right) &amp;= \frac{K y_0 e^{rt}}{K-y_0} \\
+    y(t) &amp;= \frac{Ky_0e^{rt}}{K-y_0+y_0e^{rt}} \\
+    y(t) &amp;= \frac{K y_0}{(K-y_0)e^{-rt}+y_0} \\
+  \end{align*} \\
+  \square
+  $$
+</details>
+
+<p>Note that $ \lim\limits_{t\to\infty} y(t) = K $. This means that regardless of the size of the initial population $y_0$, the population will always end up tending towards $K$ the carrying capacity that is often qualified as the maximum number of individuals that the environment can accommodate (according to space, resources, etc.). This <a href="https://fr.wikipedia.org/wiki/Fonction_logistique_(Verhulst)">so-called logistic function</a> introduced for the first time by Verlhulst to model the growth of populations will subsequently find many applications in various fields such as economics, chemistry, statistics and more recently artificial neural networks.</p>
+
+<h2 id="lotka-volterra-model">Lotka-Volterra Model</h2>
+
+<p>Lotka-Volterra models are systems of simple equations that appeared at the beginning of the 20<sup>th</sup> century. They bear the name of two mathematicians who published simultaneously but independently on the subject: Volterra, in 1926, to model the populations of sardines and their predators and Lotka, in 1924, in his book <em>Elements of Physical Biology</em>. Unlike the Verlhust model, which focuses on a single population, the Lotka-Volterra models model the interactions between several species, each having an impact on the development of the other.</p>
+
+<p align="center">
+   <img src="/assets/images/lotka_volterra_photos.png" width="50%" />
+</p>
+
+<h3 id="prey-predator"><em>Prey-predator</em></h3>
+
+<p>The prey-predator model of Lotka-Volterra has made it possible to explain data collected from certain populations of animals such as the lynx and hare as well as the wolf and the elk in the United States. It represents the evolution of the number of prey $x$ and predators $y$ over time $t$ according to the following model:</p>
+
+\[\left\{
+  \begin{array}{ccc}
+    x'(t) = x(t)\ \big(\alpha - \beta y(t)\big) \\
+    y'(t) = y(t)\ \big( \delta x(t) - \gamma\big)
+  \end{array}
+\right.\]
+
+<p>with the parameters $\alpha$ and $\delta$ are the reproduction rates of prey and predators respectively and $\beta$ and $\gamma$ are the mortality rates of prey and predators respectively.</p>
+
+<p class="notice--primary"><strong>Note:</strong> We speak of an autonomous system: the time $t$ does not appear explicitly in the equations.</p>
+
+<p>If we develop each of the equations, we can more easily give an interpretation. For prey, we have on the one hand the term $\alpha x(t)$ which models exponential growth with an unlimited source of food and on the other hand $- \beta x(t) y(t)$ which represents predation proportional to the frequency of encounter between predators and prey. The equation for predators is very similar to that for prey, $\delta x(t)y(t)$ is the growth of predators proportional to the amount of food available (the prey) and $- \gamma y(t) $ represents the natural death of predators.</p>
+
+<p align="center">
+   <img src="/assets/images/fox_rabbit.gif" width="70%" />
+</p>
+
+<p>We can calculate the equilibria of this system of differential equations and also deduce a behavior from it, but the solutions do not have a simple analytical expression. Nevertheless, it is possible to compute an approximate solution numerically (more details in the <a href="#numerical-method-for-odes"><code class="language-plaintext highlighter-rouge">next section</code></a>).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># define ODE function to resolve
+</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+<span class="k">def</span> <span class="nf">prey_predator</span><span class="p">(</span><span class="n">XY</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">dX</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">XY</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">c</span><span class="o">*</span><span class="n">XY</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">XY</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dY</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">XY</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">XY</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">*</span><span class="n">XY</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dX</span><span class="p">,</span> <span class="n">dY</span><span class="p">]</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># discretization
+</span><span class="n">T0</span>   <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Tmax</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="mi">200</span>
+<span class="n">T</span>    <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">Tmax</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> 
+</code></pre></div></div>
+<p>Here we calculate the evolution of the 2 populations as a function of time for a fixed initial condition, we see that they have a periodic behavior and a phase shift.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># TEMPORAL DYNAMIC
+</span><span class="n">X0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">.</span><span class="n">odeint</span><span class="p">(</span><span class="n">prey_predator</span><span class="p">,</span> <span class="n">X0</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span> <span class="c1"># use scipy solver
+</span></code></pre></div></div>
+<p align="center">
+   <img src="/assets/images/lotka_volterra_graph2.png" width="70%" />
+</p>
+
+<p>Here, we calculate several solutions for different initial conditions that we display in phase space (time does not appear). You can also display the vector field generated by the system of equations with <code class="language-plaintext highlighter-rouge">plt.quiver()</code> for a grid of values.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># PHASES SPACE
+# some trajectories
+</span><span class="n">orbits</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">X0</span>    <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mf">0.1</span><span class="p">]</span>
+    <span class="n">orbit</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">.</span><span class="n">odeint</span><span class="p">(</span><span class="n">prey_predator</span><span class="p">,</span> <span class="n">X0</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">orbits</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">orbit</span><span class="p">)</span> 
+<span class="c1"># vector field
+</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span>             <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">X_grid</span><span class="p">,</span> <span class="n">Y_grid</span>   <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>                      
+<span class="n">DX_grid</span><span class="p">,</span> <span class="n">DY_grid</span> <span class="o">=</span> <span class="n">prey_predator</span><span class="p">([</span><span class="n">X_grid</span><span class="p">,</span> <span class="n">Y_grid</span><span class="p">])</span>
+<span class="n">N</span>                <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">DX_grid</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">DY_grid</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> 
+<span class="n">N</span><span class="p">[</span><span class="n">N</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>          <span class="o">=</span> <span class="mi">1</span>
+<span class="n">DX_grid</span><span class="p">,</span> <span class="n">DY_grid</span> <span class="o">=</span> <span class="n">DX_grid</span><span class="o">/</span><span class="n">N</span><span class="p">,</span> <span class="n">DY_grid</span><span class="o">/</span><span class="n">N</span>
+</code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/lotka_volterra_graph1.png" width="70%" />
+</p>
+
+<p class="notice--danger"><strong>Warning:</strong> The units of the simulations do not reflect reality, populations must be large enough for the modeling to be correct.</p>
+
+<p>In the model used, predators thrive when prey is plentiful, but eventually exhaust their resources and decline. When the predator population has diminished enough, the prey taking advantage of the respite reproduce and their population increases again. This dynamic continues in a cycle of growth and decline. There are 2 equilibria: the point $(0,0)$ is an unstable saddle point which shows that the extinction of the 2 species is in fact almost impossible to obtain and the point $(\frac{\gamma}{\delta }, \frac{\alpha}{\beta})$ is a stable center, the populations oscillate around this state.</p>
+
+<p class="notice--info"><strong>Note:</strong> This modeling remains quite simple, a large number of variants exist. We can add terms for the disappearance of the 2 species (due to fishing, hunting, pesticides, etc.), take into account the carrying capacity of the environment by using a logistical term.</p>
+
+<h3 id="competition"><em>Competition</em></h3>
+
+<p>The Lotka-Volterra competition model is a variant of the predation model where the 2 species do not have a hierarchy of prey and predators but are in competition with each other. Moreover, the basic dynamic is no longer a simple exponential growth but a logistic one (with the parameters $r_i$ and $K_i$):</p>
+
+\[\left\{
+  \begin{array}{ccc}
+    x_1'(t) = r_1x_1(t)\left(1- \frac{x_1(t)+\alpha_{12}x_2(t)}{K_1}\right) \\
+    x_2'(t) = r_2x_2(t)\left(1- \frac{x_2(t)+\alpha_{21}x_1(t)}{K_2}\right)
+  \end{array}
+\right.\]
+
+<p>with $\alpha_{12}$ the effect of species 2 on the population of species 1 and conversely $\alpha_{21}$ the effect of species 2 on species 1. For example, for the species 1 equation, the coefficient $\alpha_{12}$ is multiplied by the population size $x_2$. When $\alpha_{12} &lt; 1$ then the effect of species 2 on species 1 is smaller than the effect of species 1 on its own members. And conversely, when $\alpha_{12} &gt; 1$, the effect of species 2 on species 1 is greater than the effect of species 1 on its own members.</p>
+
+<p align="center">
+   <img src="/assets/images/competition_interspecific.jfif" width="60%" />
+</p>
+
+<p>To understand the predictions of the models in more detail, it is useful to plot the phase space diagrams $(x_1,x_2)$ as before. We can distinguish 4 scenarios according to the values ​​of the competition coefficients, I display below the vector fields of these scenarios with <code class="language-plaintext highlighter-rouge">plt.streamplot()</code> as well as the isoclines, the curves for which \(x_1'(t) =0\) or \(x_2'(t)=0\):</p>
+
+<p align="center">
+  <img src="/assets/images/lotka_volterra_graph3.png" width="70%" />
+</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># define ODE to resolve
+</span><span class="n">r1</span><span class="p">,</span> <span class="n">K1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">r2</span><span class="p">,</span> <span class="n">K2</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">competition</span><span class="p">(</span><span class="n">X1X2</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">):</span>
+    <span class="n">dX1</span> <span class="o">=</span> <span class="n">r1</span><span class="o">*</span><span class="n">X1X2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">X1X2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">a1</span><span class="o">*</span><span class="n">X1X2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">K1</span><span class="p">)</span>
+    <span class="n">dX2</span> <span class="o">=</span> <span class="n">r2</span><span class="o">*</span><span class="n">X1X2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">X1X2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">a2</span><span class="o">*</span><span class="n">X1X2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">K2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dX1</span><span class="p">,</span> <span class="n">dX2</span><span class="p">]</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># compute derivatives for each scenario
+</span><span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">X_grid</span><span class="p">,</span> <span class="n">Y_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">DX_grid</span><span class="p">,</span> <span class="n">DY_grid</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)),</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+<span class="n">coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,(</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+    <span class="n">DX_grid</span><span class="p">[</span><span class="n">k</span><span class="p">,:],</span> <span class="n">DY_grid</span><span class="p">[</span><span class="n">k</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">competition</span><span class="p">([</span><span class="n">X_grid</span><span class="p">,</span> <span class="n">Y_grid</span><span class="p">],</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>In the end, the 4 possible behaviors depending on $\alpha_{12}$ and $\alpha_{21}$ are the following:</p>
+
+<ol>
+  <li>Competitive exclusion of one of the two species depending on the initial conditions.</li>
+  <li>Stable coexistence of the two species.</li>
+  <li>Competitive exclusion of species 1 by species 2.</li>
+  <li>Competitive exclusion of species 2 by species 1.</li>
+</ol>
+
+<p>The stable coexistence of the 2 species is only possible if $\alpha_{12} &lt; 1$ and $\alpha_{21} &lt; 1$, i.e. <em>interspecific competition</em> must be weaker than <em>intraspecific competition</em>.</p>
+
+<h2 id="numerical-method-for-odes">Numerical method for ODEs</h2>
+
+<p>This section is a little bit apart from the real subject of this post since I introduce numerical methods to solve differential equations. Indeed, it is possible to deduce many properties of an ODE system based on mathematical theorems for the theory of dynamical systems (<a href="https://fr.wikipedia.org/wiki/ Stabilit%C3%A9_de_Liapounov">Lyapunov method</a>, <a href="https://en.wikipedia.org/wiki/LaSalle%27s_invariance_principle">LaSalle invariance</a>, <a href="https://fr.wikipedia.org/wiki/ Th%C3%A9or%C3%A8me_de_Poincar%C3%A9-Bendixson">Poincaré-Bendixon theorem</a> …) but only a restricted number of differential equations admit an analytical solution. In practice, we often prefer to have a method that computes an approximate solution of the problem at any time $t$. We consider the problem \(y'(t) = f\big(t,y(t)\big)\) with $y(t_0)=y_0$. The idea of ​​numerical methods is to solve the problem on a discrete set of points $(t_n,y_n)$ with $h_n=t_{n+1}-t_n$, a fixed time step.</p>
+
+<p><strong>Euler</strong></p>
+
+<p><img src="/assets/images/euler_method.png" alt="image-right" class="align-right" width="30%" /> Euler’s method is the most basic numerical method for ODE, it uses the differential equation to calculate the slope of the tangent at any point on the solution curve. The solution is approached starting from the known initial point $y_0$ for which the tangent is calculated, then a time step is taken along this tangent, a new point $y_1$ is then obtained. The idea is to repeat this process, for a time step from $t_n$ to $t_{n+1}$ we can write it as $y_{n+1} = y_n + hf(t_n,y_n)$ .</p>
+
+<p>This method is very simple to set up, for example in python:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">Euler_method</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y0</span><span class="p">)))</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">y0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">slow</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<p><strong>Runge Kutta</strong></p>
+
+<p><img src="/assets/images/rungekutta_method.png" alt="image-right" class="align-right" width="45%" /> Runge-Kutta methods are a family of methods, the best known is that of order 4 It is more precise than the Euler method by making a weighted average of 4 terms corresponding to different slopes of the curve in the fixed time interval. It is defined by:</p>
+
+\[y_{n+1} = y_n + \frac{h}{6} (k_1+2k_2+2k_3+k_4)\]
+
+<p>with:</p>
+<ul>
+  <li>$k_1=f(t_n,y_n)$</li>
+  <li>$k_2=f(t_n+h/2,y_n+hk_1/2)$</li>
+  <li>$k_3=f(t_n+h/2,y_n+hk_2/2)$</li>
+  <li>$k_4=f(t_n,y_n+hk_3)$</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">RungeKutta4_method</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y0</span><span class="p">)))</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">k1</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">k1</span><span class="o">*</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">k3</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">k2</span><span class="o">*</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">k4</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">k3</span><span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">h</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">k2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">k3</span> <span class="o">+</span> <span class="n">k4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<p><strong>Example</strong></p>
+
+<p>To verify the behavior of these methods, I chose to test them on a well-known model of physics: the harmonic oscillator. In its simplest form, we can calculate exactly the solution of the problem and therefore compare our approximate resolution methods. The problem can be written:</p>
+
+\[\left\{
+  \begin{array}{ccc}
+    y''(t) + y(t) = 0 \\
+    y(0) = y_0
+  \end{array}
+\right.\]
+
+<p>and admits for solution $ y(t) = y_0 \cos(t) $.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># initial condition
+</span><span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="c1"># discretization
+</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># ODE wording
+</span><span class="n">defproblem</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="c1"># analytics solution
+</span><span class="k">def</span> <span class="nf">exact_solution</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">y0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">y_exact</span> <span class="o">=</span> <span class="n">exact_solution</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">y_euler</span> <span class="o">=</span> <span class="n">Euler_method</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">y_rk4</span> <span class="o">=</span> <span class="n">RungeKutta4_method</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>As expected the Runge-Kutta method is much more accurate than the Euler method (but slower). The error of the numerical methods decreases according to the size of the time step $h$ but the smaller $h$ is, the longer the calculation time. In theory, to analyze numerical methods, we base ourselves on 3 criteria:</p>
+<ul>
+  <li>the convergence which guarantees that the approximate solution is close to the real solution.</li>
+  <li>the order which quantifies the quality of the approximation for an iteration.</li>
+  <li>the stability which judges the behavior of the error.</li>
+</ul>
+
+<p align="center">
+   <img src="/assets/images/numerical_ODE.gif" width="70%" />
+</p>
+
+<p class="notice--info"><strong>In practice</strong>: In the <a href="#predator-predator"><code class="language-plaintext highlighter-rouge">previous problems</code></a> , I use the <code class="language-plaintext highlighter-rouge">integrate.odeint(f, y0, t)</code> function from <a href="https://docs. scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html">scipy</a> which is a more advanced ODE solver that uses the method of <a href="https://en.wikipedia.org /wiki/Linear_multistep_method#Adams–Bashforth_methods">Adams–Bashforth</a></p>
+
+<hr />
+
+<p><a href="https://jupyter.org/try"><img src="https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&amp;logo=Jupyter" alt="Generic badge" /></a> <a href="https://lbesson.mit-license.org/"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=plastic" alt="Generic badge" /></a> <a href="https://github.com/julienguegan/notebooks_blog/blob/main/dynamique_population.ipynb"><img src="https://img.shields.io/badge/acces_au_code-github-black.svg?style=plastic&amp;logo=github" alt="Generic badge" /></a> <a href="https://hub.gke2.mybinder.org/user/julienguegan-notebooks_blog-z8qd9bd5/notebooks/dynamique_population.ipynb"><img src="https://img.shields.io/badge/execute_le_code-binder-ff69b4.svg?style=plastic&amp;logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAMAAAC%2BRQ9vAAACOlBMVEX%2F%2F%2F9XmsrmZYH1olJXmsr1olJXmsrmZYH1olJXmsr1olJXmsrmZYH1olL1olJXmsr1olJXmsrmZYH1olL1olJXmsrmZYH1olJXmsr1olJXmsq%2FdJX1olLVa4pXmsrmZYH1olL1olJXmspXmsrmZYH1olJXmsr1olJXmspXmsr1olJXmsr1olJXmsrmZYH1olL1olL1olJXmspXmsrmZYH1olL1olL1olJXmsrmZYH1olL1olL1olJXmsrmZYHqdnT1olJXmsq6dZf1olJXmsrKk3rmZYH1olJXmsrCc5RXmsr0n1TtgWz1olJXmspXmsrmZYH1olJXmsqNhq%2Fzmlj1olJXmspZmshXmsr1olL1olJXmsrmZYH1olJXmsr1olL1olL1olJXmsr1olJXmsrtgGz1olL1olJXmsr1olJXmsrmZYH1olJXmsrbaYf1olJXmsr1olJXmsr1olLIcJFXmsr1olJXmsr1olJXmsr1olJXmsr1olL1olJXmspZmshZmsldmsZemsVfl8Zgl8Zom71pk8Frm7tvm7dxkL1ykLx0m7R4m7F6jbh7jbh8nK6CnKmDirOEibOGnKaInKWNhq%2BNnKGSnZ2Vg6qegKaff6WfnZSnfKGnno6ofKGvnoeweZyxeZy3noG5dpjCcpPDcpPGn3bLb4%2FPoG%2FVa4rXoGnYoGjdaIbeaIXhoWHmZYHnaX7obXvpcHjqdHXreHLroVrtgGzuhGnuh2bxk17yl1vzm1j0nlX1olIgJPdZAAAAfnRSTlMAEBAQHx8gICAuLjAwMDw9PUBAQEpQUFBXV1hYWFtgYGBkZnBwcHFxdHx8fn6AgICHiIuQkJCSnKCgoKavsLCwsLO4uMDAwMDBwcTFxsjO0NDQ09TW1tjY3Nzd4ODg4uLl5%2Bjo6uvr7O3v8PDw8%2FPz9vb39%2Fj5%2Bfv7%2FPz9%2Ff5K%2BfZ5AAAI4ElEQVR42uzWAWfDQBjG8Yc4qoihEApBIIoOOpaiFAUBBB3EjFDKRImZy0d7vtuYYWN36Zq4u5v7fYO%2FB%2B%2BLwENBEARBEAR32Zc0gpcWRXmS%2FO7SHPI5PDIvaip01TrypKGlXr2B6%2FKaV%2BirGA67v%2FBa9dKrCLWXGA5anvhXlYBjopI36DdwStrxNo2AO%2Fa8WZ%2FBEaLhGHs4YdFxnGME%2B5KeY7UCtq160v%2BOFUn%2FOxLyH3QkPafSwhrxzukcYcsrp7SFHSWnlcGGnEOaQ57i0ywrqo4DpIB5QlLruI7w07w4U%2BsZ5j1R420n8Ju46qmxhmkZ1WQBJVHq6gUM66hUCujEJ3e%2B3YIqMsWQLZVmMCmSVDgLDEskFR5h0m7kLRatC3NEckSFosPCHA%2FqitEdMxjzwbxZN7eRNGG8tcpr%2BS2vA3KFmZODoFLlDaOS4%2FXxleVj9OqYacLMzMzYR%2BHsZwtz5hnvSNOSf%2F97Vc%2F0NI%2B%2FBwM0q%2FQJMsjoynXfYFr%2BPxe9SgtVijdiLT3Jjrmxlu5UIf5wlLq%2BraqTD9dfqbSjFrhY1T5jLNkzMdbRUMVy6nsqgdpYx4TKbMViHXA2bm%2BOJqoEY7QlNpVEfayDKoD3eqzhBSqNpqo4R7dcyJdjDX%2BHuW7Ouq%2BhshqCiG9yTfPDV%2FgmUWCvpLbCmSMzqsC3%2BSvWcInvEOUyZEeL5mtzxUQEfI9%2FYw3%2F8X2mZsuOVUVxEUDGP%2FwQeZ%2BSM7pSocrL8cNciDXwowQeJaWhQjK6RfwIFzU%2Fe5UfIxpiI0M%2B4npTmduWcZmfIJ%2FU1yshIxtxiTI46tZuZAxhTipDQ659yPACLksG5712IMMLuUwZHHriMuxVYBlXGBD50pHKXgWWEbNJh72MtKgKnMX%2Fxjq8KmZxrALXVNb%2BIV9TBQyAFS4mrFqFO4oNxMDHIUGV%2Bo0sGwDdHxvoT5ChcmNcL2ITl2INF9hAlKlGLz6VjXwSgxoXE%2BI7JRZvu7GJwO8Y63jRaMJRpGcCnlNJXqkgg6aGX3ij7K9Vuig2NQwYkvcNe4GhlMkzZCrOfSKbgQxDhpjGhvH7RNQfWzKLPUMi%2BeUTVEd%2Fwgc4fggtifc0Alkjm6SmeEd%2FivWgikHmGCC3bQoSqKCBsZamtKbXwuaoL4rdqQxUATYcmusQJjNHuikW227kWEvBS7YXH22qjgOQvwX24iDS%2BI%2FHe%2FQqasBtk4KveNoCXcDB%2B6NIC2IMsEc3%2FBl4o%2B7RIFZN5eETAw0T0%2FA74YOEAVW4aDU81pKx%2Bo%2BNpvp7BQ38UPdijKgXKQpxWfdZjCiOJhpluFXp6TFkolg5FXlgooFpafAiWFiNLsaQopMSvWAzwpweG5g7je9y5sgtztw5EUoPbRF%2FUOyhCw2LbMw1PrJnx9qV6gEr1%2B48MAf%2FDfZvJ66RJ0T3GHJi21KlZ%2Fn2U%2FhK1crNQ%2FoTZEKs5dia%2BcrEos2n5GpCFO0zdrv589sWqrZZtPu83FOREKaspO5xeo1KyPz156S2yDZxSldrn16tbHhUSFNaQAZ0Dezm5zcoS%2BZvPw8zRulkEzQJuIPbP1%2FZs%2BjYg85RVIZHiXScX6FKY%2FN5tyqADDJyr847tECVysITcdxUS5WTgf18iyqHvRbeLSgj9ZYqj%2BepHcjo8Lkql5dTVZfR4RtVPp%2Bn5GXIq8A6xPMGUFF9HR5r6Gb27i%2BVK94mV6BGHPOuskY%2BXhVA1wSZp1wyjtyQt%2FTxkcotncgJOTvnSP2o2mDxxp2Hjxxn5uNHDu%2FcuFi1wXdu3Ly%2F3W5%2BijKycs9xfpTjO5YoI6%2BSC3y2qXH7mQPoD6yhd6M5tA0iF0Ro1Kch1aowH%2Fbqz8DRRpiE%2FJwSmykUSEuj4Y4PIwrxsKjxVwWZIeUcwBx1CjIv1cY0uKZZIT4mB2SSP%2ByarQC%2FD4NjVPbbNuWzAiMePB3pogA%2FdnpkcIeu59MK0JoSeXcL6kNkjG866EKe5jg6%2FSpoDi%2Fhe8E6qMK0w8xQAh3Ngg9G8snC1O%2F%2Ft%2FjICKWnn0DPoc%2FlKaWnh0kF9092FrMln4wECRL4OBC1Uf55U2mpEUgdWh2vGI4xSP7gMKV3j%2FESTYfm3XwNPkUv4MTGQGG3WfbVZ%2BFe9hoMI6UfWr3%2BBHG7RsA7NMXEFJS3Rtk8msRZdLCbigRTuH2mrXpjZMF9BBkUm2OKuxUgFgKOsG%2BeDQQ2TUurw%2BUZFvLcKvU4y3Z9xRj4RABZtk6gC9Rw8uDWdeoeq7buO8lmDA39eIFEDipEwNFbnOUE5AjSBQU9qTawdEIy0CpVj%2BAa1R6zY6BY9Qo5IhO5U%2BGTiWeVBnKF70yHT0a6CsgQ0NGfMNDH6yR1CKgAvUsXalc6oiy1ibQM8kMx7xaQgfHyXA6hRy5lCJSJVrm7%2BjJw9Y2x%2B6%2F3morIIC%2FHpTDVo2R0Een%2FNGTtPb2gi1AWHQeJ0N%2FuZkVDKDnjgYxqC4lGeWTBbJEKFwvJcxLC%2FmRFCjTjcmRyBTYT5XyypCtom0TxR4XYDrksWYEHuV1JHC878%2BjJx3vzo7te86gUUq2Vibdg7bdq3aZdd9i0blUZP90PTj%2Fl0Z5gI5VCM%2FyUPI3OJq%2F9xBY1Jf94oytjCLkGiPUO6rlnlY5XSBjzo5fmlH2ssB%2Boi98q22uVekVpSVGlaLVfouJIIV%2BJWJWlloOZwcrCxWSoUXputGuHuLKEQBSGDwaDQmAxrVFtyuDaswB2UIs4a395ueKKCcyd7g4wSX%2B%2BxJ8cWequDpMVA8nVjsiGiIEsGzReWiUrhrr0SmQOtkQMZZUtxaIvdG4xWGJbMmizmW0eo1W2aTPECjsEw3n2qDi8Cpk9ajDezr66B4NfNoqyL2CGwrf0kPRfPpRv7ZjCKe9UMEngjdRilo23UYd5hHeJmEkGVIwgwyrW74iYL%2FEi9VhBVF5RHdbgKs%2FLBqswmWdtWElQnlEc1mKEH9MN63EHPyMGS%2FKfhIjFsnzmn6hYLM2myndKNFif2yvbymbxLWyUwlfHHgy%2BjfMp5eOHpOQtHo%2FH4%2FEY7x8MZ7AAyatDDgAAAABJRU5ErkJggg%3D%3D" alt="Generic badge" /></a></p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>The term ordinary is used as opposed to the term partial differential equation (or partial differential equation) where the unknown function(s) may depend on more than one variable. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/en/tags/#mod%C3%A9lisation" class="page__taxonomy-item" rel="tag">modélisation</a><span class="sep">, </span>
+    
+      <a href="/en/tags/#%C3%A9cologie" class="page__taxonomy-item" rel="tag">écologie</a><span class="sep">, </span>
+    
+      <a href="/en/tags/#%C3%A9quation-logistique" class="page__taxonomy-item" rel="tag">équation logistique</a><span class="sep">, </span>
+    
+      <a href="/en/tags/#%C3%A9quations-diff%C3%A9rentielles-ordinaires" class="page__taxonomy-item" rel="tag">équations différentielles ordinaires</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Catégories : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/en/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Mis à jour :</strong> <time datetime="2021-08-11T21:18:30-05:00">August 11, 2021</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/en/posts/en/2021-08-02-objet_fractal/" class="pagination--pager" title="Fractal Object: Dimension, Self-Similarity, Infinity
+">Précédent</a>
+    
+    
+      <a href="/en/posts/en/2021-08-21-optimisation_profil_aile/" class="pagination--pager" title="Optimization: algorithm, XFOIL, airfoil
+">Suivant</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Laisser un commentaire</h4>
+      <section id="utterances-comments"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Contact</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        
+      
+        
+          <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+    
+
+    
+      <li><a href="/en/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Flux</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 Blog du Julien. Propulsé par <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TY0R5MX0LD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TY0R5MX0LD', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'julienguegan/julienguegan.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
