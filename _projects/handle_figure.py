@@ -1,5 +1,31 @@
 import re
 
+def process_figure_references(markdown_content):
+    # Identifier les figures et leur attribuer un numéro
+    figure_pattern = r'<figure[^>]*id="(fig:[^"]+)"[^>]*>'
+    figures = re.findall(figure_pattern, markdown_content)
+    
+    # Créer un dictionnaire de correspondance id -> numéro
+    figure_numbers = {fig_id: i+1 for i, fig_id in enumerate(figures)}
+    
+    # Remplacer les références dans le texte
+    for fig_id, number in figure_numbers.items():
+        # Remplacer les références comme [fig:id] par [Figure X](#fig:id)
+        markdown_content = re.sub(
+            r'\[' + fig_id + r'\]',
+            r'[Figure ' + str(number) + r'](#' + fig_id + r')',
+            markdown_content
+        )
+        
+        # Remplacer les références comme [Figure X](#fig:id) par [Figure Y](#fig:id)
+        markdown_content = re.sub(
+            r'\[Figure \d+\]\(#' + fig_id + r'\)',
+            r'[Figure ' + str(number) + r'](#' + fig_id + r')',
+            markdown_content
+        )
+    
+    return markdown_content
+
 # Chemins des fichiers
 input_file = "_projects/detection_monture.md"  # Fichier Markdown à modifier
 output_file = "_projects/detection_monture_corrected.md"  # Fichier de sortie
