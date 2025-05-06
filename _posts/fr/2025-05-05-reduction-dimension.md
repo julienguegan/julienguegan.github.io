@@ -17,6 +17,10 @@ header:
 
 Dans le monde de la data science, nous sommes souvent confrontés à des jeux de données possédant un grand nombre de caractéristiques (features). Si cette richesse d'information peut être bénéfique, elle apporte aussi son lot de défis, connus sous le nom de **"fléau de la dimensionnalité"** (*curse of dimensionality*). Plus le nombre de dimensions augmente, plus l'espace des données devient vaste et épars, rendant l'analyse, la visualisation et même l'entraînement de modèles de machine learning complexes et coûteux en ressources.
 
+<p align="center">
+   <img src="/assets/images/dimension_curse_dimensionnality.png" width="70%"/>
+</p>
+
 Heureusement, des techniques de **réduction de dimension** existent pour nous aider à projeter ces données de haute dimension dans un espace de plus faible dimension (souvent 2D ou 3D pour la visualisation) tout en préservant au maximum l'information pertinente ou la structure intrinsèque des données.
 
 Parmi les méthodes les plus populaires, trois se distinguent particulièrement :
@@ -24,10 +28,20 @@ Parmi les méthodes les plus populaires, trois se distinguent particulièrement 
 2.  **t-SNE (t-Distributed Stochastic Neighbor Embedding)** : Une méthode non linéaire très efficace pour visualiser des clusters locaux.
 3.  **UMAP (Uniform Manifold Approximation and Projection)** : Une technique non linéaire plus récente, souvent plus rapide que t-SNE et offrant un bon équilibre entre structure locale et globale.
 
-Dans cet article, nous allons explorer ces trois algorithmes, comprendre leurs principes fondamentaux, leurs avantages et inconvénients, et voir comment les appliquer en Python avec des exemples concrets.
+Dans cet article, nous allons explorer ces trois algorithmes, comprendre leurs principes fondamentaux, leurs avantages et inconvénients, et voir comment les appliquer en Python avec des exemples concrets. J'utiliserais le jeu de donnée MNIST qui est très simple mais montre bien les difficultés de visualisation pour un problème à haute dimension. Il est composé de 1797 petites images de taille 8 par 8, chaque pixel étant une dimension de notre problème on a alors 64 dimensions.
+
+```python
+from sklearn.datasets import load_digits
+digits = load_digits()
+X = digits.data
+y = digits.target
+n_samples, n_features = X.shape
+print(f"Dataset shape: {X.shape}")
+# Dataset shape: (1797, 64)
+```
 
 <p align="center">
-   <img src="/assets/images/dimension_curse_dimensionnality.png" width="70%"/> <!-- Image conceptuelle à créer/trouver -->
+   <img src="/assets/images/dimension_mnist.png" width="70%"/>
 </p>
 
 ## PCA : L'analyse en Composantes Principales
@@ -43,22 +57,14 @@ $$C v = \lambda v$$
 Les vecteurs propres $v$ (ordonnés par les valeurs propres $\lambda$ décroissantes) forment les directions des composantes principales. Les valeurs propres $\lambda$ indiquent la quantité de variance expliquée par chaque composante principale correspondante. La projection des données $X$ sur les $k$ premiers vecteurs propres $V_k = [v_1, v_2, ..., v_k]$ donne la représentation réduite $X_{pca} = X V_k$.
 
 ```python
-# Charger un jeu de données exemple (chiffres manuscrits)
-digits = load_digits()
-X = digits.data
-y = digits.target
-n_samples, n_features = X.shape
-print(f"Dataset shape: {X.shape}") # (1797, 64) - 64 dimensions
-
-# 1. Standardiser les données (important pour PCA)
+# Standardize data (important for PCA)
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# 2. Appliquer PCA pour réduire à 2 dimensions
+# Apply PCA  to reduce to 2 dimensions
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
 
-print(f"Shape after PCA: {X_pca.shape}") # (1797, 2)
 print(f"Variance expliquée par composante: {pca.explained_variance_ratio_}")
 print(f"Variance totale expliquée: {np.sum(pca.explained_variance_ratio_):.2f}")
 ```
@@ -103,24 +109,16 @@ Plus formellement :
     Cette minimisation est généralement effectuée par descente de gradient sur les positions des points $y_i$ dans l'espace de basse dimension.
 
 ```python
-import time
+# Apply t-SNE
 from sklearn.manifold import TSNE
-
-# Appliquer t-SNE (peut prendre un peu de temps)
-print("Running t-SNE...")
-time_start = time.time()
 tsne = TSNE(n_components=2, perplexity=30, n_iter=300, random_state=42, n_jobs=-1)
-X_tsne = tsne.fit_transform(X_scaled) # Utiliser les données standardisées peut aider
-time_end = time.time()
-print(f"t-SNE finished in {time_end - time_start:.2f} seconds.")
-print(f"Shape after t-SNE: {X_tsne.shape}") # (1797, 2)
+X_tsne = tsne.fit_transform(X_scaled)
 
-# Visualiser les résultats
+# Visualize
 plt.figure(figsize=(10, 8))
 scatter = plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=y, cmap=plt.cm.get_cmap("jet", 10), alpha=0.7)
 plt.title('t-SNE des données Digits (perplexity=30)')
-plt.xlabel('Composante t-SNE 1')
-plt.ylabel('Composante t-SNE 2')
+plt.xlabel('Composante t-SNE 1'), plt.ylabel('Composante t-SNE 2')
 plt.legend(handles=scatter.legend_elements()[0], labels=digits.target_names)
 plt.grid(True)
 plt.show()
@@ -154,38 +152,43 @@ UMAP est basé sur des fondements mathématiques solides issus de la topologie a
 2.  **Calcul d'une représentation bas-dimensionnelle similaire :** UMAP répète le processus de construction de graphe dans l'espace de basse dimension cible.
 3.  **Optimisation :** UMAP minimise la différence (entropie croisée) entre les représentations topologiques de haute et basse dimension, cherchant ainsi une projection qui préserve au mieux la structure topologique des données originales.
 
+UMAP est disponible en python en l'installant simplement avec la commande suivante:
+```bash
+pip install umap-learn
+```
+
 ```python
-# !pip install umap-learn # Décommenter si besoin
+# Apply UMAP
 import umap
-import time
+reducer = umap.UMAP(n_neighbors=10, min_dist=0.1, n_components=2, random_state=42)
+X_umap = reducer.fit_transform(X_scaled)
 
-# Appliquer UMAP
-print("Running UMAP...")
-time_start = time.time()
-# n_neighbors: contrôle l'équilibre local/global (similaire à perplexity)
-# min_dist: contrôle la proximité des points dans l'embedding
-reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, n_components=2, random_state=42)
-X_umap = reducer.fit_transform(X_scaled) # UMAP fonctionne aussi bien sur données brutes ou scalées
-time_end = time.time()
-print(f"UMAP finished in {time_end - time_start:.2f} seconds.")
-print(f"Shape after UMAP: {X_umap.shape}") # (1797, 2)
-
-# Visualiser les résultats
+# Visualize
 plt.figure(figsize=(10, 8))
 scatter = plt.scatter(X_umap[:, 0], X_umap[:, 1], c=y, cmap=plt.cm.get_cmap("jet", 10), alpha=0.7)
 plt.title('UMAP des données Digits (n_neighbors=15, min_dist=0.1)')
-plt.xlabel('Composante UMAP 1')
-plt.ylabel('Composante UMAP 2')
+plt.xlabel('Composante UMAP 1'), plt.ylabel('Composante UMAP 2')
 plt.legend(handles=scatter.legend_elements()[0], labels=digits.target_names)
 plt.grid(True)
 plt.show()
 ```
 
 <p align="center">
-   <img src="/assets/images/dimension_umap.png" width="70%"/> <!-- Image résultat UMAP à générer -->
+   <img src="/assets/images/dimension_umap.png" width="70%"/> 
 </p>
 
-add more cool visualisation of umap (graph, 3D ...)
+De plus, le package umap intègre des outils de visualisation très simples permettant de génère des graphes pour mieux comprendre les structures locales et globales de nos données. 
+
+```python
+import umap.plot
+umap.plot.points(reducer, labels=y, theme='fire')
+umap.plot.connectivity(reducer, show_points=True, background="black", values=X_umap.mean(axis=1), edge_cmap="jet")
+umap.plot.connectivity(reducer, edge_bundling='hammer', background="black", edge_cmap="plasma")
+```
+
+<p align="center">
+   <img src="/assets/images/dimension_umap_plot.png" width="90%"/> 
+</p>
 
 **Avantages d'UMAP :**
 *   **Rapidité :** Souvent significativement plus rapide que t-SNE, surtout sur de grands datasets.
@@ -223,10 +226,7 @@ Il n'y a pas de "meilleure" méthode universelle ; le choix dépend de vos donn�
 *   Utilisez **t-SNE** si votre objectif principal est de visualiser des groupements fins et la structure locale dans vos données, et si le temps de calcul n'est pas une contrainte majeure. Soyez prudent avec l'interprétation des distances globales.
 *   Essayez **UMAP** comme alternative moderne à t-SNE. Il est souvent plus rapide, gère mieux les grands datasets et offre un meilleur équilibre entre la préservation des structures locales et globales. C'est un excellent choix par défaut pour la visualisation non linéaire.
 
-Il est souvent instructif d'appliquer plusieurs de ces méthodes et de comparer les résultats pour obtenir une compréhension plus complète de la structure de vos données.
-
-
-https://projector.tensorflow.org/
+Il est souvent instructif d'appliquer plusieurs de ces méthodes et de comparer les résultats pour obtenir une compréhension plus complète de la structure de vos données. Le site https://projector.tensorflow.org/ offre un playground interactif pour visualiser en 3D des données images et textuelles sur les 3 algorithmes décrits dans ce post. Amusez-vous bien !
 
 
 ---
