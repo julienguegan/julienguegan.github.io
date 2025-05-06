@@ -12,7 +12,7 @@ tags :
   - réduction de dimension
   - visualisation de données
 header:
-  teaser: /assets/images/teaser_dimension_reduction.png 
+  teaser: /assets/images/teaser_dimension_reduction.PNG 
 ---
 
 Dans le monde de la data science, nous sommes souvent confrontés à des jeux de données possédant un grand nombre de caractéristiques (features). Si cette richesse d'information peut être bénéfique, elle apporte aussi son lot de défis, connus sous le nom de **"fléau de la dimensionnalité"** (*curse of dimensionality*). Plus le nombre de dimensions augmente, plus l'espace des données devient vaste et épars, rendant l'analyse, la visualisation et même l'entraînement de modèles de machine learning complexes et coûteux en ressources.
