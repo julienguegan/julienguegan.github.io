@@ -1,5 +1,5 @@
 ---
-title: "Réduction de Dimension : PCA, t-SNE et UMAP démystifiés"
+title: "Réduction de Dimension : PCA, t-SNE et UMAP"
 date: 2025-05-05T19:30:00+02:00
 lang: fr
 classes: wide
