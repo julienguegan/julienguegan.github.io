@@ -97,15 +97,15 @@ Dans l'espace de basse dimension, il modélise la similarité entre les points c
 
 Plus formellement :
 *   La probabilité conditionnelle $p_{j|i}$ est calculée comme :
-    $$p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)}$$
+    $$ p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)} $$
     où $\sigma_i$ est la variance de la Gaussienne centrée sur $x_i$, déterminée de manière à correspondre à une perplexité fixée (liée au nombre effectif de voisins).
 *   La probabilité jointe symétrique dans l'espace de haute dimension est :
-    $$p_{ij} = \frac{p_{j|i} + p_{i|j}}{2N}$$
+    $$ p_{ij} = \frac{p_{j|i} + p_{i|j}}{2N} $$
     où $N$ est le nombre total de points.
 *   La probabilité jointe dans l'espace de basse dimension $y_i, y_j$ utilise une distribution t-Student à 1 degré de liberté :
-    $$q_{ij} = \frac{(1 + \|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l} (1 + \|y_k - y_l\|^2)^{-1}}$$
+    $$ q_{ij} = \frac{(1 + \|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l} (1 + \|y_k - y_l\|^2)^{-1}} $$
 *   L'algorithme minimise ensuite la divergence de Kullback-Leibler (KL) entre les distributions $P = \{p_{ij}\}$ et $Q = \{q_{ij}\}$ :
-    $$KL(P\|Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$$
+    $$ KL(P\|Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}} $$
     Cette minimisation est généralement effectuée par descente de gradient sur les positions des points $y_i$ dans l'espace de basse dimension.
 
 ```python
@@ -187,7 +187,7 @@ umap.plot.connectivity(reducer, edge_bundling='hammer', background="black", edge
 ```
 
 <p align="center">
-   <img src="/assets/images/dimension_umap_plot.png" width="90%"/> 
+   <img src="/assets/images/dimension_umap_plot.png" width="100%"/> 
 </p>
 
 **Avantages d'UMAP :**
@@ -226,7 +226,7 @@ Il n'y a pas de "meilleure" méthode universelle ; le choix dépend de vos donn�
 *   Utilisez **t-SNE** si votre objectif principal est de visualiser des groupements fins et la structure locale dans vos données, et si le temps de calcul n'est pas une contrainte majeure. Soyez prudent avec l'interprétation des distances globales.
 *   Essayez **UMAP** comme alternative moderne à t-SNE. Il est souvent plus rapide, gère mieux les grands datasets et offre un meilleur équilibre entre la préservation des structures locales et globales. C'est un excellent choix par défaut pour la visualisation non linéaire.
 
-Il est souvent instructif d'appliquer plusieurs de ces méthodes et de comparer les résultats pour obtenir une compréhension plus complète de la structure de vos données. Le site https://projector.tensorflow.org/ offre un playground interactif pour visualiser en 3D des données images et textuelles sur les 3 algorithmes décrits dans ce post. Amusez-vous bien !
+Il est souvent instructif d'appliquer plusieurs de ces méthodes et de comparer les résultats pour obtenir une compréhension plus complète de la structure de vos données. Le site [https://projector.tensorflow.org/](https://projector.tensorflow.org/) offre un playground interactif pour visualiser en 3D des données images et textuelles sur les 3 algorithmes décrits dans ce post. Amusez-vous bien !
 
 
 ---
