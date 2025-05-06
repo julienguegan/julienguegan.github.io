@@ -91,7 +91,7 @@ print(f"Variance totale expliquée: {np.sum(pca.explained_variance_ratio_):.2f}"
 
 Contrairement à PCA, t-SNE (t-Distributed Stochastic Neighbor Embedding) est une technique **non linéaire** particulièrement conçue pour la **visualisation** de données de haute dimension en basse dimension (typiquement 2D ou 3D). Son objectif principal est de préserver la **structure locale** des données : les points qui sont proches dans l'espace de haute dimension devraient rester proches dans l'espace de basse dimension.
 
-t-SNE modélise la similarité entre deux points $x_i$ et $x_j$ dans l'espace de haute dimension comme une probabilité conditionnelle $p_{j|i}$ qu' $x_i$ choisirait $x_j$ comme son voisin si les voisins étaient choisis en proportion de leur densité de probabilité sous une Gaussienne centrée sur $x_i$. Ensuite, il définit une probabilité de similarité jointe $p_{ij}$.
+t-SNE modélise la similarité entre deux points $x_i$ et $x_j$ dans l'espace de haute dimension comme une probabilité conditionnelle $p_{j|i}$ que $x_i$ choisirait $x_j$ comme son voisin si les voisins étaient choisis en proportion de leur densité de probabilité sous une Gaussienne centrée sur $x_i$. Ensuite, il définit une probabilité de similarité jointe $p_{ij}$.
 
 Dans l'espace de basse dimension, il modélise la similarité entre les points correspondants $y_i$ et $y_j$ avec une probabilité jointe $q_{ij}$ utilisant une distribution t de Student à un degré de liberté (qui est équivalente à une distribution de Cauchy). Cette distribution à queues lourdes permet de mieux séparer les points dissemblables dans la carte de basse dimension.
 
