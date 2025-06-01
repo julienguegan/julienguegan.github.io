@@ -89,7 +89,7 @@ print(f"Variance totale expliquée: {np.sum(pca.explained_variance_ratio_):.2f}"
 
 ## t-SNE : Plongement Stochastique Distribué en t
 
-Contrairement à PCA, t-SNE (t-Distributed Stochastic Neighbor Embedding) est une technique **non linéaire** particulièrement conçue pour la **visualisation** de données de haute dimension en basse dimension (typiquement 2D ou 3D). Son objectif principal est de préserver la **structure locale** des données : les points qui sont proches dans l'espace de haute dimension devraient rester proches dans l'espace de basse dimension.
+Contrairement à la PCA, t-SNE (t-Distributed Stochastic Neighbor Embedding) est une technique **non linéaire** particulièrement conçue pour la **visualisation** de données de haute dimension en basse dimension (typiquement 2D ou 3D). Son objectif principal est de préserver la **structure locale** des données : les points qui sont proches dans l'espace de haute dimension devraient rester proches dans l'espace de basse dimension.
 
 t-SNE modélise la similarité entre deux points $x_i$ et $x_j$ dans l'espace de haute dimension comme une probabilité conditionnelle $p_{j|i}$ que $x_i$ choisirait $x_j$ comme son voisin si les voisins étaient choisis en proportion de leur densité de probabilité sous une Gaussienne centrée sur $x_i$. Ensuite, il définit une probabilité de similarité jointe $p_{ij}$.
 
@@ -97,15 +97,15 @@ Dans l'espace de basse dimension, il modélise la similarité entre les points c
 
 Plus formellement :
 *   La probabilité conditionnelle $p_{j|i}$ est calculée comme :
-    $$ p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)} $$
+    $$p_{j|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)}$$
     où $\sigma_i$ est la variance de la Gaussienne centrée sur $x_i$, déterminée de manière à correspondre à une perplexité fixée (liée au nombre effectif de voisins).
 *   La probabilité jointe symétrique dans l'espace de haute dimension est :
-    $$ p_{ij} = \frac{p_{j|i} + p_{i|j}}{2N} $$
+    $$p_{ij} = \frac{p_{j|i} + p_{i|j}}{2N}$$
     où $N$ est le nombre total de points.
 *   La probabilité jointe dans l'espace de basse dimension $y_i, y_j$ utilise une distribution t-Student à 1 degré de liberté :
-    $$ q_{ij} = \frac{(1 + \|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l} (1 + \|y_k - y_l\|^2)^{-1}} $$
+    $$q_{ij} = \frac{(1 + \|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l} (1 + \|y_k - y_l\|^2)^{-1}}$$
 *   L'algorithme minimise ensuite la divergence de Kullback-Leibler (KL) entre les distributions $P = \{p_{ij}\}$ et $Q = \{q_{ij}\}$ :
-    $$ KL(P\|Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}} $$
+    $$KL(P\|Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}$$
     Cette minimisation est généralement effectuée par descente de gradient sur les positions des points $y_i$ dans l'espace de basse dimension.
 
 ```python
