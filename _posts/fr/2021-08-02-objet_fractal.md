@@ -165,6 +165,8 @@ Il existe de nombreux logiciels générateur de fractal gratuits disponibles. Il
 |:---------------------------------------------:| :----------------------------------------:| :-----------------------------------------: |
 | [Mandelbul3D](https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/)| [Mandelbuler](https://mandelbulber.com/) |  [Fragmentarium](https://syntopia.github.io/Fragmentarium/get.html) |
 
+Pour coder ces surfaces géométriques complexes en 3D et en prenant en compte les réflexions lumineuses, les textures, les couleurs, on parle souvent de *shader*. Ceux sont des petites opérations algoritmiques qui sont programmés sur le GPU de votre ordinateur. L'un des langages les plus populaires pour se faire est le GLSL (basé sur le C) et il existe un super site web pour rapidement expérimenter ou explorer ce langage avec de nombreux exemples : [shadertoy](https://www.shadertoy.com/). J'ai d'ailleurs testé l'implémentation d'un mandelbulbe 3D avec ce langage puis chargé en javascript et html, il est accessible ici : [mon mandelbulbe 3D]({% link fractal-visualization.html %}).
+
 Et pour ceux qui ne veulent pas se compliquer et juste se laisser porter par la géométrie psychédélique des fractales sans effort, vous pourrez trouver sur internet des gens qui ont déjà fait le travail à votre place. On trouve sur youtube une floppée de vidéos comme par exemple *The Hardest Trip - Mandelbrot Fractal Zoom* qui zoome pendant 2h30 sur un point précis du plan complexe.
 
 {% include video id="LhOSM6uCWxk" provider="youtube" %}
