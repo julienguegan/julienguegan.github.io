@@ -21,7 +21,7 @@ header:
   teaser: /assets/images/teaser_fractal.jfif
 ---
 
-> *Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans fil. Ce mystère de la nature a enfin été percé à jour. "Bon sang ! Mais c'est bien sûr !". Peut-être n'avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales.*
+> _Elles sont présentes dans les forêts tropicales, à la pointe de la recherche médicale, dans les films et partout où reigne la communication sans fil. Ce mystère de la nature a enfin été percé à jour. "Bon sang ! Mais c'est bien sûr !". Peut-être n'avez vous jamais entendu parler de ces formes étranges, pourtant elles sont partout autour de vous. Leur nom : les fractales._
 
 <cite> reportage ARTE </cite> -- à la recherche de la dimension cachée
 {: .small}
@@ -30,7 +30,7 @@ header:
 
 ## Introduction
 
-Comme vous l'aurez compris si vous avez regardé l'excellent documentaire d'ARTE présenté ci-dessus, les fractales sont des objets géométriques *infiniment morcelés* qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels (motifs des flocons,  chemin pris par la foudre, forme d'un choux de romanesco, structure des poumons ...) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages ...).
+Comme vous l'aurez compris si vous avez regardé l'excellent documentaire d'ARTE présenté ci-dessus, les fractales sont des objets géométriques _infiniment morcelés_ qui ont la particularité de présenter des structures similaires à toutes les échelles. Ce type de géométrie permet de modéliser avec de simples formules récursives des figures infiniment complexes mais aussi de décrire des phénomènes naturels (motifs des flocons, chemin pris par la foudre, forme d'un choux de romanesco, structure des poumons ...) et de trouver des applications dans des domaines technologiques (antennes, transistors, génération graphique de paysages ...).
 
 <p align="center">
    <img src="/assets/images/fractals_in_nature.png" width="100%"/>
@@ -67,7 +67,7 @@ On peut différencier 3 catégories principales de fractale :
 
 - les systèmes de **fonctions itérées**. Ils ont une règle géométrique fixe comme le flocon de Von Koch, le tapis de Sierpinski, la courbe de Peano.
 - les fractales **aléatoires**. Elles sont générées par un processus stochastiques comme dans la nature ou les paysages fractales.
-- les ensembles définies par une **relation de récurrence** en chaque point d'un espace. On peut citer l'ensemble de Julia, de mandelbrot, de lyapunov. On les appelle parfois en anglais des *Escape-time fractals*.
+- les ensembles définies par une **relation de récurrence** en chaque point d'un espace. On peut citer l'ensemble de Julia, de mandelbrot, de lyapunov. On les appelle parfois en anglais des _Escape-time fractals_.
 
 ## Ensemble de Julia
 
@@ -87,12 +87,12 @@ Pour générer un ensemble de Julia informatiquement, l'idée est de discrétise
 ```python
 # INITIALIZATION
 # value of c fixed
-c_reel, c_imag = 0.3, 0.5 
+c_reel, c_imag = 0.3, 0.5
 # interval limit
 x_min, x_max = -1, 1
 y_min, y_max = -1, 1
 # discretization
-size = 5000 
+size = 5000
 x_step = (x_max - x_min)/size
 y_step = (y_max - y_min)/size
 M = np.zeros((size,size))
@@ -120,7 +120,7 @@ for i in (range(size)):
 **Astuce:** En python, on aurait pu directement utiliser la fonction `complex()` pour avoir un objet complexe. Dans ce cas, les variables `z_reel` et `z_imag` seraient inutiles et on pourrait directement récupérer la valeur absolue et mettre au carré une unique variable complexe `z`.
 {: .notice--info}
 
-Finalement, on peut générer des ensembles de Julia pour différentes valeurs de $c$ fixées et pour changer le visuel on peut s'amuser à tester différentes *colormap*. Ci-dessous quelques résultats que j'ai généré.
+Finalement, on peut générer des ensembles de Julia pour différentes valeurs de $c$ fixées et pour changer le visuel on peut s'amuser à tester différentes _colormap_. Ci-dessous quelques résultats que j'ai généré.
 
 {% include gallery %}
 
@@ -161,13 +161,13 @@ La génération de fractale n'est pas une tâche facile : beaucoup de paramètre
 Il existe de nombreux logiciels générateur de fractal gratuits disponibles. Ils sont souvent optimisés pour faire du multi-processing ou du calcul sur GPU, possèdent une interface graphique pour gérer les nombreux paramètres et sont parfois capables de créer des objets 3D (comme les 3 affichés ci-dessous). Une liste assez complète est disponible [ici](https://en.wikipedia.org/wiki/Fractal-generating_software#Programs).
 {: .text-justify}
 
-| ![image](/assets/images/mandelbulb3d.png)     | ![image](/assets/images/mandelbulber.png) | ![image](/assets/images/fragmentarium.png) |
-|:---------------------------------------------:| :----------------------------------------:| :-----------------------------------------: |
-| [Mandelbul3D](https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/)| [Mandelbuler](https://mandelbulber.com/) |  [Fragmentarium](https://syntopia.github.io/Fragmentarium/get.html) |
+|                           ![image](/assets/images/mandelbulb3d.png)                           | ![image](/assets/images/mandelbulber.png) |             ![image](/assets/images/fragmentarium.png)             |
+| :-------------------------------------------------------------------------------------------: | :---------------------------------------: | :----------------------------------------------------------------: |
+| [Mandelbul3D](https://www.mandelbulb.com/2014/mandelbulb-3d-mb3d-fractal-rendering-software/) | [Mandelbuler](https://mandelbulber.com/)  | [Fragmentarium](https://syntopia.github.io/Fragmentarium/get.html) |
 
-Pour coder ces surfaces géométriques complexes en 3D et en prenant en compte les réflexions lumineuses, les textures, les couleurs, on parle souvent de *shader*. Ceux sont des petites opérations algoritmiques qui sont programmés sur le GPU de votre ordinateur. L'un des langages les plus populaires pour se faire est le GLSL (basé sur le C) et il existe un super site web pour rapidement expérimenter ou explorer ce langage avec de nombreux exemples : [shadertoy](https://www.shadertoy.com/). J'ai d'ailleurs testé l'implémentation d'un mandelbulbe 3D avec ce langage puis chargé en javascript et html, il est accessible ici : [mon mandelbulbe 3D]({% link fractal-visualization.html %}).
+Pour coder ces surfaces géométriques complexes en 3D et en prenant en compte les réflexions lumineuses, les textures, les couleurs, on parle souvent de _shader_. Ceux sont des petites opérations algoritmiques qui sont programmés sur le GPU de votre ordinateur. L'un des langages les plus populaires pour se faire est le GLSL (basé sur le C) et il existe un super site web pour rapidement expérimenter ou explorer ce langage avec de nombreux exemples : [shadertoy](https://www.shadertoy.com/). J'ai d'ailleurs testé l'implémentation d'un mandelbulbe 3D avec ce langage puis chargé en javascript et html, il est accessible ici : [mon mandelbulbe 3D](/fractal-visualization/).
 
-Et pour ceux qui ne veulent pas se compliquer et juste se laisser porter par la géométrie psychédélique des fractales sans effort, vous pourrez trouver sur internet des gens qui ont déjà fait le travail à votre place. On trouve sur youtube une floppée de vidéos comme par exemple *The Hardest Trip - Mandelbrot Fractal Zoom* qui zoome pendant 2h30 sur un point précis du plan complexe.
+Et pour ceux qui ne veulent pas se compliquer et juste se laisser porter par la géométrie psychédélique des fractales sans effort, vous pourrez trouver sur internet des gens qui ont déjà fait le travail à votre place. On trouve sur youtube une floppée de vidéos comme par exemple _The Hardest Trip - Mandelbrot Fractal Zoom_ qui zoome pendant 2h30 sur un point précis du plan complexe.
 
 {% include video id="LhOSM6uCWxk" provider="youtube" %}
 
