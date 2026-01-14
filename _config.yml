@@ -27,6 +27,7 @@ kramdown:
   math_engine: nil
 remote_theme: mmistakes/minimal-mistakes
 github: [metadata]
+future: true
 # Outputting
 permalink: /:title/
 paginate: 12 # amount of posts to show
