@@ -1,5 +1,5 @@
 ---
-title: "Détection de monture de lunettes par méthode d'intelligence artificielle"
+title: "Segmentation d'objets par modèle de Deep Learning"
 lang: fr
 classes: wide
 author_profile: false

@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Simulation de Fluide en 200 Lignes de Code"
 lang: fr
 classes: wide
@@ -15,34 +15,62 @@ La mécanique des fluides est une branche de la physique étudiée depuis longte
    <img src="/assets/images/fluid_simulation_header.png" width="90%"/>
 </p>
 
-## La Physique : Les Équations de Navier-Stokes
+## Les Équations de Navier-Stokes
 
-Au cœur de la simulation de fluides se trouvent les **équations de Navier-Stokes**. Pour un fluide incompressible (comme l'eau), elles ressemblent à ceci :
+Les équations de Navier-Stokes*régissent le comportement des fluides et décrivent leur comportements avec des termes aux dérivées partielles non linéaire. De nombreuses déclinaisons existe selon le cas qu'on étudie, ici j'utiliserais 2 équations princiaples : la conservation de la quantité de mouvement et la condition d'incompressibilité. La première correspond en fait à la 2ème loi de Newton $F = ma$ appliquée à un fluide. Si on note $u$ le champ de vitesse du fluide, $p$ la pression et les coefficients de densité $\rho$ et de viscosité $\nu$ alors on peut l'écrire de la façon suivante:
 
 $$
-\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla) \mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f}
+\underbrace{\frac{\partial \mathbf{u}}{\partial t}}_{\text{Accélération}} + 
+\underbrace{(\mathbf{u} \cdot \nabla) \mathbf{u}}_{\text{Advection}} = 
+\underbrace{-\frac{1}{\rho} \nabla p}_{\text{Gradient de Pression}} + 
+\underbrace{\nu \nabla^2 \mathbf{u}}_{\text{Viscosité}} + 
+\underbrace{\mathbf{f}}_{\text{Forces}}
 $$
+
+- La Variation Temporelle $\frac{\partial u}{\partial t}$ : C'est l'accélération "locale". Elle décrit comment la vitesse en un point précis de la grille change d'un instant à l'autre. Si vous ne touchez à rien et que le fluide finit par s'immobiliser, c'est ce terme qui traduit cette évolution vers le repos.
+
+- L'Advection $(u \cdot \nabla) u$ : C'est le terme responsable du comportement chaotique et non-linéaire. Il décrit comment la vitesse du fluide se transporte elle-même à travers l'espace. C'est ce qui crée les tourbillons (vortex).
+
+- Le Gradient de Pression $-\frac{1}{\rho} \nabla p$ : Il garantit que le fluide est poussé des zones de haute pression vers les zones de basse pression. C'est le moteur qui "répare" le champ de vitesse pour le maintenir incompressible.
+
+- La Viscosité $\nu \nabla^2 u$ : Elle représente le "frottement" interne ou la diffusion de la quantité de mouvement. Un fluide très visqueux résiste au glissement de ses couches internes (comme le miel).
+
+- Les Forces Externes $f$ : Généralement la gravité. Dans notre demo, ça sera l'interaction avec l'utilisateur via la souris.
+
+La seconde équation modélise la condition d'incompressibilité. Pour la fumée ou l'eau, on considère souvent que le fluide ne peut pas être compressé (son volume reste constant) :
 
 $$
 \nabla \cdot \mathbf{u} = 0
 $$
 
-avec $\mathbf{u}$ est le champ de vitesse, $\rho$ est la densité, $p$ est la pression, $\nu$ est la viscosité cinématique, $\mathbf{f}$ représente les forces externes (comme la gravité).
+Cette équation de divergence nulle signifie mathématiquement que tout ce qui entre dans une cellule de notre grille doit obligatoirement en ressortir. C'est la contrainte qui force le fluide à créer des courbes et des tourbillons plutôt que de simplement s'écraser et disparaitre contre un mur.
 
-La première équation décrit comment la vitesse change au cours du temps en raison de l'advection, de la pression, de la viscosité et des forces externes. La seconde équation impose l'**incompressibilité**, signifiant que la quantité de fluide entrant dans une région doit être égale à la quantité qui en sort.
+## Modéliser le mouvement
+
+Lors de la simulation de fluides, deux points de vue existent, chacun ayant sa propre manière d'interpréter le mouvement :
+
+1. <u>Approche Lagrangienne</u> : on traite le fluide comme une collection de particules, on suit un ensemble de points individuellement s'entrechoquer au cours du temps. C'est intuitif, comme simuler un tas de billes.
+
+    | Points Forts | Points Faibles |
+    | :---         | :---           |
+    | les frontières complexes et les éclaboussures sont gérées de façon naturelle et efficace. Puisque la masse est portée par les particules, elle est conservée par défaut. | garantir que le fluide ne se "comprime" pas (l'incompressibilité) nécessite des calculs de voisinage très coûteux, car il faut savoir quelles particules sont proches les unes des autres à chaque instant. |
+
+    <div style="display: flex; justify-content: center; gap: 10%; margin-top: 1rem; margin-bottom: 2rem;">
+    <img src="/assets/images/fluid_simulation_lagrange.png" style="width: 70%; height: auto;" alt="Description 2">
+    </div>
 
 
-Advection: People moving from one room to another based on the wind speed.
-Incompressibility: If too many people try to enter one room at once, they push each other back so the room doesn't "explode."
+2. <u>Approche Eulérienne</u> : au lieu de suivre le mouvement, on fixe notre regard sur des points précis de l'espace. On divise le domaine en une grille (un peu comme les pixels d'une image) et on observe comment les propriétés (vitesse, pression, densité) évoluent dans chaque cellule.
 
-## Les Deux Perspectives : Lagrangienne vs Eulérienne
+    | Points Forts | Points Faibles |
+    | :---         | :---           |
+    |les calculs sont plus stable numériquement. Le calcul des gradients de pression et de la diffusion est beaucoup plus simple sur une structure fixe, ce qui permet de simuler facilement des fluides qui conservent un volume constant. | un phénomène de "dissipation numérique" (le fluide a tendance à devenir un peu trop visqueux ou flou avec le temps) peut avoir lieu si la résolution de la grille n'est pas assez fine. |
 
-Lors de la simulation de fluides, il existe deux approches principales :
+    <div style="display: flex; justify-content: center; gap: 10%;margin-top: 1rem; margin-bottom: 2rem;">
+    <img src="/assets/images/fluid_simulation_euler.png" style="width: 70%; height: auto;" alt="Description 1">
+    </div>
 
-1.  **Lagrangienne (Basée sur les particules) :** Vous traitez le fluide comme une collection de particules et suivez la position et la vitesse de chacune. C'est intuitif, comme simuler un tas de billes. L'hydrodynamique des particules lissées (SPH) est un exemple populaire.
-2.  **Eulérienne (Basée sur une grille) :** Vous divisez l'espace en une grille fixe. Au lieu de suivre des particules, vous suivez les propriétés du fluide (comme la vitesse et la densité) à chaque cellule de la grille. C'est comme mesurer la vitesse du vent à des stations météorologiques fixes.
-
-Pour cette simulation, nous utilisons l'**approche Eulérienne** car elle est souvent plus facile à gérer pour l'incompressibilité et produit des résultats lisses pour des choses comme la fumée.
+Pour cette simulation, j'utiliserais l'approche Eulérienne car elle est souvent plus facile à gérer pour l'incompressibilité et produit de meilleurs résultats simuler la fumée. On peut obtenir des mouvements tourbillonnants comme les vortex si caractéristiques des gaz, tout en maintenant un rendu visuel lisse et continu, là où une approche par particules pourrait paraître "granuleuse".
 
 ## La Grille Décalée (Staggered Grid)
 
