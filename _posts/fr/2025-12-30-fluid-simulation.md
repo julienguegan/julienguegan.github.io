@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 title: "Simulation de Fluide en 200 Lignes de Code"
 lang: fr
 classes: wide
@@ -72,7 +72,7 @@ Lors de la simulation de fluides, deux points de vue existent, chacun ayant sa p
 
 Pour cette simulation, j'utiliserais l'approche Eulérienne car elle est souvent plus facile à gérer pour l'incompressibilité et produit de meilleurs résultats simuler la fumée. On peut obtenir des mouvements tourbillonnants comme les vortex si caractéristiques des gaz, tout en maintenant un rendu visuel lisse et continu, là où une approche par particules pourrait paraître "granuleuse".
 
-## La Grille Décalée (Staggered Grid)
+## Résolution Numérique
 
 Une astuce clé dans la simulation Eulérienne est l'utilisation d'une **grille décalée**. Au lieu de stocker toutes les variables (pression, vitesse horizontale $u$, vitesse verticale $v$) au centre de chaque cellule, nous les décalons :
 
@@ -202,13 +202,11 @@ advectVel(dt) {
 }
 ```
 
-## Conclusion
+## Démo Interactive
 
 Avec seulement ces trois étapes — Forces, Projection et Advection — vous pouvez créer une simulation de fluide étonnamment réaliste. Le code est compact, efficace et s'exécute directement dans le navigateur.
 
 Cette implémentation est un excellent point de départ. À partir de là, vous pouvez ajouter des obstacles, de la viscosité, différentes conditions aux limites, ou même l'étendre à la 3D !
-
-## Démo Interactive
 
 Voici une implémentation complète en JavaScript que vous pouvez essayer directement. Cliquez et maintenez pour ajouter de la fumée :
 
