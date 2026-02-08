@@ -1,0 +1,795 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="fr" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Réduction de Dimension : PCA, t-SNE et UMAP - Blog du Julien</title>
+<meta name="description" content="Dans le monde de la data science, nous sommes souvent confrontés à des jeux de données possédant un grand nombre de caractéristiques (features). Si cette richesse d’information peut être bénéfique, elle apporte aussi son lot de défis, connus sous le nom de “fléau de la dimensionnalité” (curse of dimensionality). Plus le nombre de dimensions augmente, plus l’espace des données devient vaste et épars, rendant l’analyse, la visualisation et même l’entraînement de modèles de machine learning complexes et coûteux en ressources.">
+
+
+  <meta name="author" content="Julien Guégan">
+  
+  <meta property="article:author" content="Julien Guégan">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Blog du Julien">
+<meta property="og:title" content="Réduction de Dimension : PCA, t-SNE et UMAP">
+<meta property="og:url" content="https://julienguegan.github.io/posts/fr/2025-05-05-reduction-dimension/">
+
+
+  <meta property="og:description" content="Dans le monde de la data science, nous sommes souvent confrontés à des jeux de données possédant un grand nombre de caractéristiques (features). Si cette richesse d’information peut être bénéfique, elle apporte aussi son lot de défis, connus sous le nom de “fléau de la dimensionnalité” (curse of dimensionality). Plus le nombre de dimensions augmente, plus l’espace des données devient vaste et épars, rendant l’analyse, la visualisation et même l’entraînement de modèles de machine learning complexes et coûteux en ressources.">
+
+
+
+  <meta property="og:image" content="https://julienguegan.github.io/assets/images/teaser_dimension_reduction.PNG">
+
+
+
+
+
+  <meta property="article:published_time" content="2025-05-05T12:30:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://julienguegan.github.io/posts/fr/2025-05-05-reduction-dimension/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Julien Guégan",
+      "url": "https://julienguegan.github.io/",
+      "sameAs": ["https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/","https://www.facebook.com/julien.guegan.754","https://github.com/julienguegan","https://www.instagram.com/julien_guegan_/?hl=fr"]
+    
+  }
+</script>
+
+
+  <meta name="google-site-verification" content="_Cj2FZGjDR1sECXPRL64_CMVDm6adbKqCXSLHArYdSE" />
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Blog du Julien Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+  <link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+  <script>
+    let theme = sessionStorage.getItem('theme');
+    if(theme === "dark") {
+      sessionStorage.setItem('theme', 'dark');
+      node1 = document.getElementById('theme_source');
+      node2 = document.getElementById('theme_source_2');
+      node1.setAttribute('rel', 'stylesheet alternate'); 
+      node2.setAttribute('rel', 'stylesheet');
+    } else {
+      sessionStorage.setItem('theme', 'light');
+    }
+  </script>
+
+<link rel="shortcut icon" type="image/png" href="/assets/images/brain_icon.png">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        // customised options
+        // • auto-render specific keys, e.g.:
+        delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+  });
+</script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/brain_icon.png" alt="Blog du Julien"></a>
+        
+        <a class="site-title" href="/">
+          Blog du Julien
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/home/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/projects/">Projects</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/cv/">CV</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+        <button class="lang__toggle" type="button">
+          <span class="visually-hidden">Changer de langues</span>
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0V0z" fill="none"/><path d="M12.65 15.67c.14-.36.05-.77-.23-1.05l-2.09-2.06.03-.03c1.74-1.94 2.98-4.17 3.71-6.53h1.94c.54 0 .99-.45.99-.99v-.02c0-.54-.45-.99-.99-.99H10V3c0-.55-.45-1-1-1s-1 .45-1 1v1H1.99c-.54 0-.99.45-.99.99 0 .55.45.99.99.99h10.18C11.5 7.92 10.44 9.75 9 11.35c-.81-.89-1.49-1.86-2.06-2.88-.16-.29-.45-.47-.78-.47-.69 0-1.13.75-.79 1.35.63 1.13 1.4 2.21 2.3 3.21L3.3 16.87c-.4.39-.4 1.03 0 1.42.39.39 1.02.39 1.42 0L9 14l2.02 2.02c.51.51 1.38.32 1.63-.35zM17.5 10c-.6 0-1.14.37-1.35.94l-3.67 9.8c-.24.61.22 1.26.87 1.26.39 0 .74-.24.88-.61l.89-2.39h4.75l.9 2.39c.14.36.49.61.88.61.65 0 1.11-.65.88-1.26l-3.67-9.8c-.22-.57-.76-.94-1.36-.94zm-1.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+        </button>
+        <ul class="floating-menu lang-switcher hidden">
+            <script> console.log("/posts/fr/2025-05-05-reduction-dimension/") </script> 
+            <script> console.log("/posts/fr/2025-05-05-reduction-dimension/") </script>
+            <script> console.log("/posts/fr/2025-05-05-reduction-dimension/") </script>
+            <li class="lang-option-inactive masthead__menu-item"><a href="/en/posts/fr/2025-05-05-reduction-dimension/">English </a></li>
+        
+            <li class="lang-option-active masthead__menu-item">Français</li>
+        </ul>
+
+        
+        <button class="theme__toggle" type="button">
+          <span class="visually-hidden">Theme</span>
+          <i class="fas fa-fw fa-adjust" aria-hidden="true"></i>
+        </button>
+        
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/photo_profil.jpg" alt="Julien Guégan" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Julien Guégan</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Ingénieur en IA. Ici, je parle de maths, bidules et autres machins qui m’intéressent.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Contact</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:julienguegan56520@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Mail</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i><span class="label">Facebook</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+
+
+<a href="https://www.buymeacoffee.com/julienguegan" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 43px !important;width: 156px !important;">
+</a>
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Réduction de Dimension : PCA, t-SNE et UMAP">
+    <meta itemprop="description" content="Dans le monde de la data science, nous sommes souvent confrontés à des jeux de données possédant un grand nombre de caractéristiques (features). Si cette richesse d’information peut être bénéfique, elle apporte aussi son lot de défis, connus sous le nom de “fléau de la dimensionnalité” (curse of dimensionality). Plus le nombre de dimensions augmente, plus l’espace des données devient vaste et épars, rendant l’analyse, la visualisation et même l’entraînement de modèles de machine learning complexes et coûteux en ressources.">
+    <meta itemprop="datePublished" content="2025-05-05T12:30:00-05:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="https://julienguegan.github.io/posts/fr/2025-05-05-reduction-dimension/" class="u-url" itemprop="url">Réduction de Dimension : PCA, t-SNE et UMAP
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute(s) de lecture
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>Dans le monde de la data science, nous sommes souvent confrontés à des jeux de données possédant un grand nombre de caractéristiques (features). Si cette richesse d’information peut être bénéfique, elle apporte aussi son lot de défis, connus sous le nom de <strong>“fléau de la dimensionnalité”</strong> (<em>curse of dimensionality</em>). Plus le nombre de dimensions augmente, plus l’espace des données devient vaste et épars, rendant l’analyse, la visualisation et même l’entraînement de modèles de machine learning complexes et coûteux en ressources.</p>
+
+<p align="center">
+   <img src="/assets/images/dimension_curse_dimensionnality.png" width="70%" />
+</p>
+
+<p>Heureusement, des techniques de <strong>réduction de dimension</strong> existent pour nous aider à projeter ces données de haute dimension dans un espace de plus faible dimension (souvent 2D ou 3D pour la visualisation) tout en préservant au maximum l’information pertinente ou la structure intrinsèque des données.</p>
+
+<p>Parmi les méthodes les plus populaires, trois se distinguent particulièrement :</p>
+<ol>
+  <li><strong>PCA (Principal Component Analysis)</strong> : Une approche linéaire classique, rapide et interprétable.</li>
+  <li><strong>t-SNE (t-Distributed Stochastic Neighbor Embedding)</strong> : Une méthode non linéaire très efficace pour visualiser des clusters locaux.</li>
+  <li><strong>UMAP (Uniform Manifold Approximation and Projection)</strong> : Une technique non linéaire plus récente, souvent plus rapide que t-SNE et offrant un bon équilibre entre structure locale et globale.</li>
+</ol>
+
+<p>Dans cet article, nous allons explorer ces trois algorithmes, comprendre leurs principes fondamentaux, leurs avantages et inconvénients, et voir comment les appliquer en Python avec des exemples concrets. J’utiliserais le jeu de donnée MNIST qui est très simple mais montre bien les difficultés de visualisation pour un problème à haute dimension. Il est composé de 1797 petites images de taille 8 par 8, chaque pixel étant une dimension de notre problème on a alors 64 dimensions.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">digits</span><span class="p">.</span><span class="n">target</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Dataset shape: </span><span class="si">{</span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="c1"># Dataset shape: (1797, 64)
+</span></code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/dimension_mnist.png" width="70%" />
+</p>
+
+<h2 id="pca--lanalyse-en-composantes-principales">PCA : L’analyse en Composantes Principales</h2>
+
+<p>L’Analyse en Composantes Principales (PCA) est sans doute la technique de réduction de dimension la plus connue et utilisée. C’est une méthode <strong>linéaire</strong> qui vise à transformer les données originales en un nouvel ensemble de variables, appelées <strong>composantes principales</strong>, qui sont non corrélées entre elles et ordonnées selon la quantité de variance des données originales qu’elles expliquent.</p>
+
+<p>L’idée maîtresse est de trouver les directions (axes) dans l’espace multi-dimensionnel le long desquelles les données varient le plus. La première composante principale est l’axe qui capture la plus grande variance. La deuxième composante principale est l’axe orthogonal au premier qui capture la plus grande partie de la variance restante, et ainsi de suite.</p>
+
+<p>Mathématiquement, si $X$ est notre matrice de données centrées (chaque feature a une moyenne de 0), la matrice de covariance est donnée par $C = \frac{1}{N-1} X^T X$, où $N$ est le nombre d’échantillons. PCA cherche alors les vecteurs propres $v$ et les valeurs propres $\lambda$ de cette matrice $C$ qui satisfont l’équation :</p>
+
+\[C v = \lambda v\]
+
+<p>Les vecteurs propres $v$ (ordonnés par les valeurs propres $\lambda$ décroissantes) forment les directions des composantes principales. Les valeurs propres $\lambda$ indiquent la quantité de variance expliquée par chaque composante principale correspondante. La projection des données $X$ sur les $k$ premiers vecteurs propres $V_k = [v_1, v_2, …, v_k]$ donne la représentation réduite $X_{pca} = X V_k$.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Standardize data (important for PCA)
+</span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Apply PCA  to reduce to 2 dimensions
+</span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Variance expliquée par composante: </span><span class="si">{</span><span class="n">pca</span><span class="p">.</span><span class="n">explained_variance_ratio_</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Variance totale expliquée: </span><span class="si">{</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">pca</span><span class="p">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/dimension_pca.png" width="70%" />
+</p>
+
+<p>La PCA présente des avantages considérables : elle est simple, rapide et facile à calculer, offre une interprétabilité claire grâce à la quantification de la variance expliquée par chaque composante, et s’avère particulièrement efficace pour le débruitage et la compression de données. Cependant, cette méthode souffre de limitations importantes : elle suppose des relations linéaires entre les variables, se montre sensible à l’échelle des données (nécessitant une standardisation préalable), peine à capturer des structures non linéaires complexes comme les variétés courbes, et produit des composantes principales qui ne correspondent pas nécessairement aux features originales, compliquant parfois l’interprétation des résultats dans le contexte métier</p>
+
+<p class="notice--info"><strong>Note:</strong> PCA maximise la variance globale. Si la structure intéressante des données ne se trouve pas dans les directions de plus grande variance, PCA peut la manquer.</p>
+
+<h2 id="t-sne--plongement-stochastique-distribué-en-t">t-SNE : Plongement Stochastique Distribué en t</h2>
+
+<p>Contrairement à la PCA, t-SNE (t-Distributed Stochastic Neighbor Embedding) est une technique <strong>non linéaire</strong> particulièrement conçue pour la <strong>visualisation</strong> de données de haute dimension en basse dimension (typiquement 2D ou 3D). Son objectif principal est de préserver la <strong>structure locale</strong> des données : les points qui sont proches dans l’espace de haute dimension devraient rester proches dans l’espace de basse dimension.</p>
+
+<p>t-SNE modélise la similarité entre deux points $x_i$ et $x_j$ dans l’espace de haute dimension comme une probabilité conditionnelle $p_{j|i}$ que $x_i$ choisirait $x_j$ comme son voisin si les voisins étaient choisis en proportion de leur densité de probabilité sous une Gaussienne centrée sur $x_i$. Ensuite, il définit une probabilité de similarité jointe $p_{ij}$.</p>
+
+<p>Dans l’espace de basse dimension, il modélise la similarité entre les points correspondants $y_i$ et $y_j$ avec une probabilité jointe $q_{ij}$ utilisant une distribution t de Student à un degré de liberté (qui est équivalente à une distribution de Cauchy). Cette distribution à queues lourdes permet de mieux séparer les points dissemblables dans la carte de basse dimension.</p>
+
+<p>Plus formellement :</p>
+<ul>
+  <li>La probabilité conditionnelle $p_{j|i}$ est calculée comme : \(p_{j\|i} = \frac{\exp(-\|x_i - x_j\|^2 / 2\sigma_i^2)}{\sum_{k \neq i} \exp(-\|x_i - x_k\|^2 / 2\sigma_i^2)}\) où $\sigma_i$ est la variance de la Gaussienne centrée sur $x_i$, déterminée de manière à correspondre à une perplexité fixée (liée au nombre effectif de voisins).</li>
+  <li>La probabilité jointe symétrique dans l’espace de haute dimension est : \(p_{ij} = \frac{p_{j\|i} + p_{i\|j}}{2N}\) où $N$ est le nombre total de points.</li>
+  <li>La probabilité jointe dans l’espace de basse dimension $y_i, y_j$ utilise une distribution t-Student à 1 degré de liberté : \(q_{ij} = \frac{(1 + \|y_i - y_j\|^2)^{-1}}{\sum_{k \neq l} (1 + \|y_k - y_l\|^2)^{-1}}\)</li>
+  <li>L’algorithme minimise ensuite la divergence de Kullback-Leibler (KL) entre les distributions $P = {p_{ij}}$ et $Q = {q_{ij}}$ : \(KL(P\|Q) = \sum_{i \neq j} p_{ij} \log \frac{p_{ij}}{q_{ij}}\) Cette minimisation est généralement effectuée par descente de gradient sur les positions des points $y_i$ dans l’espace de basse dimension.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Apply t-SNE
+</span><span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_tsne</span> <span class="o">=</span> <span class="n">tsne</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="c1"># Visualize
+</span><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_tsne</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_tsne</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">"jet"</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'t-SNE des données Digits (perplexity=30)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Composante t-SNE 1'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Composante t-SNE 2'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">scatter</span><span class="p">.</span><span class="n">legend_elements</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">digits</span><span class="p">.</span><span class="n">target_names</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/dimension_tsne.png" width="70%" /> 
+</p>
+
+<p>t-SNE présente des avantages remarquables pour l’analyse exploratoire des données : il excelle dans la révélation de la structure locale et des clusters, capture efficacement les structures non linéaires complexes que d’autres méthodes peinent à identifier, et constitue un outil largement adopté pour la visualisation exploratoire. Néanmoins, cette technique souffre de plusieurs limitations significatives : elle est coûteuse en calcul avec une complexité typiquement de $O(N^2)$ ou $O(N \log N)$ avec approximations, ce qui peut ralentir considérablement l’analyse sur de très grands datasets. Sa nature stochastique implique que différentes exécutions peuvent produire des visualisations légèrement différentes, nécessitant de fixer le <code class="language-plaintext highlighter-rouge">random_state</code> pour assurer la reproductibilité. t-SNE se montre particulièrement sensible aux hyperparamètres, notamment la <code class="language-plaintext highlighter-rouge">perplexity</code> (liée au nombre de voisins considérés, typiquement entre 5 et 50) et le nombre d’itérations <code class="language-plaintext highlighter-rouge">n_iter</code>, obligeant souvent à expérimenter pour obtenir des résultats satisfaisants. Plus fondamentalement, cette méthode ne préserve pas bien la structure globale : la taille et les distances entre les clusters dans la visualisation t-SNE ne sont généralement pas significatives et ne peuvent être interprétées comme dans PCA. Enfin, t-SNE demeure principalement une technique de visualisation plutôt qu’une véritable méthode de réduction de dimension pour l’entraînement de modèles, car elle n’est pas définie sur de nouveaux points.</p>
+
+<p class="notice--warning"><strong>Attention:</strong> N’interprétez pas trop la taille relative des clusters ou les distances entre eux dans un graphique t-SNE. Concentrez-vous sur les groupements de points similaires.</p>
+
+<h2 id="umap--approximation-et-projection-uniforme-de-variétés">UMAP : Approximation et Projection Uniforme de Variétés</h2>
+
+<p>UMAP (Uniform Manifold Approximation and Projection) est une technique de réduction de dimension non linéaire plus récente qui gagne rapidement en popularité. Comme t-SNE, elle est efficace pour la visualisation, mais elle est souvent plus rapide et prétend mieux préserver la structure globale des données.</p>
+
+<p>UMAP est basé sur des fondements mathématiques solides issus de la topologie algébrique et de la théorie des variétés riemanniennes. L’algorithme fonctionne en trois étapes principales :</p>
+<ol>
+  <li><strong>Construction d’un graphe de voisinage pondéré :</strong> Pour chaque point, UMAP trouve ses $k$ plus proches voisins et construit une représentation pondérée de la structure topologique locale des données (une “variété floue”).</li>
+  <li><strong>Calcul d’une représentation bas-dimensionnelle similaire :</strong> UMAP répète le processus de construction de graphe dans l’espace de basse dimension cible.</li>
+  <li><strong>Optimisation :</strong> UMAP minimise la différence (entropie croisée) entre les représentations topologiques de haute et basse dimension, cherchant ainsi une projection qui préserve au mieux la structure topologique des données originales.</li>
+</ol>
+
+<p>UMAP est disponible en python en l’installant simplement avec la commande suivante:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>umap-learn
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Apply UMAP
+</span><span class="kn">import</span> <span class="nn">umap</span>
+<span class="n">reducer</span> <span class="o">=</span> <span class="n">umap</span><span class="p">.</span><span class="n">UMAP</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_umap</span> <span class="o">=</span> <span class="n">reducer</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="c1"># Visualize
+</span><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_umap</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_umap</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">"jet"</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">'UMAP des données Digits (n_neighbors=15, min_dist=0.1)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Composante UMAP 1'</span><span class="p">),</span> <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Composante UMAP 2'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">scatter</span><span class="p">.</span><span class="n">legend_elements</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="n">digits</span><span class="p">.</span><span class="n">target_names</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/dimension_umap.png" width="70%" /> 
+</p>
+
+<p>De plus, le package umap intègre des outils de visualisation très simples permettant de génère des graphes pour mieux comprendre les structures locales et globales de nos données.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">umap.plot</span>
+<span class="n">umap</span><span class="p">.</span><span class="n">plot</span><span class="p">.</span><span class="n">points</span><span class="p">(</span><span class="n">reducer</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">theme</span><span class="o">=</span><span class="s">'fire'</span><span class="p">)</span>
+<span class="n">umap</span><span class="p">.</span><span class="n">plot</span><span class="p">.</span><span class="n">connectivity</span><span class="p">(</span><span class="n">reducer</span><span class="p">,</span> <span class="n">show_points</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">X_umap</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">edge_cmap</span><span class="o">=</span><span class="s">"jet"</span><span class="p">)</span>
+<span class="n">umap</span><span class="p">.</span><span class="n">plot</span><span class="p">.</span><span class="n">connectivity</span><span class="p">(</span><span class="n">reducer</span><span class="p">,</span> <span class="n">edge_bundling</span><span class="o">=</span><span class="s">'hammer'</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">edge_cmap</span><span class="o">=</span><span class="s">"plasma"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p align="center">
+   <img src="/assets/images/dimension_umap_plot.png" width="100%" /> 
+</p>
+
+<p>UMAP présente des avantages substantiels qui en font une alternative attrayante aux méthodes classiques : il est souvent significativement plus rapide que t-SNE, particulièrement sur de grands datasets, et offre un bon équilibre entre structure locale et globale en tendant à mieux préserver la structure globale des données que t-SNE tout en excellant dans la capture de la structure locale. Cette méthode se montre moins sensible aux hyperparamètres, ses paramètres par défaut (<code class="language-plaintext highlighter-rouge">n_neighbors=15</code>, <code class="language-plaintext highlighter-rouge">min_dist=0.1</code>) fonctionnant souvent bien même si l’expérimentation reste recommandée, et produit des résultats déterministes reproductibles avec le même <code class="language-plaintext highlighter-rouge">random_state</code>. Un atout majeur d’UMAP réside dans sa capacité à être utilisé au-delà de la simple visualisation, la transformation étant définie pour de nouveaux points et permettant une véritable réduction de dimension pour l’entraînement de modèles. Cependant, UMAP présente aussi certaines limitations : étant plus récent, sa théorie sous-jacente est plus complexe à appréhender que celle de PCA, l’interprétation des distances reste délicate bien que potentiellement plus significative que pour t-SNE, et comme ce dernier, il demeure sensible au choix des métriques de distance lorsque les données ne sont pas numériques standard.</p>
+
+<p class="notice--success"><strong>Conseil:</strong> UMAP est souvent un excellent point de départ pour la visualisation non linéaire, offrant un bon compromis entre vitesse, qualité de la séparation des clusters et préservation de la structure globale.</p>
+
+<h2 id="pca-vs-t-sne-vs-umap--lequel-choisir-">PCA vs t-SNE vs UMAP : Lequel choisir ?</h2>
+
+<p>Il n’y a pas de “meilleure” méthode universelle ; le choix dépend de vos données et de votre objectif :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Caractéristique</th>
+      <th style="text-align: left">PCA</th>
+      <th style="text-align: left">t-SNE</th>
+      <th style="text-align: left">UMAP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Type</strong></td>
+      <td style="text-align: left">Linéaire</td>
+      <td style="text-align: left">Non linéaire</td>
+      <td style="text-align: left">Non linéaire</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Objectif principal</strong></td>
+      <td style="text-align: left">Max variance, compression, débruitage</td>
+      <td style="text-align: left">Visualisation structure locale (clusters)</td>
+      <td style="text-align: left">Visualisation équilibre local/global</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Structure globale</strong></td>
+      <td style="text-align: left">Préservée (si linéaire)</td>
+      <td style="text-align: left">Généralement non préservée</td>
+      <td style="text-align: left">Mieux préservée que t-SNE</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Structure locale</strong></td>
+      <td style="text-align: left">Peut être perdue</td>
+      <td style="text-align: left">Très bien préservée</td>
+      <td style="text-align: left">Très bien préservée</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Vitesse</strong></td>
+      <td style="text-align: left">Très rapide</td>
+      <td style="text-align: left">Lente (surtout N grand)</td>
+      <td style="text-align: left">Rapide (souvent &gt; t-SNE)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Interprétabilité</strong></td>
+      <td style="text-align: left">Élevée (variance expliquée)</td>
+      <td style="text-align: left">Faible (distances inter-clusters non fiables)</td>
+      <td style="text-align: left">Modérée (distances potentiellement + fiables)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Stochasticité</strong></td>
+      <td style="text-align: left">Déterministe</td>
+      <td style="text-align: left">Stochastique</td>
+      <td style="text-align: left">Déterministe (par défaut)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Hyperparamètres</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">n_components</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">perplexity</code>, <code class="language-plaintext highlighter-rouge">n_iter</code>, <code class="language-plaintext highlighter-rouge">learning_rate</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">n_neighbors</code>, <code class="language-plaintext highlighter-rouge">min_dist</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Usage pré-processing</strong></td>
+      <td style="text-align: left">Oui</td>
+      <td style="text-align: left">Non (généralement)</td>
+      <td style="text-align: left">Oui (possible)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>En résumé :</strong></p>
+<ul>
+  <li>Commencez par <strong>PCA</strong> si vous suspectez des relations linéaires, si vous avez besoin d’interprétabilité ou si la vitesse est critique. C’est aussi une bonne étape de pré-processing pour réduire le bruit avant d’appliquer t-SNE ou UMAP.</li>
+  <li>Utilisez <strong>t-SNE</strong> si votre objectif principal est de visualiser des groupements fins et la structure locale dans vos données, et si le temps de calcul n’est pas une contrainte majeure. Soyez prudent avec l’interprétation des distances globales.</li>
+  <li>Essayez <strong>UMAP</strong> comme alternative moderne à t-SNE. Il est souvent plus rapide, gère mieux les grands datasets et offre un meilleur équilibre entre la préservation des structures locales et globales. C’est un excellent choix par défaut pour la visualisation non linéaire.</li>
+</ul>
+
+<p>Il est souvent instructif d’appliquer plusieurs de ces méthodes et de comparer les résultats pour obtenir une compréhension plus complète de la structure de vos données. Le site <a href="https://projector.tensorflow.org/">https://projector.tensorflow.org/</a> offre un playground interactif pour visualiser en 3D des données images et textuelles sur les 3 algorithmes décrits dans ce post. Amusez-vous bien !</p>
+
+<p align="center">
+   <img src="/assets/images/dimension_embedding_website.gif" width="100%" /> 
+</p>
+
+<hr />
+
+<p><a href="https://jupyter.org/try"><img src="https://img.shields.io/badge/écrit_avec-Jupyter_notebook-orange.svg?style=plastic&amp;logo=Jupyter" alt="Generic badge" /></a> <a href="https://lbesson.mit-license.org/"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=plastic" alt="Generic badge" /></a> <a href="https://github.com/julienguegan/notebooks_blog/blob/main/reduction_dimension_pca_tsne_umap.ipynb"><img src="https://img.shields.io/badge/acces_au_code-github-black.svg?style=plastic&amp;logo=github" alt="Generic badge" /></a> <a href="https://hub.gke2.mybinder.org/user/julienguegan-notebooks_blog-z8qd9bd5/notebooks/dimension_reduction.ipynb"><img src="https://img.shields.io/badge/execute_le_code-binder-ff69b4.svg?style=plastic&amp;logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAMAAAC%2BRQ9vAAACOlBMVEX%2F%2F%2F9XmsrmZYH1olJXmsr1olJXmsrmZYH1olJXmsr1olJXmsrmZYH1olL1olJXmsr1olJXmsrmZYH1olL1olJXmsrmZYH1olJXmsr1olJXmsq%2FdJX1olLVa4pXmsrmZYH1olL1olJXmspXmsrmZYH1olJXmsr1olJXmspXmsr1olJXmsr1olJXmsrmZYH1olL1olL1olJXmspXmsrmZYH1olL1olL1olJXmsrmZYH1olL1olL1olJXmsrmZYHqdnT1olJXmsq6dZf1olJXmsrKk3rmZYH1olJXmsrCc5RXmsr0n1TtgWz1olJXmspXmsrmZYH1olJXmsqNhq%2Fzmlj1olJXmspZmshXmsr1olL1olJXmsrmZYH1olJXmsr1olL1olL1olJXmsr1olJXmsrtgGz1olL1olJXmsr1olJXmsrmZYH1olJXmsrbaYf1olJXmsr1olJXmsr1olLIcJFXmsr1olJXmsr1olJXmsr1olJXmsr1olL1olJXmspZmshZmsldmsZemsVfl8Zgl8Zom71pk8Frm7tvm7dxkL1ykLx0m7R4m7F6jbh7jbh8nK6CnKmDirOEibOGnKaInKWNhq%2BNnKGSnZ2Vg6qegKaff6WfnZSnfKGnno6ofKGvnoeweZyxeZy3noG5dpjCcpPDcpPGn3bLb4%2FPoG%2FVa4rXoGnYoGjdaIbeaIXhoWHmZYHnaX7obXvpcHjqdHXreHLroVrtgGzuhGnuh2bxk17yl1vzm1j0nlX1olIgJPdZAAAAfnRSTlMAEBAQHx8gICAuLjAwMDw9PUBAQEpQUFBXV1hYWFtgYGBkZnBwcHFxdHx8fn6AgICHiIuQkJCSnKCgoKavsLCwsLO4uMDAwMDBwcTFxsjO0NDQ09TW1tjY3Nzd4ODg4uLl5%2Bjo6uvr7O3v8PDw8%2FPz9vb39%2Fj5%2Bfv7%2FPz9%2Ff5K%2BfZ5AAAI4ElEQVR42uzWAWfDQBjG8Yc4qoihEApBIIoOOpaiFAUBBB3EjFDKRImZy0d7vtuYYWN36Zq4u5v7fYO%2FB%2B%2BLwENBEARBEAR32Zc0gpcWRXmS%2FO7SHPI5PDIvaip01TrypKGlXr2B6%2FKaV%2BirGA67v%2FBa9dKrCLWXGA5anvhXlYBjopI36DdwStrxNo2AO%2Fa8WZ%2FBEaLhGHs4YdFxnGME%2B5KeY7UCtq160v%2BOFUn%2FOxLyH3QkPafSwhrxzukcYcsrp7SFHSWnlcGGnEOaQ57i0ywrqo4DpIB5QlLruI7w07w4U%2BsZ5j1R420n8Ju46qmxhmkZ1WQBJVHq6gUM66hUCujEJ3e%2B3YIqMsWQLZVmMCmSVDgLDEskFR5h0m7kLRatC3NEckSFosPCHA%2FqitEdMxjzwbxZN7eRNGG8tcpr%2BS2vA3KFmZODoFLlDaOS4%2FXxleVj9OqYacLMzMzYR%2BHsZwtz5hnvSNOSf%2F97Vc%2F0NI%2B%2FBwM0q%2FQJMsjoynXfYFr%2BPxe9SgtVijdiLT3Jjrmxlu5UIf5wlLq%2BraqTD9dfqbSjFrhY1T5jLNkzMdbRUMVy6nsqgdpYx4TKbMViHXA2bm%2BOJqoEY7QlNpVEfayDKoD3eqzhBSqNpqo4R7dcyJdjDX%2BHuW7Ouq%2BhshqCiG9yTfPDV%2FgmUWCvpLbCmSMzqsC3%2BSvWcInvEOUyZEeL5mtzxUQEfI9%2FYw3%2F8X2mZsuOVUVxEUDGP%2FwQeZ%2BSM7pSocrL8cNciDXwowQeJaWhQjK6RfwIFzU%2Fe5UfIxpiI0M%2B4npTmduWcZmfIJ%2FU1yshIxtxiTI46tZuZAxhTipDQ659yPACLksG5712IMMLuUwZHHriMuxVYBlXGBD50pHKXgWWEbNJh72MtKgKnMX%2Fxjq8KmZxrALXVNb%2BIV9TBQyAFS4mrFqFO4oNxMDHIUGV%2Bo0sGwDdHxvoT5ChcmNcL2ITl2INF9hAlKlGLz6VjXwSgxoXE%2BI7JRZvu7GJwO8Y63jRaMJRpGcCnlNJXqkgg6aGX3ij7K9Vuig2NQwYkvcNe4GhlMkzZCrOfSKbgQxDhpjGhvH7RNQfWzKLPUMi%2BeUTVEd%2Fwgc4fggtifc0Alkjm6SmeEd%2FivWgikHmGCC3bQoSqKCBsZamtKbXwuaoL4rdqQxUATYcmusQJjNHuikW227kWEvBS7YXH22qjgOQvwX24iDS%2BI%2FHe%2FQqasBtk4KveNoCXcDB%2B6NIC2IMsEc3%2FBl4o%2B7RIFZN5eETAw0T0%2FA74YOEAVW4aDU81pKx%2Bo%2BNpvp7BQ38UPdijKgXKQpxWfdZjCiOJhpluFXp6TFkolg5FXlgooFpafAiWFiNLsaQopMSvWAzwpweG5g7je9y5sgtztw5EUoPbRF%2FUOyhCw2LbMw1PrJnx9qV6gEr1%2B48MAf%2FDfZvJ66RJ0T3GHJi21KlZ%2Fn2U%2FhK1crNQ%2FoTZEKs5dia%2BcrEos2n5GpCFO0zdrv589sWqrZZtPu83FOREKaspO5xeo1KyPz156S2yDZxSldrn16tbHhUSFNaQAZ0Dezm5zcoS%2BZvPw8zRulkEzQJuIPbP1%2FZs%2BjYg85RVIZHiXScX6FKY%2FN5tyqADDJyr847tECVysITcdxUS5WTgf18iyqHvRbeLSgj9ZYqj%2BepHcjo8Lkql5dTVZfR4RtVPp%2Bn5GXIq8A6xPMGUFF9HR5r6Gb27i%2BVK94mV6BGHPOuskY%2BXhVA1wSZp1wyjtyQt%2FTxkcotncgJOTvnSP2o2mDxxp2Hjxxn5uNHDu%2FcuFi1wXdu3Ly%2F3W5%2BijKycs9xfpTjO5YoI6%2BSC3y2qXH7mQPoD6yhd6M5tA0iF0Ro1Kch1aowH%2Fbqz8DRRpiE%2FJwSmykUSEuj4Y4PIwrxsKjxVwWZIeUcwBx1CjIv1cY0uKZZIT4mB2SSP%2ByarQC%2FD4NjVPbbNuWzAiMePB3pogA%2FdnpkcIeu59MK0JoSeXcL6kNkjG866EKe5jg6%2FSpoDi%2Fhe8E6qMK0w8xQAh3Ngg9G8snC1O%2F%2Ft%2FjICKWnn0DPoc%2FlKaWnh0kF9092FrMln4wECRL4OBC1Uf55U2mpEUgdWh2vGI4xSP7gMKV3j%2FESTYfm3XwNPkUv4MTGQGG3WfbVZ%2BFe9hoMI6UfWr3%2BBHG7RsA7NMXEFJS3Rtk8msRZdLCbigRTuH2mrXpjZMF9BBkUm2OKuxUgFgKOsG%2BeDQQ2TUurw%2BUZFvLcKvU4y3Z9xRj4RABZtk6gC9Rw8uDWdeoeq7buO8lmDA39eIFEDipEwNFbnOUE5AjSBQU9qTawdEIy0CpVj%2BAa1R6zY6BY9Qo5IhO5U%2BGTiWeVBnKF70yHT0a6CsgQ0NGfMNDH6yR1CKgAvUsXalc6oiy1ibQM8kMx7xaQgfHyXA6hRy5lCJSJVrm7%2BjJw9Y2x%2B6%2F3morIIC%2FHpTDVo2R0Een%2FNGTtPb2gi1AWHQeJ0N%2FuZkVDKDnjgYxqC4lGeWTBbJEKFwvJcxLC%2FmRFCjTjcmRyBTYT5XyypCtom0TxR4XYDrksWYEHuV1JHC878%2BjJx3vzo7te86gUUq2Vibdg7bdq3aZdd9i0blUZP90PTj%2Fl0Z5gI5VCM%2FyUPI3OJq%2F9xBY1Jf94oytjCLkGiPUO6rlnlY5XSBjzo5fmlH2ssB%2Boi98q22uVekVpSVGlaLVfouJIIV%2BJWJWlloOZwcrCxWSoUXputGuHuLKEQBSGDwaDQmAxrVFtyuDaswB2UIs4a395ueKKCcyd7g4wSX%2B%2BxJ8cWequDpMVA8nVjsiGiIEsGzReWiUrhrr0SmQOtkQMZZUtxaIvdG4xWGJbMmizmW0eo1W2aTPECjsEw3n2qDi8Cpk9ajDezr66B4NfNoqyL2CGwrf0kPRfPpRv7ZjCKe9UMEngjdRilo23UYd5hHeJmEkGVIwgwyrW74iYL%2FEi9VhBVF5RHdbgKs%2FLBqswmWdtWElQnlEc1mKEH9MN63EHPyMGS%2FKfhIjFsnzmn6hYLM2myndKNFif2yvbymbxLWyUwlfHHgy%2BjfMp5eOHpOQtHo%2FH4%2FEY7x8MZ7AAyatDDgAAAABJRU5ErkJggg%3D%3D" alt="Generic badge" /></a></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#data-science" class="page__taxonomy-item" rel="tag">data science</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#r%C3%A9duction-de-dimension" class="page__taxonomy-item" rel="tag">réduction de dimension</a><span class="sep">, </span>
+    
+      <a href="/tags/#visualisation-de-donn%C3%A9es" class="page__taxonomy-item" rel="tag">visualisation de données</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Catégories : </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Mis à jour :</strong> <time datetime="2025-05-05T12:30:00-05:00">May 5, 2025</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/posts/fr/2022-02-24-filtre_kalman/" class="pagination--pager" title="Kalman : filtre, tracking, IMU
+">Précédent</a>
+    
+    
+      <a href="/posts/fr/2025-12-30-fluid-simulation/" class="pagination--pager" title="Simulation de Fluide en 200 Lignes de Code
+">Suivant</a>
+    
+  </nav>
+
+    </div>
+
+    
+      <div class="page__comments">
+  
+  
+      <h4 class="page__comments-title">Laisser un commentaire</h4>
+      <section id="utterances-comments"></section>
+    
+</div>
+
+    
+  </article>
+
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Contact</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.facebook.com/julien.guegan.754" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+        
+      
+        
+          <li><a href="https://github.com/julienguegan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/julien_guegan_/?hl=fr" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/julien-gu%C3%A9gan-852a30138/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Flux</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2026 Blog du Julien. Propulsé par <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TY0R5MX0LD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TY0R5MX0LD', { 'anonymize_ip': false});
+</script>
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'julienguegan/julienguegan.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
