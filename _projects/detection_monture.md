@@ -12,8 +12,6 @@ read_time: true
 *  Auto generated table of contents
 {:toc .toc__menu}
 </nav>
-
-*EN COURS DE RÉDACTION*
  
 # Contexte
 
