@@ -1,5 +1,4 @@
 ---
-published: false
 title: "Simulation de Fluide en 200 Lignes de Code"
 lang: fr
 classes: wide
@@ -7,7 +6,6 @@ header:
   teaser: /assets/images/teaser_fluid_simulation.png
 read_time: true
 ---
-
 
 La mécanique des fluides est une branche de la physique étudiée depuis longtemps par de nombreux scientifiques, que ce soit par Archimède, Newton, Bernoulli ou encore Lagrange. Elle permet de comprendre comment les fluides (les gaz et les liquides) se comportent et aide les ingénieurs à construire des turbines, prédire la météo et améliorer l'aérodynamisme des avions. Généralement, dans la vie de tous les jours il est difficiel de s'imaginer les trajectoire d'un fluide si ce n'est regarder l'eau qui coule de notre robinet. En cherchant un peu, on se rend compte que les trajectoires des fluides peuvent être assez chaotiques avec de nombreuses turbulences et vortex. Dans ce post, je vais simuler via les équations de la physique et visualiser comment un fluide réagit au clic de ma souris avec un petit code en Javascript. Pour se faire, je me suis grandement inspiré du travail de Matthias Müller et de sa [vidéo](https://www.youtube.com/watch?v=iKAVRgIrUOU) ainsi que de son document [17-fluidSim.pdf](https://matthias-research.github.io/pages/tenMinutePhysics/17-fluidSim.pdf) qui décortique la magie derrière la mécanique des fluides numérique (CFD).
 
@@ -17,25 +15,25 @@ La mécanique des fluides est une branche de la physique étudiée depuis longte
 
 ## Les Équations de Navier-Stokes
 
-Les équations de Navier-Stokes*régissent le comportement des fluides et décrivent leur comportements avec des termes aux dérivées partielles non linéaire. De nombreuses déclinaisons existe selon le cas qu'on étudie, ici j'utiliserais 2 équations princiaples : la conservation de la quantité de mouvement et la condition d'incompressibilité. La première correspond en fait à la 2ème loi de Newton $F = ma$ appliquée à un fluide. Si on note $u$ le champ de vitesse du fluide, $p$ la pression et les coefficients de densité $\rho$ et de viscosité $\nu$ alors on peut l'écrire de la façon suivante:
+Les équations de Navier-Stokes régissent le comportement des fluides et décrivent leur comportements avec des termes aux dérivées partielles non linéaire. De nombreuses déclinaisons existe selon le cas qu'on étudie, ici j'utiliserais 2 équations princiaples : la conservation de la quantité de mouvement et la condition d'incompressibilité. La première correspond en fait à la 2ème loi de Newton $F = ma$ appliquée à un fluide. Si on note $u$ le champ de vitesse du fluide, $p$ la pression et les coefficients de densité $\rho$ et de viscosité $\nu$ alors on peut l'écrire de la façon suivante:
 
 $$
-\underbrace{\frac{\partial \mathbf{u}}{\partial t}}_{\text{Accélération}} + 
-\underbrace{(\mathbf{u} \cdot \nabla) \mathbf{u}}_{\text{Advection}} = 
-\underbrace{-\frac{1}{\rho} \nabla p}_{\text{Gradient de Pression}} + 
-\underbrace{\nu \nabla^2 \mathbf{u}}_{\text{Viscosité}} + 
+\underbrace{\frac{\partial \mathbf{u}}{\partial t}}_{\text{Accélération}} +
+\underbrace{(\mathbf{u} \cdot \nabla) \mathbf{u}}_{\text{Advection}} =
+\underbrace{-\frac{1}{\rho} \nabla p}_{\text{Gradient de Pression}} +
+\underbrace{\nu \nabla^2 \mathbf{u}}_{\text{Viscosité}} +
 \underbrace{\mathbf{f}}_{\text{Forces}}
 $$
 
-- La Variation Temporelle $\frac{\partial u}{\partial t}$ : C'est l'accélération "locale". Elle décrit comment la vitesse en un point précis de la grille change d'un instant à l'autre. Si vous ne touchez à rien et que le fluide finit par s'immobiliser, c'est ce terme qui traduit cette évolution vers le repos.
+- L'accélération $\frac{\partial u}{\partial t}$ : C'est l'accélération locale. Elle décrit comment la vitesse en un point précis de la grille change d'un instant à l'autre. Si vous ne touchez à rien et que le fluide finit par s'immobiliser, c'est ce terme qui traduit cette évolution vers le repos.
 
-- L'Advection $(u \cdot \nabla) u$ : C'est le terme responsable du comportement chaotique et non-linéaire. Il décrit comment la vitesse du fluide se transporte elle-même à travers l'espace. C'est ce qui crée les tourbillons (vortex).
+- L'advection $(u \cdot \nabla) u$ : C'est le terme responsable du comportement chaotique et non-linéaire. Il décrit comment la vitesse du fluide se transporte elle-même à travers l'espace. C'est ce qui crée les tourbillons (vortex).
 
-- Le Gradient de Pression $-\frac{1}{\rho} \nabla p$ : Il garantit que le fluide est poussé des zones de haute pression vers les zones de basse pression. C'est le moteur qui "répare" le champ de vitesse pour le maintenir incompressible.
+- Le gradient de pression $-\frac{1}{\rho} \nabla p$ : Il garantit que le fluide est poussé des zones de haute pression vers les zones de basse pression. C'est le moteur qui "répare" le champ de vitesse pour le maintenir incompressible.
 
-- La Viscosité $\nu \nabla^2 u$ : Elle représente le "frottement" interne ou la diffusion de la quantité de mouvement. Un fluide très visqueux résiste au glissement de ses couches internes (comme le miel).
+- La viscosité $\nu \nabla^2 u$ : Elle représente le "frottement" interne ou la diffusion de la quantité de mouvement. Un fluide très visqueux résiste au glissement de ses couches internes (comme le miel).
 
-- Les Forces Externes $f$ : Généralement la gravité. Dans notre demo, ça sera l'interaction avec l'utilisateur via la souris.
+- Les forces externes $f$ : Généralement la gravité. Dans notre démo, ça sera l'interaction avec l'utilisateur via la souris.
 
 La seconde équation modélise la condition d'incompressibilité. Pour la fumée ou l'eau, on considère souvent que le fluide ne peut pas être compressé (son volume reste constant) :
 
@@ -52,41 +50,57 @@ Lors de la simulation de fluides, deux points de vue existent, chacun ayant sa p
 1. <u>Approche Lagrangienne</u> : on traite le fluide comme une collection de particules, on suit un ensemble de points individuellement s'entrechoquer au cours du temps. C'est intuitif, comme simuler un tas de billes.
 
     | Points Forts | Points Faibles |
-    | :---         | :---           |
+    | :----------- | :------------- |
     | les frontières complexes et les éclaboussures sont gérées de façon naturelle et efficace. Puisque la masse est portée par les particules, elle est conservée par défaut. | garantir que le fluide ne se "comprime" pas (l'incompressibilité) nécessite des calculs de voisinage très coûteux, car il faut savoir quelles particules sont proches les unes des autres à chaque instant. |
 
-    <div style="display: flex; justify-content: center; gap: 10%; margin-top: 1rem; margin-bottom: 2rem;">
-    <img src="/assets/images/fluid_simulation_lagrange.png" style="width: 70%; height: auto;" alt="Description 2">
-    </div>
-
+   <div style="display: flex; justify-content: center; gap: 10%; margin-top: 1rem; margin-bottom: 2rem;">
+   <img src="/assets/images/fluid_simulation_lagrange.png" style="width: 70%; height: auto;" alt="Description 2">
+   </div>
 
 2. <u>Approche Eulérienne</u> : au lieu de suivre le mouvement, on fixe notre regard sur des points précis de l'espace. On divise le domaine en une grille (un peu comme les pixels d'une image) et on observe comment les propriétés (vitesse, pression, densité) évoluent dans chaque cellule.
 
-    | Points Forts | Points Faibles |
-    | :---         | :---           |
-    |les calculs sont plus stable numériquement. Le calcul des gradients de pression et de la diffusion est beaucoup plus simple sur une structure fixe, ce qui permet de simuler facilement des fluides qui conservent un volume constant. | un phénomène de "dissipation numérique" (le fluide a tendance à devenir un peu trop visqueux ou flou avec le temps) peut avoir lieu si la résolution de la grille n'est pas assez fine. |
+   | Points Forts | Points Faibles |
+   | :----------- | :------------- |
+   | les calculs sont plus stable numériquement. Le calcul des gradients de pression et de la diffusion est beaucoup plus simple sur une structure fixe, ce qui permet de simuler facilement des fluides qui conservent un volume constant. | un phénomène de "dissipation numérique" (le fluide a tendance à devenir un peu trop visqueux ou flou avec le temps) peut avoir lieu si la résolution de la grille n'est pas assez fine. |
 
-    <div style="display: flex; justify-content: center; gap: 10%;margin-top: 1rem; margin-bottom: 2rem;">
-    <img src="/assets/images/fluid_simulation_euler.png" style="width: 70%; height: auto;" alt="Description 1">
-    </div>
+   <div style="display: flex; justify-content: center; gap: 10%;margin-top: 1rem; margin-bottom: 2rem;">
+   <img src="/assets/images/fluid_simulation_euler.png" style="width: 70%; height: auto;" alt="Description 1">
+   </div>
 
 Pour cette simulation, j'utiliserais l'approche Eulérienne car elle est souvent plus facile à gérer pour l'incompressibilité et produit de meilleurs résultats simuler la fumée. On peut obtenir des mouvements tourbillonnants comme les vortex si caractéristiques des gaz, tout en maintenant un rendu visuel lisse et continu, là où une approche par particules pourrait paraître "granuleuse".
 
 ## Résolution Numérique
 
-Une astuce clé dans la simulation Eulérienne est l'utilisation d'une **grille décalée**. Au lieu de stocker toutes les variables (pression, vitesse horizontale $u$, vitesse verticale $v$) au centre de chaque cellule, nous les décalons :
+C'est un excellent début, mais tu as raison : pour un blog scientifique, il manque un peu de "liant" pour expliquer **pourquoi** on s'inflige cette complexité structurelle. L'idée est de passer d'une simple définition à une explication physique et mathématique.
 
-- **Pression ($p$) :** Stockée au centre de la cellule $(i, j)$.
-- **Vitesse Horizontale ($u$) :** Stockée au centre des faces verticales de la cellule $(i+1/2, j)$.
-- **Vitesse Verticale ($v$) :** Stockée au centre des faces horizontales de la cellule $(i, j+1/2)$.
+Voici une proposition pour étoffer cette section, en la rendant plus pédagogique et visuelle.
+
+---
+
+## La Grille Décalée (Staggered Grid) : L'astuce d'Arrangement
+
+Dans une simulation Eulérienne, la manière dont nous organisons nos données sur la grille est cruciale. Une approche naïve consisterait à stocker toutes nos variables (pression et vecteurs de vitesse) au centre de chaque cellule. C'est ce qu'on appelle une **grille colocalisée**. Cependant, cette simplicité cache un piège redoutable : le **couplage vitesse-pression**. Si la pression et la vitesse sont au même endroit, le calcul des gradients de pression (qui font bouger le fluide) utilise souvent des cellules adjacentes. Mathématiquement, une pression qui oscille fortement d'une cellule à l'autre (haut, bas, haut, bas) pourrait avoir un gradient calculé de **zéro**, laissant le solveur "aveugle" à des variations de pression absurdes. Le fluide se fige alors dans un motif en damier instable.
+
+Pour résoudre cela, on utilise une **grille décalée** (ou *Marker-and-Cell grid*). On sépare physiquement les composants :
+
+* **Pression ($p$) :** Reste au centre de la cellule $(i, j)$. Elle représente le "poids" ou l'énergie interne de la zone.
+* **Vitesse Horizontale ($u$) :** Décalée sur les faces **verticales** $(i \pm 1/2, j)$. Elle mesure le flux entrant et sortant par les côtés.
+* **Vitesse Verticale ($v$) :** Décalée sur les faces **horizontales** $(i, j \pm 1/2)$. Elle mesure le flux par le haut et le bas.
+
+Cette disposition offre trois avantages majeurs pour la précision numérique :
+
+1. **Différences Centrales Naturelles :** Pour calculer comment la pression pousse le fluide horizontalement ($\frac{\partial p}{\partial x}$), on soustrait les pressions des deux cellules voisines. Le résultat tombe **exactement** là où se trouve la variable $u$. Pas d'interpolation nécessaire, pas de perte de précision.
+2. **Conservation de la Masse :** La divergence du fluide ($\nabla \cdot \mathbf{u}$), qui garantit que notre fluide est incompressible, se calcule naturellement au centre de la cellule en utilisant les vitesses sur ses quatre faces.
+
+$$\frac{u_{i+1/2, j} - u_{i-1/2, j}}{\Delta x} + \frac{v_{i, j+1/2} - v_{i, j-1/2}}{\Delta y} = 0$$
+
+3. **Stabilité :** Elle élimine mathématiquement les modes de pression "fantômes" (le damier), agissant comme un filtre naturel pour les erreurs numériques.
 
 <p align="center">
   <img src="/assets/images/fluid_simulation_grid.png" alt="Diagramme de Grille Décalée" width="50%">
   <br>
   <i>L'arrangement de la Grille Décalée</i>
 </p>
-
-Cet arrangement évite les instabilités numériques (comme le problème du "damier") et rend le calcul des gradients et de la divergence beaucoup plus précis. Par exemple, la dérivée $\frac{\partial p}{\partial x}$ est naturellement définie à l'emplacement de $u$.
 
 ## L'Algorithme
 
