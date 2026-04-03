@@ -21,3 +21,12 @@ group :jekyll_plugins do
   gem "jekyll-polyglot"
   gem "jekyll-seo-tag"
 end
+
+gem "bigdecimal", "~> 4.0"
+gem "erb", "~> 6.0"
+gem "base64", "~> 0.2.0"
+gem "mutex_m", "~> 0.3.0"
+gem "faraday-retry", "~> 2.4"
+gem "logger", "~> 1.6"
+gem "csv", "~> 3.3"
+gem "ostruct", "~> 0.6.3"
