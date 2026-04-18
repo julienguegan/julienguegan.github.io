@@ -5,6 +5,7 @@ classes: wide
 header:
   teaser: /assets/images/teaser_fluid_simulation.png
 read_time: true
+published: false
 ---
 
 La mécanique des fluides est une branche de la physique étudiée depuis longtemps par de nombreux scientifiques, que ce soit par Archimède, Newton, Bernoulli ou encore Lagrange. Elle permet de comprendre comment les fluides (les gaz et les liquides) se comportent et aide les ingénieurs à construire des turbines, prédire la météo et améliorer l'aérodynamisme des avions. Généralement, dans la vie de tous les jours il est difficiel de s'imaginer les trajectoire d'un fluide si ce n'est regarder l'eau qui coule de notre robinet. En cherchant un peu, on se rend compte que les trajectoires des fluides peuvent être assez chaotiques avec de nombreuses turbulences et vortex. Dans ce post, je vais simuler via les équations de la physique et visualiser comment un fluide réagit au clic de ma souris avec un petit code en Javascript. Pour se faire, je me suis grandement inspiré du travail de Matthias Müller et de sa [vidéo](https://www.youtube.com/watch?v=iKAVRgIrUOU) ainsi que de son document [17-fluidSim.pdf](https://matthias-research.github.io/pages/tenMinutePhysics/17-fluidSim.pdf) qui décortique la magie derrière la mécanique des fluides numérique (CFD).
@@ -70,12 +71,6 @@ Lors de la simulation de fluides, deux points de vue existent, chacun ayant sa p
 Pour cette simulation, j'utiliserais l'approche Eulérienne car elle est souvent plus facile à gérer pour l'incompressibilité et produit de meilleurs résultats simuler la fumée. On peut obtenir des mouvements tourbillonnants comme les vortex si caractéristiques des gaz, tout en maintenant un rendu visuel lisse et continu, là où une approche par particules pourrait paraître "granuleuse".
 
 ## Résolution Numérique
-
-C'est un excellent début, mais tu as raison : pour un blog scientifique, il manque un peu de "liant" pour expliquer **pourquoi** on s'inflige cette complexité structurelle. L'idée est de passer d'une simple définition à une explication physique et mathématique.
-
-Voici une proposition pour étoffer cette section, en la rendant plus pédagogique et visuelle.
-
----
 
 ## La Grille Décalée (Staggered Grid) : L'astuce d'Arrangement
 

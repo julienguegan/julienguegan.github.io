@@ -5,7 +5,6 @@ classes: wide
 author_profile: false
 layout: splash #single #
 read_time: true
-published: false
 ---
 
 <nav class="toc" markdown="1">
@@ -13,8 +12,6 @@ published: false
 *  Auto generated table of contents
 {:toc .toc__menu}
 </nav>
-
-*EN COURS DE RÉDACTION*
  
 # Contexte
 
