@@ -5,7 +5,7 @@ classes: wide
 header:
   teaser: /assets/images/teaser_fluid_simulation.png
 read_time: true
-published: false
+published: true
 ---
 
 La mécanique des fluides est une branche de la physique étudiée depuis longtemps par de nombreux scientifiques, que ce soit par Archimède, Newton, Bernoulli ou encore Lagrange. Elle permet de comprendre comment les fluides (les gaz et les liquides) se comportent et aide les ingénieurs à construire des turbines, prédire la météo et améliorer l'aérodynamisme des avions. Généralement, dans la vie de tous les jours il est difficiel de s'imaginer les trajectoire d'un fluide si ce n'est regarder l'eau qui coule de notre robinet. En cherchant un peu, on se rend compte que les trajectoires des fluides peuvent être assez chaotiques avec de nombreuses turbulences et vortex. Dans ce post, je vais simuler via les équations de la physique et visualiser comment un fluide réagit au clic de ma souris avec un petit code en Javascript. Pour se faire, je me suis grandement inspiré du travail de Matthias Müller et de sa [vidéo](https://www.youtube.com/watch?v=iKAVRgIrUOU) ainsi que de son document [17-fluidSim.pdf](https://matthias-research.github.io/pages/tenMinutePhysics/17-fluidSim.pdf) qui décortique la magie derrière la mécanique des fluides numérique (CFD).
@@ -72,7 +72,17 @@ Pour cette simulation, j'utiliserais l'approche Eulérienne car elle est souvent
 
 ## Résolution Numérique
 
-## La Grille Décalée (Staggered Grid) : L'astuce d'Arrangement
+Pour passer des équations à un programme, on utilise le **splitting d'opérateur** : chaque terme de Navier-Stokes est traité séquentiellement. À chaque image, la boucle exécute trois étapes dans l'ordre :
+
+```javascript
+simulator.applyViscosity(1/60, config.viscosity);       // diffuser la vitesse
+simulator.projectIncompressibility(40, 1.9);            // garantir ∇·u = 0
+simulator.applyAdvection(1/60, config.dissipation);     // transporter le fluide
+```
+
+Avant de détailler chaque étape, il faut comprendre comment les données sont organisées sur la grille.
+
+### La Grille Décalée (Staggered Grid)
 
 Dans une simulation Eulérienne, la manière dont nous organisons nos données sur la grille est cruciale. Une approche naïve consisterait à stocker toutes nos variables (pression et vecteurs de vitesse) au centre de chaque cellule. C'est ce qu'on appelle une **grille colocalisée**. Cependant, cette simplicité cache un piège redoutable : le **couplage vitesse-pression**. Si la pression et la vitesse sont au même endroit, le calcul des gradients de pression (qui font bouger le fluide) utilise souvent des cellules adjacentes. Mathématiquement, une pression qui oscille fortement d'une cellule à l'autre (haut, bas, haut, bas) pourrait avoir un gradient calculé de **zéro**, laissant le solveur "aveugle" à des variations de pression absurdes. Le fluide se fige alors dans un motif en damier instable.
 
@@ -97,87 +107,63 @@ $$\frac{u_{i+1/2, j} - u_{i-1/2, j}}{\Delta x} + \frac{v_{i, j+1/2} - v_{i, j-1/
   <i>L'arrangement de la Grille Décalée</i>
 </p>
 
-## L'Algorithme
+### Viscosité
 
-Nous résolvons les équations en utilisant le **splitting d'opérateur**, ce qui signifie que nous traitons chaque terme de l'équation de Navier-Stokes séquentiellement. La boucle de simulation se compose de trois étapes principales, répétées à chaque image :
-
-1.  **Forces Externes :** $\mathbf{u} \leftarrow \mathbf{u} + \mathbf{f} \Delta t$
-2.  **Projection (Incompressibilité) :** Résoudre $\nabla \cdot \mathbf{u} = 0$ en ajustant la pression.
-3.  **Advection :** Déplacer le fluide (et le champ de vitesse lui-même) le long du flux.
-
-### 1. Forces Externes
-
-C'est la partie la plus simple. Nous ajoutons simplement la gravité à la composante verticale de la vitesse.
+La viscosité traduit le « frottement » interne : un fluide très visqueux lisse sa propre vitesse au fil du temps. On résout l'équation de diffusion $\frac{\partial \mathbf{u}}{\partial t} = \nu \nabla^2 \mathbf{u}$ avec la méthode de Gauss-Seidel, où $\alpha = h^2 / (\nu \cdot dt)$ contrôle l'intensité de la diffusion.
 
 ```javascript
-integrate(dt, gravity) {
-    var n = this.numY;
-    for (var i = 1; i < this.numX; i++) {
-        for (var j = 1; j < this.numY-1; j++) {
-            if (this.s[i*n + j] != 0.0 && this.s[i*n + j-1] != 0.0)
-                this.v[i*n + j] += gravity * dt;
+applyViscosity(dt, viscosity) {
+    const alpha = (this.h * this.h) / (viscosity * dt);
+
+    this.bufferX.set(this.velocityX);   // valeur initiale du solveur
+    this.bufferY.set(this.velocityY);
+
+    for (let iter = 0; iter < 10; iter++) {
+        for (let i = 1; i < this.nx - 1; i++) {
+            for (let j = 1; j < this.ny - 1; j++) {
+                const c = this.getIdx(i, j);
+                const l = this.getIdx(i-1,j), r = this.getIdx(i+1,j);
+                const b = this.getIdx(i,j-1), t = this.getIdx(i,j+1);
+                this.bufferX[c] = (this.velocityX[c]*alpha + this.bufferX[l] + this.bufferX[r] + this.bufferX[b] + this.bufferX[t]) / (4 + alpha);
+                this.bufferY[c] = (this.velocityY[c]*alpha + this.bufferY[l] + this.bufferY[r] + this.bufferY[b] + this.bufferY[t]) / (4 + alpha);
+            }
         }
     }
+    this.velocityX.set(this.bufferX);
+    this.velocityY.set(this.bufferY);
 }
 ```
 
-### 2. Projection (Rendre le tout Incompressible)
+### Projection (Incompressibilité)
 
-Les fluides réels comme l'eau sont incompressibles. Dans une grille, cela signifie que la divergence du champ de vitesse doit être nulle ($\nabla \cdot \mathbf{u} = 0$).
-
-Si une cellule a un flux net entrant (divergence positive), la pression augmente, poussant le fluide vers l'extérieur. Nous résolvons l'**équation de Poisson** pour la pression :
-
-$$
-\nabla^2 p = \frac{\rho}{\Delta t} \nabla \cdot \mathbf{u}
-$$
-
-Une fois que nous avons la pression, nous mettons à jour les vitesses pour annuler la divergence :
-
-$$
-\mathbf{u}_{new} = \mathbf{u} - \frac{\Delta t}{\rho} \nabla p
-$$
-
-Nous utilisons une méthode itérative appelée **Gauss-Seidel** avec **Sur-Relaxation** (SOR) pour accélérer la convergence.
+Un fluide incompressible ne peut pas se comprimer : tout ce qui entre dans une cellule doit en ressortir ($\nabla \cdot \mathbf{u} = 0$). Pour chaque cellule, on mesure la divergence et on redistribue une correction de pression vers les quatre voisins jusqu'à convergence.
 
 ```javascript
-solveIncompressibility(numIters, dt) {
-    // ... setup ...
-    for (var iter = 0; iter < numIters; iter++) {
-        for (var i = 1; i < this.numX-1; i++) {
-            for (var j = 1; j < this.numY-1; j++) {
-                // ... check boundaries ...
+projectIncompressibility(iterations, overRelaxation) {
+    for (let iter = 0; iter < iterations; iter++) {
+        for (let i = 1; i < this.nx - 1; i++) {
+            for (let j = 1; j < this.ny - 1; j++) {
+                const c = this.getIdx(i,j), r = this.getIdx(i+1,j), t = this.getIdx(i,j+1);
 
-                // Calculer la divergence (flux sortant net)
-                var div = this.u[(i+1)*n + j] - this.u[i*n + j] +
-                          this.v[i*n + j+1] - this.v[i*n + j];
+                const divergence = this.velocityX[r] - this.velocityX[c]
+                                 + this.velocityY[t] - this.velocityY[c];
+                const pressure = (-divergence / 4) * overRelaxation;
 
-                // Calculer la correction de pression
-                var p = -div / s;
-                p *= scene.overRelaxation; // SOR pour la vitesse
-                this.p[i*n + j] += cp * p;
-
-                // Mettre à jour les vitesses
-                this.u[i*n + j] -= sx0 * p;
-                this.u[(i+1)*n + j] += sx1 * p;
-                this.v[i*n + j] -= sy0 * p;
-                this.v[i*n + j+1] += sy1 * p;
+                this.velocityX[c] -= pressure;   this.velocityX[r] += pressure;
+                this.velocityY[c] -= pressure;   this.velocityY[t] += pressure;
             }
         }
     }
 }
 ```
 
-### 3. Advection
+### Advection
 
-L'advection est le processus de transport de quantités (comme la densité de fumée ou la température) avec l'écoulement du fluide. De manière cruciale, le champ de vitesse s'advecte aussi lui-même !
-
-Nous utilisons un schéma **Semi-Lagrangien**. Pour trouver la nouvelle valeur d'une quantité $q$ à un point de la grille $\mathbf{x}$, nous traçons le vecteur vitesse en arrière dans le temps pour trouver d'où venait la particule de fluide ($\mathbf{x}_{prev}$), et échantillonnons la valeur à cette position précédente.
+L'advection transporte les propriétés (densité, vitesse) le long du flux. On utilise un schéma **Semi-Lagrangien** : au lieu de suivre des particules vers l'avant, on remonte en arrière dans le temps pour trouver d'où venait le fluide arrivant en chaque cellule.
 
 $$
-\mathbf{x}_{prev} = \mathbf{x} - \mathbf{u}(\mathbf{x}) \Delta t
-$$
-
-$$
+\mathbf{x}_{prev} = \mathbf{x} - \mathbf{u}(\mathbf{x}) \cdot \Delta t
+\qquad\Rightarrow\qquad
 q_{new}(\mathbf{x}) = q_{old}(\mathbf{x}_{prev})
 $$
 
@@ -188,47 +174,45 @@ $$
 </p>
 
 ```javascript
-advectVel(dt) {
-    this.newU.set(this.u);
-    this.newV.set(this.v);
+applyAdvection(dt, dissipation) {
+    for (let i = 1; i < this.nx - 1; i++) {
+        for (let j = 1; j < this.ny - 1; j++) {
+            const idx = this.getIdx(i, j);
 
-    // ... boucle sur la grille ...
-        // Tracer la position en arrière : x_prev = x - u * dt
-        var x = i*h;
-        var y = j*h + h2;
-        var u = this.u[i*n + j];
-        var v = this.avgV(i, j);
-        x = x - dt*u;
-        y = y - dt*v;
+            // vitesse au centre de la cellule (moyenne des faces de la grille MAC)
+            const u = (this.velocityX[idx] + this.velocityX[this.getIdx(i+1,j)]) * 0.5;
+            const v = (this.velocityY[idx] + this.velocityY[this.getIdx(i,j+1)]) * 0.5;
 
-        // Échantillonner la valeur à la position précédente
-        u = this.sampleField(x,y, U_FIELD);
-        this.newU[i*n + j] = u;
-    // ... fin de boucle ...
+            // remonter en arrière dans le temps
+            const prevX = (i + 0.5) * this.h - dt * u;
+            const prevY = (j + 0.5) * this.h - dt * v;
 
-    this.u.set(this.newU);
-    this.v.set(this.newV);
+            this.bufferD[idx] = this.interpolate(prevX, prevY, FIELD_TYPE.DENSITY)    * dissipation;
+            this.bufferX[idx] = this.interpolate(prevX, prevY, FIELD_TYPE.VELOCITY_X);
+            this.bufferY[idx] = this.interpolate(prevX, prevY, FIELD_TYPE.VELOCITY_Y);
+        }
+    }
+    this.density.set(this.bufferD);
+    this.velocityX.set(this.bufferX);
+    this.velocityY.set(this.bufferY);
 }
 ```
 
 ## Démo Interactive
 
-Avec seulement ces trois étapes — Forces, Projection et Advection — vous pouvez créer une simulation de fluide étonnamment réaliste. Le code est compact, efficace et s'exécute directement dans le navigateur.
-
-Cette implémentation est un excellent point de départ. À partir de là, vous pouvez ajouter des obstacles, de la viscosité, différentes conditions aux limites, ou même l'étendre à la 3D !
+Ces trois étapes suffisent à produire un comportement étonnamment réaliste. Essayez de faire varier la viscosité ou la dissipation pour observer leur effet sur le fluide :
 
 Voici une implémentation complète en JavaScript que vous pouvez essayer directement. Cliquez et maintenez pour ajouter de la fumée :
 
 <style>
     #sim-container { position: relative; width: 100%; height: 600px; background: #050505; border-radius: 8px; overflow: hidden; border: 1px solid #333; }
     #simCanvas { width: 100%; height: 100%; display: block; }
-    .interface-labo {  position: absolute; top: 15px; left: 15px; background: rgba(10, 10, 10, 0.85); padding: 15px; border-radius: 10px; border: 1px solid #444; width: 220px; z-index: 10; font-family: sans-serif;}
-    .titre-sim { color: #fff; font-size: 14px; margin-bottom: 15px; font-weight: bold; border-bottom: 1px solid #333; pb: 5px; }
-    .param-group { margin-bottom: 12px; }
-    .param-group label { display: block; color: #ff9d00; font-size: 10px; text-transform: uppercase; margin-bottom: 4px; }
-    .valeur-bulle { float: right; color: #fff; background: #222; padding: 1px 5px; border-radius: 3px; }
+    .interface-labo { position: absolute; top: 10px; left: 10px; background: rgba(10, 10, 10, 0.85); padding: 8px 10px; border-radius: 8px; border: 1px solid #444; width: 160px; z-index: 10; font-family: sans-serif; }
+    .param-group { margin-bottom: 7px; }
+    .param-group label { display: block; color: #ff9d00; font-size: 9px; text-transform: uppercase; margin-bottom: 2px; }
+    .valeur-bulle { float: right; color: #fff; background: #222; padding: 0 4px; border-radius: 3px; }
     input[type=range] { width: 100%; accent-color: #ff9d00; cursor: pointer; }
-    .btn-reset { width: 100%; padding: 8px; cursor: pointer; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; font-size: 12px; transition: 0.3s; }
+    .btn-reset { width: 100%; padding: 5px; cursor: pointer; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; font-size: 11px; transition: 0.3s; margin-top: 2px; }
     .btn-reset:hover { background: #333; border-color: #ff9d00; }
 </style>
 
