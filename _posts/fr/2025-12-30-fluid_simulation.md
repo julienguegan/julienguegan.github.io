@@ -83,22 +83,22 @@ Dans une simulation Eulérienne, la manière dont on organise les données sur l
 Ensuite, pour la résolution, on utilise la technique de [**splitting d'opérateur**](https://en.wikipedia.org/wiki/Splitting_method) où on décompose l'équation en plusieurs sous-parties et on résout chacune séquentiellement. À chaque pas de temps, la boucle exécute trois étapes dans l'ordre :
 
 <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin:2rem 0;flex-wrap:wrap;">
-  <div style="border:2px solid #ff9d00;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
-    <div style="color:#ff9d00;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 1</div>
+  <div style="border:2px solid #000000;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
+    <div style="color:#000000;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 1</div>
     <div style="font-weight:bold;margin-bottom:0.4rem;">Viscosité</div>
     <div style="font-size:0.85rem;opacity:0.75;">$\partial \mathbf{u}/\partial t = \nu \nabla^2 \mathbf{u}$</div>
     <div style="font-size:0.72rem;opacity:0.5;margin-top:0.35rem;">diffuse la vitesse</div>
   </div>
-  <div style="color:#ff9d00;font-size:1.5rem;font-weight:bold;">→</div>
-  <div style="border:2px solid #ff9d00;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
-    <div style="color:#ff9d00;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 2</div>
+  <div style="color:#000000;font-size:1.5rem;font-weight:bold;">→</div>
+  <div style="border:2px solid #000000;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
+    <div style="color:#000000;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 2</div>
     <div style="font-weight:bold;margin-bottom:0.4rem;">Projection</div>
     <div style="font-size:0.85rem;opacity:0.75;">$\nabla \cdot \mathbf{u} = 0$</div>
     <div style="font-size:0.72rem;opacity:0.5;margin-top:0.35rem;">corrige la pression</div>
   </div>
-  <div style="color:#ff9d00;font-size:1.5rem;font-weight:bold;">→</div>
-  <div style="border:2px solid #ff9d00;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
-    <div style="color:#ff9d00;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 3</div>
+  <div style="color:#000000;font-size:1.5rem;font-weight:bold;">→</div>
+  <div style="border:2px solid #000000;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
+    <div style="color:#000000;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 3</div>
     <div style="font-weight:bold;margin-bottom:0.4rem;">Advection</div>
     <div style="font-size:0.85rem;opacity:0.75;">$\mathbf{x}' = \mathbf{x} - \mathbf{u} \cdot \Delta t$</div>
     <div style="font-size:0.72rem;opacity:0.5;margin-top:0.35rem;">transporte le fluide</div>
