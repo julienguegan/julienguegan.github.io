@@ -134,6 +134,28 @@ class FluidSimulator {
         this.velocityX.set(this.bufferX);
         this.velocityY.set(this.bufferY);
     }
+
+    // Plafonne les vitesses pour respecter la condition CFL (v*dt < h → v < 0.6)
+    clampVelocities(maxSpeed) {
+        for (let k = 0; k < this.totalCells; k++) {
+            if (this.velocityX[k] > maxSpeed)  this.velocityX[k] =  maxSpeed;
+            if (this.velocityX[k] < -maxSpeed) this.velocityX[k] = -maxSpeed;
+            if (this.velocityY[k] > maxSpeed)  this.velocityY[k] =  maxSpeed;
+            if (this.velocityY[k] < -maxSpeed) this.velocityY[k] = -maxSpeed;
+        }
+    }
+
+    // Annule la vitesse normale aux 4 murs pour éviter que le fluide s'échappe
+    enforceBoundaries() {
+        for (let j = 0; j < this.ny; j++) {
+            this.velocityX[this.getIdx(1, j)]           = 0;
+            this.velocityX[this.getIdx(this.nx - 1, j)] = 0;
+        }
+        for (let i = 0; i < this.nx; i++) {
+            this.velocityY[this.getIdx(i, 1)]           = 0;
+            this.velocityY[this.getIdx(i, this.ny - 1)] = 0;
+        }
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -152,7 +174,11 @@ const h         = 1.0 / SIM_RES;
 const simNx     = Math.floor((canvas.width / canvas.height) * SIM_RES);
 const simulator = new FluidSimulator(simNx, SIM_RES, h);
 
-const config = { viscosity: 0, dissipation: 0.99, brushRadius: 0.05 };
+const config = { viscosity: 0, dissipation: 0.999, brushRadius: 0.05 };
+
+// Remplir le canvas de fluide avec des vitesses initiales aléatoires
+simulator.density.fill(0.1);
+
 
 // Sliders de contrôle
 const setupSlider = (id, prop, labelId) => {
@@ -176,8 +202,8 @@ canvas.addEventListener("mousemove", e => {
     const x = (e.clientX - rect.left)  / canvas.height;
     const y = (rect.bottom - e.clientY) / canvas.height;
 
-    const vX = (x - lastMouse.x) * 60;
-    const vY = (y - lastMouse.y) * 60;
+    const vX = Math.max(-0.5, Math.min(0.5, (x - lastMouse.x) * 60));
+    const vY = Math.max(-0.5, Math.min(0.5, (y - lastMouse.y) * 60));
     const r2 = config.brushRadius * config.brushRadius;
 
     for (let i = 1; i < simulator.nx - 1; i++) {
@@ -202,6 +228,16 @@ function renderFrame() {
     simulator.applyViscosity(1/60, config.viscosity);
     simulator.projectIncompressibility(40, 1.9);
     simulator.applyAdvection(1/60, config.dissipation);
+    simulator.enforceBoundaries();
+    simulator.clampVelocities(0.5);
+
+    // Détection d'explosion numérique (NaN) : reset complet
+    if (!isFinite(simulator.density[simulator.getIdx(simulator.nx >> 1, simulator.ny >> 1)])) {
+        console.warn("Instabilité détectée, reset");
+        simulator.density.fill(1.0);
+        simulator.velocityX.fill(0);
+        simulator.velocityY.fill(0);
+    }
 
     const img   = ctx.createImageData(canvas.width, canvas.height);
     const scale = canvas.height;
@@ -210,9 +246,7 @@ function renderFrame() {
     for (let i = 0; i < simulator.nx; i++) {
         for (let j = 0; j < simulator.ny; j++) {
             const d = simulator.density[simulator.getIdx(i, j)];
-            if (d < 0.005) continue;
-
-            const cIdx = Math.floor(d * 255) * 3;
+            const cIdx = Math.floor(Math.min(d, 1) * 255) * 3;
             const px   = Math.floor(i * simulator.h * scale);
             const py   = Math.floor(canvas.height - (j + 1) * simulator.h * scale);
 

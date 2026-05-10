@@ -1,5 +1,5 @@
 ---
-title: "Simulation de Fluide en 200 Lignes de Code"
+title: "Simulation de Fluide : Navier-Stokes, grille, JavaScript"
 lang: fr
 classes: wide
 header:
@@ -220,7 +220,7 @@ applyAdvection(dt, dissipation) {
             // vitesse au centre de la cellule (moyenne des faces de la grille MAC)
             const u = (this.velocityX[idx] + this.velocityX[this.getIdx(i+1,j)]) * 0.5;
             const v = (this.velocityY[idx] + this.velocityY[this.getIdx(i,j+1)]) * 0.5;
-
+le faire mais c'est plus de la bidouille qu'autre chose et Obsidian n'est pas adaptés a de la prod
             // remonter en arrière dans le temps
             const prevX = (i + 0.5) * this.h - dt * u;
             const prevY = (j + 0.5) * this.h - dt * v;
@@ -276,6 +276,13 @@ Voici une implémentation complète en JavaScript que vous pouvez essayer direct
     <canvas id="simCanvas"></canvas>
 </div>
 
-TODO : insérer code de rendu
 
 <script src="/assets/js/fluid-simulation.js"></script>
+
+
+
+Dans ce post, je me suis concentré sur les parties essentielles du calcul (diffusion, advection, résolution de pression), mais le code complet — boucle de rendu, initialisation, constructeur, conditions limites — est disponible [ici](https://github.com/julienguegan/notebooks_blog/blob/main/fluid-simulation.js). Il reste quelques instabilités : en jouant un peu avec la souris et le canvas, j'obtiens de temps en temps des pressions qui explosent ... Mais le résultat actuel me convient, si vous voulez allez plus loin vous pouvez explorer l'internet. Il existe de nombreuses autres manières de faire, différents phénomènes à modéliser plus ou moins précisément, avec des effets graphiques variés. Par exemple, un simulateur web plus poussé utilisant webgl peut être trouver à l'adresse : https://paveldogreat.github.io/WebGL-Fluid-Simulation/.
+
+---
+
+[![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg?style=plastic)](https://lbesson.mit-license.org/) [![Generic badge](https://img.shields.io/badge/acces_au_code-github-black.svg?style=plastic&logo=github)](https://github.com/julienguegan/notebooks_blog/blob/main/fluid-simulation.js) ![Generic badge](https://img.shields.io/badge/ecrit_avec-Javascript-yellow.svg?style=plastic&logo=javascript)
