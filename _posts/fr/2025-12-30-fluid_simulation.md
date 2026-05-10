@@ -16,7 +16,7 @@ La mécanique des fluides est une branche de la physique étudiée depuis longte
 
 ## Les Équations de Navier-Stokes
 
-Les équations de Navier-Stokes régissent le comportement des fluides et décrivent leur comportements avec des termes aux dérivées partielles non linéaire. De nombreuses déclinaisons existe selon le cas qu'on étudie, ici j'utiliserais 2 équations princiaples : la conservation de la quantité de mouvement et la condition d'incompressibilité. La première correspond en fait à la 2ème loi de Newton $F = ma$ appliquée à un fluide. Si on note $u$ le champ de vitesse du fluide, $p$ la pression et les coefficients de densité $\rho$ et de viscosité $\nu$ alors on peut l'écrire de la façon suivante:
+Les [équations de Navier-Stokes](https://fr.wikipedia.org/wiki/Équations_de_Navier-Stokes) régissent le comportement des fluides et décrivent leur comportements avec des termes aux dérivées partielles non linéaire. De nombreuses déclinaisons existe selon le cas qu'on étudie, ici j'utiliserais 2 équations princiaples : la conservation de la quantité de mouvement et la condition d'incompressibilité. La première correspond en fait à la 2ème loi de Newton $F = ma$ appliquée à un fluide. Si on note $u$ le champ de vitesse du fluide, $p$ la pression et les coefficients de densité $\rho$ et de viscosité $\nu$ alors on peut l'écrire de la façon suivante:
 
 $$
 \underbrace{\frac{\partial \mathbf{u}}{\partial t}}_{\text{Accélération}} +
@@ -42,7 +42,7 @@ $$
 \nabla \cdot \mathbf{u} = 0
 $$
 
-Cette équation de divergence nulle signifie mathématiquement que tout ce qui entre dans une cellule de notre grille doit obligatoirement en ressortir. C'est la contrainte qui force le fluide à créer des courbes et des tourbillons plutôt que de simplement s'écraser et disparaitre contre un mur.
+Cette équation de divergence nulle signifie mathématiquement que tout ce qui entre dans une cellule de notre grille doit obligatoirement en ressortir. C'est la contrainte qui force le fluide à créer des courbes et des tourbillons plutôt que de simplement s'écraser et disparaitre contre un mur. 
 
 ## Modéliser le mouvement
 
@@ -72,53 +72,78 @@ Pour cette simulation, j'utiliserais l'approche Eulérienne car elle est souvent
 
 ## Résolution Numérique
 
-Pour passer des équations à un programme, on utilise le **splitting d'opérateur** : chaque terme de Navier-Stokes est traité séquentiellement. À chaque image, la boucle exécute trois étapes dans l'ordre :
-
-```javascript
-simulator.applyViscosity(1/60, config.viscosity);       // diffuser la vitesse
-simulator.projectIncompressibility(40, 1.9);            // garantir ∇·u = 0
-simulator.applyAdvection(1/60, config.dissipation);     // transporter le fluide
-```
-
-Avant de détailler chaque étape, il faut comprendre comment les données sont organisées sur la grille.
-
-### La Grille Décalée (Staggered Grid)
-
-Dans une simulation Eulérienne, la manière dont nous organisons nos données sur la grille est cruciale. Une approche naïve consisterait à stocker toutes nos variables (pression et vecteurs de vitesse) au centre de chaque cellule. C'est ce qu'on appelle une **grille colocalisée**. Cependant, cette simplicité cache un piège redoutable : le **couplage vitesse-pression**. Si la pression et la vitesse sont au même endroit, le calcul des gradients de pression (qui font bouger le fluide) utilise souvent des cellules adjacentes. Mathématiquement, une pression qui oscille fortement d'une cellule à l'autre (haut, bas, haut, bas) pourrait avoir un gradient calculé de **zéro**, laissant le solveur "aveugle" à des variations de pression absurdes. Le fluide se fige alors dans un motif en damier instable.
-
-Pour résoudre cela, on utilise une **grille décalée** (ou *Marker-and-Cell grid*). On sépare physiquement les composants :
-
-* **Pression ($p$) :** Reste au centre de la cellule $(i, j)$. Elle représente le "poids" ou l'énergie interne de la zone.
-* **Vitesse Horizontale ($u$) :** Décalée sur les faces **verticales** $(i \pm 1/2, j)$. Elle mesure le flux entrant et sortant par les côtés.
-* **Vitesse Verticale ($v$) :** Décalée sur les faces **horizontales** $(i, j \pm 1/2)$. Elle mesure le flux par le haut et le bas.
-
-Cette disposition offre trois avantages majeurs pour la précision numérique :
-
-1. **Différences Centrales Naturelles :** Pour calculer comment la pression pousse le fluide horizontalement ($\frac{\partial p}{\partial x}$), on soustrait les pressions des deux cellules voisines. Le résultat tombe **exactement** là où se trouve la variable $u$. Pas d'interpolation nécessaire, pas de perte de précision.
-2. **Conservation de la Masse :** La divergence du fluide ($\nabla \cdot \mathbf{u}$), qui garantit que notre fluide est incompressible, se calcule naturellement au centre de la cellule en utilisant les vitesses sur ses quatre faces.
-
-$$\frac{u_{i+1/2, j} - u_{i-1/2, j}}{\Delta x} + \frac{v_{i, j+1/2} - v_{i, j-1/2}}{\Delta y} = 0$$
-
-3. **Stabilité :** Elle élimine mathématiquement les modes de pression "fantômes" (le damier), agissant comme un filtre naturel pour les erreurs numériques.
+Dans une simulation Eulérienne, la manière dont on organise les données sur la grille est cruciale. Une approche naïve consisterait à stocker toutes nos variables au centre de chaque cellule, on parle de grille colocalisée. Cependant, elle ne permet de calculer correctement les gradients d'une cellule à l'autre. On utilise généralement une **grille décalée** (ou [*Marker-and-Cell grid*](https://en.wikipedia.org/wiki/Marker-and-cell_method)) en séparant les composants : la pression $p$ reste au centre de la cellule $(i, j)$, la vitesse horizontale $u$ est décalée sur les faces verticales $(i \pm \frac{1}{2}, j)$, la vitesse verticale $v$ est décalée sur les faces horizontale $(i, j \pm \frac{1}{2})$. Cette disposition permet de calculer plus facilement la pression et assure une stabilité numérique.
 
 <p align="center">
-  <img src="/assets/images/fluid_simulation_grid.png" alt="Diagramme de Grille Décalée" width="50%">
+  <img src="/assets/images/fluid_simulation_grid.png" alt="Diagramme de Grille Décalée" width="25%">
   <br>
   <i>L'arrangement de la Grille Décalée</i>
 </p>
 
+Ensuite, pour la résolution, on utilise la technique de [**splitting d'opérateur**](https://en.wikipedia.org/wiki/Splitting_method) où on décompose l'équation en plusieurs sous-parties et on résout chacune séquentiellement. À chaque pas de temps, la boucle exécute trois étapes dans l'ordre :
+
+<div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin:2rem 0;flex-wrap:wrap;">
+  <div style="border:2px solid #ff9d00;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
+    <div style="color:#ff9d00;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 1</div>
+    <div style="font-weight:bold;margin-bottom:0.4rem;">Viscosité</div>
+    <div style="font-size:0.85rem;opacity:0.75;">$\partial \mathbf{u}/\partial t = \nu \nabla^2 \mathbf{u}$</div>
+    <div style="font-size:0.72rem;opacity:0.5;margin-top:0.35rem;">diffuse la vitesse</div>
+  </div>
+  <div style="color:#ff9d00;font-size:1.5rem;font-weight:bold;">→</div>
+  <div style="border:2px solid #ff9d00;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
+    <div style="color:#ff9d00;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 2</div>
+    <div style="font-weight:bold;margin-bottom:0.4rem;">Projection</div>
+    <div style="font-size:0.85rem;opacity:0.75;">$\nabla \cdot \mathbf{u} = 0$</div>
+    <div style="font-size:0.72rem;opacity:0.5;margin-top:0.35rem;">corrige la pression</div>
+  </div>
+  <div style="color:#ff9d00;font-size:1.5rem;font-weight:bold;">→</div>
+  <div style="border:2px solid #ff9d00;border-radius:8px;padding:0.9rem 1.2rem;text-align:center;min-width:140px;">
+    <div style="color:#ff9d00;font-size:0.65rem;font-weight:bold;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;">Étape 3</div>
+    <div style="font-weight:bold;margin-bottom:0.4rem;">Advection</div>
+    <div style="font-size:0.85rem;opacity:0.75;">$\mathbf{x}' = \mathbf{x} - \mathbf{u} \cdot \Delta t$</div>
+    <div style="font-size:0.72rem;opacity:0.5;margin-top:0.35rem;">transporte le fluide</div>
+  </div>
+</div>
+
+Cette technique permet de résoudre plus simplement que de tout résoudre simultanément au prix d'une légère approximation qui est suffisante pour une simulation en temps réel.
+
 ### Viscosité
 
-La viscosité traduit le « frottement » interne : un fluide très visqueux lisse sa propre vitesse au fil du temps. On résout l'équation de diffusion $\frac{\partial \mathbf{u}}{\partial t} = \nu \nabla^2 \mathbf{u}$ avec la méthode de Gauss-Seidel, où $\alpha = h^2 / (\nu \cdot dt)$ contrôle l'intensité de la diffusion.
+Le premier terme qu'on traite est la viscosité, elle traduit le « frottement » interne : un fluide très visqueux s'écoule lentement comme le miel. On résout l'équation de diffusion : 
+
+$$ \frac{\partial \mathbf{u}}{\partial t} = \nu \nabla^2 \mathbf{u} $$
+
+Le Laplacien $\nabla^2 \mathbf{u}$ mesure à quel point la vitesse d'une cellule diffère de ses voisines — si elle est plus rapide, la viscosité la freine en la ramenant vers la moyenne. Sur grille discrète, on l'approche par [différences finies](https://fr.wikipedia.org/wiki/Méthode_des_différences_finies) — chaque cellule est comparée à ses quatre voisines.
+
+<details style="margin:0.5rem 0 1rem;padding:0.6rem 1rem;border-left:3px solid #ff9d00;background:rgba(255,157,0,0.04);">
+<summary style="cursor:pointer;font-weight:bold;color:#ff9d00;">Formule de discrétisation du Laplacien</summary>
+
+$$\nabla^2 u_{i,j} \approx \frac{u_{i+1,j} + u_{i-1,j} + u_{i,j+1} + u_{i,j-1} - 4u_{i,j}}{h^2}$$
+
+</details>
+
+La question suivante est : comment avancer dans le temps ? Le réflexe le plus simple serait de calculer la dérivée à l'instant $n$ et de l'utiliser directement pour prédire $n+1$. C'est le **schéma explicite**, mais il est instable : si le pas de temps ou la viscosité sont trop grands, les erreurs s'amplifient à chaque itération et la simulation explose. On utilise donc un **schéma implicite**, où le Laplacien est évalué à l'instant $n+1$ (l'inconnu). C'est comme corriger la trajectoire d'une voiture en anticipant le virage plutôt qu'en regardant où on était avant — on ne peut jamais sur-corriger, quelle que soit la taille du pas de temps.
+
+Le prix à payer est qu'on ne peut plus calculer directement : $u^{n+1}$ apparaît des deux côtés de l'équation. En posant $\alpha = h^2 / (\nu \cdot dt)$, on obtient un système linéaire que [Gauss-Seidel](https://fr.wikipedia.org/wiki/Méthode_de_Gauss-Seidel) résout par itérations successives.
+
+<details style="margin:0.5rem 0 1rem;padding:0.6rem 1rem;border-left:3px solid #ff9d00;background:rgba(255,157,0,0.04);">
+<summary style="cursor:pointer;font-weight:bold;color:#ff9d00;">Équation à résoudre pour chaque cellule</summary>
+
+$$u^{n+1}_{i,j} = \frac{u^n_{i,j} \cdot \alpha \;+\; u^{n+1}_{i+1,j} + u^{n+1}_{i-1,j} + u^{n+1}_{i,j+1} + u^{n+1}_{i,j-1}}{4 + \alpha}$$
+
+</details>
+
+Inverser ce système exactement coûterait trop cher pour une grille de $10\,000$ cellules. On utilise à la place Gauss-Seidel : on boucle sur toutes les cellules et on applique cette formule en réutilisant immédiatement les voisins déjà mis à jour dans l'itération courante. C'est comme une rumeur qui se propage : après quelques tours, tout le monde s'est aligné. Le paramètre $\alpha$ contrôle l'intensité de la diffusion — grand $\alpha$ (faible viscosité) : peu de changement ; petit $\alpha$ (forte viscosité) : la vitesse s'homogénéise fortement entre voisins. Le code en javascript s'écrit de la façon suivante :
 
 ```javascript
 applyViscosity(dt, viscosity) {
     const alpha = (this.h * this.h) / (viscosity * dt);
-
-    this.bufferX.set(this.velocityX);   // valeur initiale du solveur
+    // valeur initiale du solveur
+    this.bufferX.set(this.velocityX);   
     this.bufferY.set(this.velocityY);
-
+    // boucle jusqu'a convergence (10 est assez)
     for (let iter = 0; iter < 10; iter++) {
+        // pour chaque cellule de la grille
         for (let i = 1; i < this.nx - 1; i++) {
             for (let j = 1; j < this.ny - 1; j++) {
                 const c = this.getIdx(i, j);
@@ -134,9 +159,18 @@ applyViscosity(dt, viscosity) {
 }
 ```
 
-### Projection (Incompressibilité)
+**À retenir —** schéma implicite : stable quelle que soit la viscosité. Gauss-Seidel : 10 itérations suffisent, sans jamais inverser de matrice.
+{: .notice--info}
 
-Un fluide incompressible ne peut pas se comprimer : tout ce qui entre dans une cellule doit en ressortir ($\nabla \cdot \mathbf{u} = 0$). Pour chaque cellule, on mesure la divergence et on redistribue une correction de pression vers les quatre voisins jusqu'à convergence.
+### Incompressibilité
+
+Un fluide incompressible ne peut pas se comprimer : tout ce qui entre dans une cellule doit en ressortir ($\nabla \cdot \mathbf{u} = 0$). Sur la grille MAC, la divergence d'une cellule est simplement la somme des flux sortants sur ses quatre faces : 
+
+$$\text{div} = (u_x[i{+}1,j] - u_x[i,j]) + (u_y[i,j{+}1] - u_y[i,j])$$
+
+Si elle est non nulle, il faut corriger les vitesses.
+
+L'approche est locale et directe : on calcule de combien modifier les quatre faces pour annuler la divergence, en répartissant la correction symétriquement. Chaque face reçoit $p = -\text{div}/4$, ce qui ramène la divergence exactement à zéro pour cette cellule. Mais corriger une cellule modifie les faces partagées avec ses voisines, qui se retrouvent à leur tour légèrement divergentes. On ne peut donc pas tout régler en un seul passage — on boucle et chaque itération réduit l'erreur résiduelle jusqu'à ce qu'elle soit négligeable. Le facteur `overRelaxation = 1.9` accélère cette convergence : au lieu d'appliquer exactement la correction calculée, on en applique 1.9×. On "sur-corrige" légèrement, ce qui permet d'atteindre la même précision avec deux fois moins d'itérations. Au-delà de 2.0, le système divergerait — 1.9 est empiriquement le meilleur compromis pour ce type de problème.
 
 ```javascript
 projectIncompressibility(iterations, overRelaxation) {
@@ -145,8 +179,7 @@ projectIncompressibility(iterations, overRelaxation) {
             for (let j = 1; j < this.ny - 1; j++) {
                 const c = this.getIdx(i,j), r = this.getIdx(i+1,j), t = this.getIdx(i,j+1);
 
-                const divergence = this.velocityX[r] - this.velocityX[c]
-                                 + this.velocityY[t] - this.velocityY[c];
+                const divergence = this.velocityX[r] - this.velocityX[c] + this.velocityY[t] - this.velocityY[c];
                 const pressure = (-divergence / 4) * overRelaxation;
 
                 this.velocityX[c] -= pressure;   this.velocityX[r] += pressure;
@@ -157,9 +190,12 @@ projectIncompressibility(iterations, overRelaxation) {
 }
 ```
 
+**À retenir —** on corrige la divergence cellule par cellule en itérant. La sur-relaxation (×1.9) divise par deux le nombre d'itérations nécessaires.
+{: .notice--info}
+
 ### Advection
 
-L'advection transporte les propriétés (densité, vitesse) le long du flux. On utilise un schéma **Semi-Lagrangien** : au lieu de suivre des particules vers l'avant, on remonte en arrière dans le temps pour trouver d'où venait le fluide arrivant en chaque cellule.
+L'advection transporte les propriétés (densité, vitesse) le long du flux. Ce terme est le plus délicat : il est non-linéaire (la vitesse se transporte elle-même), et une discrétisation directe par différences finies serait instable — les erreurs s'amplifient exponentiellement au fil des pas de temps. On utilise à la place un schéma **Semi-Lagrangien**, qui exploite une propriété fondamentale de l'équation d'advection : chaque grandeur est conservée le long des trajectoires du fluide. Plutôt que de pousser les valeurs vers l'avant, on remonte en arrière dans le temps pour trouver d'où venait le fluide arrivant en chaque cellule.
 
 $$
 \mathbf{x}_{prev} = \mathbf{x} - \mathbf{u}(\mathbf{x}) \cdot \Delta t
@@ -172,6 +208,8 @@ $$
   <br>
   <i>Schéma d'Advection Semi-Lagrangienne</i>
 </p>
+
+Ce schéma est inconditionnellement stable : on ne fait que lire des valeurs existantes, jamais les extrapoler. Son seul défaut est une légère **dissipation numérique** — l'[interpolation bilinéaire](https://fr.wikipedia.org/wiki/Interpolation_bilinéaire) nécessaire pour lire une valeur entre deux cellules introduit un léger flou, comme si le fluide était un tout petit peu plus visqueux que prévu. C'est un compromis acceptable pour la stabilité. On notera aussi que les calculs se font dans un buffer temporaire plutôt que directement dans les tableaux de vitesse : si on écrasait les valeurs au fur et à mesure, les premières cellules mises à jour pollueraient les lectures des suivantes — on ne lirait plus $q^n$ mais un mélange de $q^n$ et $q^{n+1}$.
 
 ```javascript
 applyAdvection(dt, dissipation) {
@@ -197,6 +235,9 @@ applyAdvection(dt, dissipation) {
     this.velocityY.set(this.bufferY);
 }
 ```
+
+**À retenir —** schéma semi-Lagrangien : inconditionnellement stable car on lit toujours des valeurs passées. Le léger flou introduit par l'interpolation est le prix à payer.
+{: .notice--info}
 
 ## Démo Interactive
 
@@ -234,5 +275,7 @@ Voici une implémentation complète en JavaScript que vous pouvez essayer direct
     </div>
     <canvas id="simCanvas"></canvas>
 </div>
+
+TODO : insérer code de rendu
 
 <script src="/assets/js/fluid-simulation.js"></script>

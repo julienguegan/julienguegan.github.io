@@ -71,8 +71,7 @@ class FluidSimulator {
                     const r = this.getIdx(i+1, j);
                     const t = this.getIdx(i, j+1);
 
-                    const divergence = this.velocityX[r] - this.velocityX[c]
-                                     + this.velocityY[t] - this.velocityY[c];
+                    const divergence = this.velocityX[r] - this.velocityX[c] + this.velocityY[t] - this.velocityY[c];
                     const pressure = (-divergence / 4) * overRelaxation;
 
                     this.velocityX[c] -= pressure;
