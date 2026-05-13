@@ -279,9 +279,11 @@ Voici une implémentation complète en JavaScript que vous pouvez essayer direct
 
 <script src="/assets/js/fluid-simulation.js"></script>
 
+<br>
 
+Dans ce post, je me suis concentré sur les parties essentielles du calcul (diffusion, advection, résolution de pression), mais le code complet — boucle de rendu, initialisation, constructeur, conditions limites — est disponible [ici](https://github.com/julienguegan/notebooks_blog/blob/main/fluid-simulation.js). Il reste quelques instabilités : en jouant un peu avec la souris et le canvas, j'obtiens de temps en temps des pressions qui explosent ... Mais le résultat actuel me convient, si vous voulez allez plus loin vous pouvez explorer l'internet. Il existe de nombreuses autres manières de faire, différents phénomènes à modéliser plus ou moins précisément, avec des effets graphiques variés. Par exemple, un simulateur web plus poussé utilisant webgl peut être trouver à l'adresse : [https://paveldogreat.github.io/WebGL-Fluid-Simulation/](https://paveldogreat.github.io/WebGL-Fluid-Simulation/). Ou encore la superbe vidéo youtube de Sébastian Lague qui montre l'approche lagrangienne en C# dans le moteur Unity :
 
-Dans ce post, je me suis concentré sur les parties essentielles du calcul (diffusion, advection, résolution de pression), mais le code complet — boucle de rendu, initialisation, constructeur, conditions limites — est disponible [ici](https://github.com/julienguegan/notebooks_blog/blob/main/fluid-simulation.js). Il reste quelques instabilités : en jouant un peu avec la souris et le canvas, j'obtiens de temps en temps des pressions qui explosent ... Mais le résultat actuel me convient, si vous voulez allez plus loin vous pouvez explorer l'internet. Il existe de nombreuses autres manières de faire, différents phénomènes à modéliser plus ou moins précisément, avec des effets graphiques variés. Par exemple, un simulateur web plus poussé utilisant webgl peut être trouver à l'adresse : https://paveldogreat.github.io/WebGL-Fluid-Simulation/.
+{% include video id="rSKMYc1CQHE" provider="youtube" %}
 
 ---
 
