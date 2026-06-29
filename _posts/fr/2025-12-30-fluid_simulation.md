@@ -220,7 +220,7 @@ applyAdvection(dt, dissipation) {
             // vitesse au centre de la cellule (moyenne des faces de la grille MAC)
             const u = (this.velocityX[idx] + this.velocityX[this.getIdx(i+1,j)]) * 0.5;
             const v = (this.velocityY[idx] + this.velocityY[this.getIdx(i,j+1)]) * 0.5;
-le faire mais c'est plus de la bidouille qu'autre chose et Obsidian n'est pas adaptés a de la prod
+            
             // remonter en arrière dans le temps
             const prevX = (i + 0.5) * this.h - dt * u;
             const prevY = (j + 0.5) * this.h - dt * v;
